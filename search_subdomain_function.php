@@ -51,15 +51,9 @@
 *********************************************************************************/
 
 	
-	require_once("selectsubdomains.php");
-	// Check if current user is logged in
-    require_login($course->id);
+require_once("selectsubdomains.php");
 	
-	// Log table
-    add_to_log($course->id, "genetic", "search cards", "search_subdomain_function.php?id=$cm->id", "$genetic->id"); 
-	
-
-	
+		
 function genetic_subdomains2($idgenetic,$id,$dom)
 		{
 		

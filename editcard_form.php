@@ -315,12 +315,12 @@ rObj = function (evt) {
 	// Connect to the database
 	$link = connect_genetic($CFG->dbhost,$CFG->dbuser,$CFG->dbpass,$CFG->dbname);
 	
-	//Count the languages of the dictionary
+	//Select the languages of the dictionary
 	
 		$query = genetic_count_lang($genetic->id);
-		$resultlang = mysql_query($query,$link);
+		$resultlang = mysql_query($query,$link);   //$resultlang contains the rows returned by the query, each one for each language in the dictionary (id, genetic_lang_id, genetic_id)
 		
-		$numlang = mysql_affected_rows($link);
+		$numlang = mysql_affected_rows($link);  //$numlang contains the number of languages in the dictionary
 	
 
 	echo "<TABLE WIDTH=\"100%\">";
@@ -417,7 +417,8 @@ rObj = function (evt) {
 			
 		echo "</TABLE>";
 		print_box_end($return=false);	
-///START IMAGES
+
+		///START IMAGES
 
 		print_box_start($classes='generalbox boxaligncenter boxwidthwide', '', $return=false);
 	
@@ -458,11 +459,12 @@ rObj = function (evt) {
 				  &nbsp;&nbsp;<A href=\"editim_form.php?id=$id\"><IMG SRC=\"images/Add.gif\" ALT=\"add images\"/></A></TD>";
 
 
-	echo "</TABLE>";		
+	    echo "</TABLE>";		
 		print_box_end($return=false);
 
 
-//fin imagenes
+        //fin imagenes
+		
 		echo "<BR /></TD></TR>";
 
 		echo "<TR><TD ALIGN=\"center\"><BR />".$str = get_string("languagecarddata", "genetic")."</TD></TR>";
@@ -479,40 +481,42 @@ rObj = function (evt) {
 		
 			
 			
-			// Select the cards for this header
-			$queryc = genetic_show_cards($headerni);
-			$resultc = mysql_query($queryc,$link);
+			// Select the cards for this header, one card for each language
+			
+		$queryc = genetic_show_cards($headerni);
+		$resultc = mysql_query($queryc,$link);   
+			//esto estaba en el bucle pero no hace falta
+		//$cardrow = mysql_fetch_array($resultc);
+		//number of languages filled in the card
+		$ncards = mysql_num_rows($resultc);
 			
 			
-			
-			
-			//LOOP FOR THE CARDS
+			//LOOP FOR THE CARDS     $numlang= number of languages of the dictionary
 			for($z=0;$z<$numlang;$z++){
-				$cardrow = mysql_fetch_array($resultc);  
+		
+				echo "<INPUT TYPE=\"hidden\" NAME=\"ncards\" VALUE=\"".$ncards."\">"; //evp number of current cards for that term
 				
-				//number of languages filled in the card
-				$ncards = mysql_num_rows($resultc);
-			
-				echo "<INPUT TYPE=\"hidden\" NAME=\"ncards\" VALUE=\"".$ncards."\">";
-				
-				//Search which languages contains the dictionary
-				$langrow = mysql_fetch_array($resultlang);
-				$idlang = $langrow['genetic_lang_id'];
-				
+				//Search which languages contains the dictionary  $lagrow contains an array with the rows of the DB for each language existing 
+				$langrow = mysql_fetch_array($resultlang); //evp vamos recorriendo los lenguajes
+				$idlang = $langrow['genetic_lang_id']; //id of language
 				$query2 =genetic_search_lang_name($idlang);
-				$result2 = mysql_query($query2,$link);
-				$n2 = mysql_num_rows($result2);
+				$result2 = mysql_query($query2,$link); //a select regturnign id and name of the languge
 				$row2 = mysql_fetch_array($result2);
-				//Name of the languages
-				$namelang=$row2['language'];
-				
-			
+				$namelang=$row2['language'];   //$namelang: the name of the language (de,es..)...
+							
 				// Language 1
 			
+				//!!!! se están recorriendo los cards y los idiomas en el for independientemente de su relación, cada card debe ser presentada en su idioma con su bandera
+				// entonces si sólo hay dos card, se presentan en el orden que aparecen en la base de datos y aparecen correpondidos en el formulario con los idiomas también según aparecen en la base de datos y pueden claro no coincidir
+				
+				//posibilidad, voy recorriendo los idiomas, y buscando para cada uno si hay tarjeta de esa ficha
 				
 				// Remove '\' and save result
+				$queryc = genetic_show_cards2($headerni,$namelang); //take the card corresponding to the language
+				$resultc = mysql_query($queryc,$link);
+				$cardrow = mysql_fetch_array($resultc); //evp only one result as there is one card per language
 				$cardrowid = stripslashes($cardrow['id']);
-				$cardrowisolang = stripslashes($cardrow['isolang']);
+				$cardrowisolang = stripslashes($cardrow['isolang']); //name of the language for this card
 				$cardrowterm = stripslashes($cardrow['term']);
 				$cardrowgramcat = stripslashes($cardrow['gramcat']);
 				$cardrowdefinition = stripslashes($cardrow['definition']);
@@ -621,8 +625,6 @@ rObj = function (evt) {
 			
 			echo "<INPUT TYPE=\"hidden\" NAME=\"nrem\" VALUE=\"".$nrem."\">";
 			
-			echo "".$nrem;
-		
 			if($nrem!=0){
 			
 				while($remrow = mysql_fetch_array($results)){
@@ -666,7 +668,6 @@ rObj = function (evt) {
 			//echo "<div align=\"center\" id=\"adjuntos\" >";
 			echo"<INPUT TYPE=\"text\" NAME=\"remission2[]\" SIZE=\"40\"><a href=\"#?id=$id&numrem=$z\" onClick=\"addCampo()\"><IMG SRC=\"images/Add.gif\" ALT=\"add remission\"/></a></TD></TR>";	
 			
-			echo "numrem vale :".$numrem."";
 			echo "</div>";
 			if($z==$numrem){
 			echo "<TR><TD></TD><TD></TD><TD ALIGN=\"right\"><div id=\"adjuntos\" name=\"adjuntos[]\"></TD></TR>";
@@ -681,8 +682,9 @@ rObj = function (evt) {
 			echo "<TD><SELECT MULTIPLE NAME=\"audio[][]\" >";
 				$query = genetic_show_audio_files($namelang);
 				$result = mysql_query($query,$link);
+				$noaudio= true;
 				while ($row = mysql_fetch_array($result)) {
-				
+				$noudio=false;
 				$flagprint = 0;
 				$queryaux = genetic_show_audio($cardrowid);
 				$resultaux = mysql_query($queryaux,$link);
@@ -696,6 +698,9 @@ rObj = function (evt) {
 					echo "<OPTION VALUE=\"".$row['id']."\">".$row['fileaudio'];
 				}
 
+				}//evp if no file of audio is found, leave the values empty
+				if($noaudio){
+					echo "<OPTION VALUE=\"\">";
 				}
 			echo "</SELECT>
 				  &nbsp;&nbsp;<A href=\"editau_form.php?id=$id\"><IMG SRC=\"images/Add.gif\" ALT=\"add audio file\"/></A></TD></TR>";

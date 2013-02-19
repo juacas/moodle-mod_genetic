@@ -80,7 +80,7 @@ $string['asc'] = 'Date ASC';
 $string['author'] = 'Author/s';
 $string['audio'] = 'Audio';
 $string['audio_video'] = 'Idioma Audio del video';
-$string['be'] = 'Institutiont/s';
+$string['be'] = 'Institution/s';
 $string['belongto'] = 'Belongs to';
 $string['buttonaddau'] = 'Add author';
 $string['buttonaddaudio'] = 'Add audio';
@@ -203,7 +203,10 @@ $string['en'] = 'English :';
 $string['errordb'] = 'Error failure when trying to select tha databases of the activity. Try again.';
 $string['es'] = 'Spanish :';
 $string['expression'] = 'expression';
-$string['footsentencees'] = 'With the collaboration of de Ministry of Education of the "Junta de Castilla y León"';
+$string['errextensionimage']="The extension or the size of the file is not correct. <br><br><table><tr><td><li>Extensions allowed: .gif o .jpg<br><li>The maximum allowed size is 100 MB.</td></tr></table>";
+$string['errnameimageexists'] = 'The name of the file exists.<br><br><table><tr><td><li>It is not allowed to upload two files with the same name in the same course.</td></tr></table>';
+$string['fileuploadcorrect']='The file has been uploaded correctly.';
+$string['footsentences'] = 'With the collaboration of the Ministry of Education of the "Junta de Castilla y León"';
 $string['fr'] = 'French :';
 $string['genetic'] = 'Genetic';
 $string['gramcat'] = 'Gramatical category';
@@ -402,6 +405,7 @@ $string['newmodulename'] = 'newmodule Name';
 
 
 $string['newmodule'] = 'newmodule';
+$string['wm'] = 'EVP FALTA TRADUCCIÓN';
 
 
 ?>

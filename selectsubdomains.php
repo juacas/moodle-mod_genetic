@@ -143,7 +143,7 @@ function genetic_select_subdomains2($nivel=0,$belongto2)
    
 }
 //To add a new card, choose subdomain
-function genetic_select_subdomains3($nivel=0)
+function genetic_select_subdomains3($nivel=0,$domselected=null)
 {$query_rsRegistro = genetic_arbol($nivel);
    $rsRegistro = mysql_query($query_rsRegistro);
                   
@@ -170,12 +170,20 @@ function genetic_select_subdomains3($nivel=0)
 		$route='http://eurogene.open.ac.uk/theme';
 		//$destiny=$route.'/'.$row_rsRegistro['name'];
 		
-          echo "<li><NOBR><INPUT TYPE=\"checkbox\" NAME=\"domsubdom[]\" VALUE=\"".$row_rsRegistro['id']."\"><FONT COLOR=\"#238E23\">".$row_rsRegistro['name']."</FONT></A></NOBR>";
-
+		$isselected = 0;
+		for($i=0;$i<count($domselected);$i++)
+		{
+			if($row_rsRegistro['id']==$domselected[$i])$isselected=1;
+		}
+		if($isselected==1){
+			echo "<li><NOBR><INPUT TYPE=\"checkbox\" NAME=\"domsubdom[]\" VALUE=\"".$row_rsRegistro['id']."\" checked><FONT COLOR=\"#238E23\">".$row_rsRegistro['name']."</FONT></A></NOBR>";
+		}else{
+			echo "<li><NOBR><INPUT TYPE=\"checkbox\" NAME=\"domsubdom[]\" VALUE=\"".$row_rsRegistro['id']."\"><FONT COLOR=\"#238E23\">".$row_rsRegistro['name']."</FONT></A></NOBR>";
+		}
 		  
          // Ejecutamos la funcion dentro de si misma
          // Y le pasamos el id del registro actual
-         genetic_select_subdomains3($row_rsRegistro['id']);
+         genetic_select_subdomains3($row_rsRegistro['id'],$domselected);
 
          echo '</li>';
       }

@@ -57,6 +57,53 @@
     $id = optional_param('id',0,PARAM_INT);
     $t = optional_param('t',0,PARAM_INT);
 	
+    // parameters (hidden) used to fill in the add_card form with the data the user entered previously
+    $bes = optional_param('be', 0, PARAM_INT);
+    $ty = optional_param('ty', 0, PARAM_INT);
+    //$domsubdom = optional_param('domsubdom', 0, PARAM_TEXT);
+    $domsubdom = optional_param('domsubdom', 0, PARAM_INT);
+    //$aux = explode("-", $domsubdom);
+    $authors = optional_param('author', 0, PARAM_INT);
+    $datecreated = optional_param('datecreated', 0, PARAM_INT);
+    // Language 
+    $isolang = optional_param('isolang', null, PARAM_TEXT);
+    $term = optional_param('term', null, PARAM_TEXT);
+    $gramcat = optional_param('gramcat', null, PARAM_TEXT);
+    $weight_type = optional_param('weight_type', null, PARAM_TEXT);
+    $rem_type = optional_param('rem_type', null, PARAM_TEXT);
+    $remission = optional_param('remission', null, PARAM_TEXT);
+    $definition = optional_param('definition', null, PARAM_TEXT);
+    $formcontext = optional_param('context', null, PARAM_TEXT);
+    $expression = optional_param('expression', null, PARAM_TEXT);
+    //$rv = optional_param('rv', 'null', PARAM_TEXT);
+    $notes = optional_param('notes', null, PARAM_TEXT);
+    $sourceterm = optional_param('sourceterm', null, PARAM_TEXT);
+    $sourcedefinition = optional_param('sourcedefinition', null, PARAM_TEXT);
+    $sourcecontext = optional_param('sourcecontext', null, PARAM_TEXT);
+    $sourceexpression = optional_param('sourceexpression', null, PARAM_TEXT);
+    $sourcerv = optional_param('sourcerv', null, PARAM_TEXT);
+    $sourcenotes = optional_param('sourcenotes', null, PARAM_TEXT);
+    $synonyms = optional_param('synonyms', 0, PARAM_INT);
+    $prevformimagen = optional_param('imagen', 0, PARAM_INT);
+    $video = optional_param('video', 0, PARAM_INT);
+    $relatedterms = optional_param('relatedterms', 0, PARAM_INT);
+    $audio = optional_param('audio', null, PARAM_INT);
+    $pieimagen = optional_param('pieimagen', null, PARAM_TEXT);
+    $pievideo = optional_param('pievideo', null, PARAM_TEXT);
+    $srcimage = optional_param('srcimage', null, PARAM_TEXT);
+    $srcvideo = optional_param('srcvideo', null, PARAM_TEXT);
+    $acronyms = optional_param('acronyms', null, PARAM_TEXT);
+    $abreviaturas=optional_param('abreviaturas', null, PARAM_TEXT);
+    $symbols = optional_param('symbols', null, PARAM_TEXT);
+    $enlacesnuevos = optional_param('enlacesnuevos', null, PARAM_TEXT);
+    $rem_type = optional_param('rem_type', null, PARAM_TEXT);
+    $remission = optional_param('remission', null, PARAM_TEXT);
+    
+    //$rem_type2 = optional_param('rem_type2', 'null', PARAM_TEXT);
+    //$remission2 = optional_param('remission2', 'null', PARAM_TEXT);
+    
+    
+    
 	// Necessary parameters to add/edit/delete types
 	$idim = optional_param('idim',0,PARAM_INT);
 	$action = optional_param('action','',PARAM_ALPHA);
@@ -141,9 +188,9 @@
 		print_box_start($classes='generalbox boxaligncenter boxwidthwide', '', $return=false);
 		
 		echo "<TABLE ALIGN=\"center\">";
-		echo "<FORM NAME=\"addimform\" METHOD=\"post\" ACTION=\"editim.php?id=$id\" ENCTYPE=\"multipart/form-data\">";
-		
-		
+		//echo "<FORM NAME=\"addimform\" METHOD=\"post\" ACTION=\"editim.php?id=$id\" ENCTYPE=\"multipart/form-data\">";
+		echo "<FORM NAME=\"addimform\" METHOD=\"post\" ACTION=\"\" ENCTYPE=\"multipart/form-data\">";
+				
 			echo"<div id=\"employees3\" NAME=\"employees4\">";
 			echo "<TR><TD VALIGN=\"top\" ALIGN=\"right\">".$strimage."&nbsp;</TD><TD><dd><div id=\"adjuntos\"><INPUT TYPE=\"file\" NAME=\"imagen\" SIZE=\"63\" accept=\"gif|jpg\"></div></dd></TD></TR>";
 			
@@ -157,8 +204,59 @@
 			
 		echo "<TR><TD COLSPAN=\"2\" ALIGN=\"center\"><BR /><BR />";
 		
-		echo "<INPUT TYPE=\"submit\" VALUE=\"".$str = get_string("save", "genetic")."\" NAME=\"buttonsave\" />&nbsp;&nbsp;";
-		echo "<INPUT TYPE=\"button\" VALUE=\"".$str = get_string("cancel", "genetic")."\" NAME=\"buttoncancel\" onClick=\"location.href='addcard_form.php?id=$id'\"/>";
+		//hidden fields for the addcard form to be filled with the data the user previously entered
+		for($i=0;$i<count($bes);$i++){
+			echo "<INPUT TYPE=\"hidden\" NAME=\"be[]\" VALUE=\"".$bes[$i]."\"\>";
+			}
+		for($i=0;$i<count($authors);$i++){
+			echo "<INPUT TYPE=\"hidden\" NAME=\"author[]\" VALUE=\"".$authors[$i]."\"\>";
+		}
+			
+		echo "<INPUT TYPE=\"hidden\" NAME=\"ty\" VALUE=\"".$ty."\"\>";	
+		
+		for($i=0;$i<count($domsubdom);$i++){
+			echo "<INPUT TYPE=\"hidden\" NAME=\"domsubdom[]\" VALUE=\"".$domsubdom[$i]."\"\>";
+		}
+		
+		for($i=0;$i<count($prevformimagen);$i++){
+			echo "<INPUT TYPE=\"hidden\" NAME=\"prevformimagen[]\" VALUE=\"".$prevformimagen[$i]."\"\>";
+		}
+
+		//audio is returned to the initial form as a simple array, as audio is linked to each language, an "if equal" will allow us to determine if this audio was previously selected without needing to pass lang information now
+		foreach($audio as $subarrayaudio)
+		{
+			for($i=0;$i<count($subarrayaudio);$i++){
+				echo "<INPUT TYPE=\"hidden\" NAME=\"audio[]\" VALUE=\"".$subarrayaudio[$i]."\"\>";
+			}
+		}
+		
+		$num_languages=count($isolang);
+		for($i=0;$i<$num_languages;$i++){
+			echo "<INPUT TYPE=\"hidden\" NAME=\"isolang[]\" VALUE=\"".$isolang[$i]."\"\>";
+		}
+		
+		for($i=0;$i<$num_languages;$i++){
+			echo "<INPUT TYPE=\"hidden\" NAME=\"term[]\" value=\"".$term[$i]."\"\>";
+			echo "<INPUT TYPE=\"hidden\" NAME=\"gramcat[]\" value=\"".$gramcat[$i]."\"\>";
+			echo "<INPUT TYPE=\"hidden\" NAME=\"definition[]\" value=\"".$definition[$i]."\"\>";
+			echo "<INPUT TYPE=\"hidden\" NAME=\"context[]\" value=\"".$formcontext[$i]."\"\>";
+			echo "<INPUT TYPE=\"hidden\" NAME=\"expression[]\" value=\"".$expression[$i]."\"\>";
+			echo "<INPUT TYPE=\"hidden\" NAME=\"notes[]\" value=\"".$notes[$i]."\"\>";
+			echo "<INPUT TYPE=\"hidden\" NAME=\"weight_type[]\" value=\"".$weight_type[$i]."\"\>";
+			echo "<INPUT TYPE=\"hidden\" NAME=\"sourceterm[]\" value=\"".$sourceterm[$i]."\"\>";
+			echo "<INPUT TYPE=\"hidden\" NAME=\"sourcedefinition[]\" value=\"".$sourcedefinition[$i]."\"\>";
+			echo "<INPUT TYPE=\"hidden\" NAME=\"sourcecontext[]\" value=\"".$sourcecontext[$i]."\"\>";
+			echo "<INPUT TYPE=\"hidden\" NAME=\"sourceexpression[]\" value=\"".$sourceexpression[$i]."\"\>";
+			echo "<INPUT TYPE=\"hidden\" NAME=\"sourcerv[]\" value=\"".$sourcerv[$i]."\"\>";
+			echo "<INPUT TYPE=\"hidden\" NAME=\"sourcenotes[]\" value=\"".$sourcenotes[$i]."\"\>";
+			echo "<INPUT TYPE=\"hidden\" NAME=\"rem_type[]\" value=\"".$rem_type[$i]."\"\>";
+			echo "<INPUT TYPE=\"hidden\" NAME=\"remission[]\" value=\"".$remission[$i]."\"\>";
+			
+		}
+		
+		
+		echo "<INPUT TYPE=\"button\" VALUE=\"".$str = get_string("save", "genetic")."\" NAME=\"buttonsave\" onClick=\"this.form.action='editim.php?id=$id';this.form.submit();\"/>&nbsp;&nbsp;";
+		echo "<INPUT TYPE=\"button\" VALUE=\"".$str = get_string("cancel", "genetic")."\" NAME=\"buttoncancel\" onClick=\"this.form.action='addcard_form.php?id=$id';this.form.submit();\"/>";
 		echo "</TD></TR>";
 		echo "</FORM></TABLE>";
 		print_box_end($return=false);

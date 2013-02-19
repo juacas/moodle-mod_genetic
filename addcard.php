@@ -54,12 +54,10 @@
     require_once("db_functions.php");
     require_once("lib.php");
 
-	// Necessary parameters
+	// parameters
     $id = optional_param('id',0,PARAM_INT);
     $t = optional_param('t',0,PARAM_INT);
 	$confirm = optional_param('confirm', 0, PARAM_INT);
-	// Get the form variables	
-	$confirm = optional_param('confirm',0,PARAM_INT);
 	$bes = optional_param('be', 0, PARAM_INT);
 	$ty = optional_param('ty', 0, PARAM_INT);
 	//$domsubdom = optional_param('domsubdom', 0, PARAM_TEXT);
@@ -298,7 +296,7 @@
 								echo "<INPUT TYPE=\"hidden\" NAME=\"notes[]\" VALUE=\"".$notes[$i]."\">";
 								echo "<INPUT TYPE=\"hidden\" NAME=\"sourceterm[]\" VALUE=\"".$sourceterm[$i]."\">";
 								echo "<INPUT TYPE=\"hidden\" NAME=\"sourcedefinition[]\" VALUE=\"".$sourcedefinition[$i]."\">";
-								echo "<INPUT TYPE=\"hidden\" NAME=\"sourcecontext[]\" VALUE=\"".$sourceconyexy[$i]."\">";
+								echo "<INPUT TYPE=\"hidden\" NAME=\"sourcecontext[]\" VALUE=\"".$sourcecontext[$i]."\">";
 								echo "<INPUT TYPE=\"hidden\" NAME=\"sourceexpression[]\" VALUE=\"".$sourceexpression[$i]."\">";
 								echo "<INPUT TYPE=\"hidden\" NAME=\"sourcerv[]\" VALUE=\"".$sourcerv[$i]."\">";
 								echo "<INPUT TYPE=\"hidden\" NAME=\"sourcenotes[]\" VALUE=\"".$sourcenotes[$i]."\">";

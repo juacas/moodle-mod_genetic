@@ -220,7 +220,7 @@
 														//check if video folder exist
 											
 														$dir=$rutaEnServidor.'/video';
-														if (file_exists($directorio)) {
+														if (file_exists($dir)) {
 															//echo "El directorio existe";
 														} else {
 															//echo "El directorio no existe";
@@ -244,6 +244,15 @@
 															$idvideo = $row['id'];
 															$format = substr( $nombrevideo, -4, 4 );
 															$nombrevideo=$idvideo."".$format;
+															
+															echo get_string("errnamevideoexists","genetic");
+															$redirectmsg = get_string("insertvinok", "genetic");
+															redirect($url="addcard_form.php?id={$cm->id}", $redirectmsg, $delay=-1);
+															// Close the db
+															mysql_close($link);
+															// Finish the page
+															print_footer($course);
+															
 															//echo"".$nombrevideo;
 													
 															//$redirectmsg = get_string("insertviexist", "genetic");

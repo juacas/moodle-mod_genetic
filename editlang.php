@@ -117,7 +117,7 @@
 
 	
     $navlinks = array();
-    $navlinks[] = array('name' => $strgenetics, 'link' => "index.php?id=$course->id", 'type' => 'activity');
+    $navlinks[] = array('name' => $strgenetic, 'link' => "index.php?id=$course->id", 'type' => 'activity');
     $navlinks[] = array('name' => format_string($genetic->name), 'link' => '', 'type' => 'activityinstance');
     $navigation = build_navigation($navlinks);
 
@@ -235,6 +235,7 @@
 						else{
 									print_box_start($classes='generalbox boxaligncenter boxwidthwide');
 									$msg = get_string("langdicexist", "genetic");
+									$strlang= get_string('lang','genetic');
 									echo"".$strlang. " ".$str = get_string($langtype[$z], "genetic")." ".$msg;
 									print_box_end($return=false);
 									//echo "<CENTER><A HREF=\"javascript:history.back(1)\">".get_string('back')."</A></CENTER>";				

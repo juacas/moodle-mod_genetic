@@ -204,7 +204,7 @@
 														//check if audio folder exist
 											
 														$dir=$rutaEnServidor.'/audio';
-														if (file_exists($directorio)) {
+														if (file_exists($dir)) {
 															//echo "El directorio existe";
 														} else {
 															//echo "El directorio no existe";

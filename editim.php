@@ -53,6 +53,7 @@
     include("../../config.php");
     require_once("db_functions.php");
     require_once("lib.php");
+    require_once('echo_hidden_form.php');
 
 	// Necessary parameters
     $id = optional_param('id',0,PARAM_INT);
@@ -76,6 +77,33 @@
 	$pieimagen_fr = optional_param('pieimagen_fr', '', PARAM_TEXT);
 	$srcimage = optional_param('srcimage', '', PARAM_TEXT);
 	$prename = optional_param('prename', '', PARAM_TEXT);
+	
+	// parameters (hidden) used to fill in the add_card form with the data the user entered previously
+	$bes = optional_param('be', 0, PARAM_INT);
+	$ty = optional_param('ty', 0, PARAM_INT);
+	$domsubdom = optional_param('domsubdom', 0, PARAM_INT);
+	$authors = optional_param('author', 0, PARAM_INT);
+	$isolang = optional_param('isolang', null, PARAM_TEXT);
+	$term = optional_param('term', null, PARAM_TEXT);
+	$gramcat = optional_param('gramcat', null, PARAM_TEXT);
+	$weight_type = optional_param('weight_type', null, PARAM_TEXT);
+	$rem_type = optional_param('rem_type', null, PARAM_TEXT);
+	$remission = optional_param('remission', null, PARAM_TEXT);
+	$definition = optional_param('definition', null, PARAM_TEXT);
+	$formcontext = optional_param('context', null, PARAM_TEXT);
+	$expression = optional_param('expression', null, PARAM_TEXT);
+	$notes = optional_param('notes', null, PARAM_TEXT);
+	$sourceterm = optional_param('sourceterm', null, PARAM_TEXT);
+	$sourcedefinition = optional_param('sourcedefinition', null, PARAM_TEXT);
+	$sourcecontext = optional_param('sourcecontext', null, PARAM_TEXT);
+	$sourceexpression = optional_param('sourceexpression', null, PARAM_TEXT);
+	$sourcerv = optional_param('sourcerv', null, PARAM_TEXT);
+	$sourcenotes = optional_param('sourcenotes', null, PARAM_TEXT);
+	$synonyms = optional_param('synonyms', 0, PARAM_INT);
+	$prevformimagen = optional_param('prevformimagen', 0, PARAM_INT);
+	$video = optional_param('video', 0, PARAM_INT);
+	$audio = optional_param('audio', null, PARAM_INT);
+	// end of the hidden parameters
 	
     if ($id) {
         if (! $cm = get_record("course_modules", "id", $id)) {
@@ -216,7 +244,7 @@
 														//check if imagen folder exist
 											
 														$dir=$rutaEnServidor.'/imagen';
-														if (file_exists($directorio)) {
+														if (file_exists($dir)) {
 															//echo "El directorio existe";
 														} else {
 															//echo "El directorio no existe";
@@ -233,42 +261,45 @@
 														$query = genetic_search_im($nombreImagen);
 														$result = mysql_query($query,$link);
 														$nok2 = mysql_affected_rows($link);
-													if($nok2!=0){
+														if($nok2!=0){     //if the file already exists
 													
 															// ----añadido----Show the id of the last image
-															$query =genetic_show_lastimage(); 
-															$result = mysql_query($query,$link);
-															$nok2 = mysql_affected_rows($link);
-															$row = mysql_fetch_array($result);
-															$idimage = $row['id'];
-															$format = substr( $nombreImagen, -4, 4 );
-															$nombreImagen=$idimage."".$format;
-															
-														
-												
-													}
-												$rutaDestino=$dir.'/'.$nombreImagen;
+															//$query =genetic_show_lastimage(); 
+															//$result = mysql_query($query,$link);
+															//$nok2 = mysql_affected_rows($link);
+															//$row = mysql_fetch_array($result);
+															//$idimage = $row['id'];
+															//$format = substr( $nombreImagen, -4, 4 );
+															//$nombreImagen=$idimage."".$format;
+															echo get_string("errnameimageexists","genetic");
+															$redirectmsg = get_string("insertimnok", "genetic");
+															redirect($url="addcard_form.php?id={$cm->id}", $redirectmsg, $delay=-1);
+															// Close the db
+															mysql_close($link);
+															// Finish the page
+															print_footer($course);
+															}
+
+														$rutaDestino=$dir.'/'.$nombreImagen;
 												
 												
 												//compruebo si las características del archivo son las que deseo 
 														if (!((strpos($tipo_imagen, "gif") || strpos($tipo_imagen, "jpg")|| strpos($tipo_imagen, "jpeg")) && ($tamano_archivo < 100000000))) {
-															echo "La extensión o el tamaño de los archivos no es correcta. <br><br><table><tr><td><li>Se permiten archivos .gif o .jpg<br><li>se permiten archivos de 100 MB máximo.</td></tr></table>";
+															echo get_string('errextensionimage','genetic');
 															$redirectmsg = get_string("insertimnok", "genetic");
-															redirect($url="addcard_form.php?id={$cm->id}", $redirectmsg, $delay=-1);
+															redirect($url="addcard_form.php?id={$cm->id}", $redirectmsg, $delay=-1); 
 															// Close the db    
 															mysql_close($link);
 															// Finish the page
 															print_footer($course);
-												
-													
 														}
-													else{ 
+														else{ 
 															
 														
 															
 															if (move_uploaded_file($_FILES['imagen']['tmp_name'], $rutaDestino)){
 															
-																	echo "El archivo ha sido cargado correctamente."; 
+																	echo get_string("fileuploadcorrect","genetic");
 															
 																//insertar la imagen en la BBDD ---->la buena seria la de la linea comentada de abajo pero da error xq n las tablas no hay type_image
 															
@@ -283,26 +314,37 @@
 																	
 																	
 															
-																// Insert ok or not?
-																if($nok == 0) {
-																	$redirectmsg = get_string("insertimnok", "genetic");
-																	redirect($url="addcard_form.php?id={$cm->id}", $redirectmsg, $delay=-1);					
+																	// Insert ok or not?    
+																	if($nok == 0) {
+																	
+																		$redirectmsg = get_string("insertimnok", "genetic");
+																	
+																		redirect($url="addcard_form.php?id={$cm->id}", $redirectmsg, $delay=-1);					
+																		// Close the db    
+																		mysql_close($link);
+																		// Finish the page
+																		print_footer($course);
+																	}
+																	//echo $nok;
+																
+																	// FINAL PRINT THE FORM 
+																	//if everything is OK, come back to the add/edit page
+																	
 																	// Close the db    
 																	mysql_close($link);
-																	// Finish the page
-																	print_footer($course);
-																}
-																//echo $nok;
-																	$redirectmsg = get_string("insertimok", "genetic");
-																	redirect($url="addcard_form.php?id={$cm->id}", $redirectmsg, $delay=-1);
-																	// Close the db    
-																	mysql_close($link);
+																	//$redirectmsg = get_string("insertimok", "genetic");
+																	//print_heading($redirectmsg, 'center',2);
+																	//redirect($url="addcard_form.php?id={$cm->id}", $redirectmsg, $delay=-1);
+																	
+																	echo_hidden_form($id,$bes,$authors,$ty,$domsubdom,$prevformimagen,$audio,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$rem_type,$remission);
+																	
+																	
 																	// Finish the page
 																	print_footer($course);
 															
-															}
-															else{ 
-															echo "Ocurrió algún error al subir el fichero. No pudo guardarse."; 
+																	} //end move_uploaded file
+															else{ //else move_uploaded file
+																	echo "Ocurrió algún error al subir el fichero. No pudo guardarse."; 
 															} 
 												
 														} //cierre del else si cumple las especificaciones dadas
@@ -311,10 +353,10 @@
 											
 												}  //cierre del if uploaded
 										
-											}
+											} //cierre isset imagen
 										
 				
-			}
+			} //close if add
 			
 			// Edit
 			else if ($action == "edit") {

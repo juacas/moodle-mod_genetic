@@ -208,7 +208,7 @@ function genetic_show_cards_gram($headerid,$gramcat) {
 		 ORDER BY isolang ASC";
 	return $query;
 }
-//---añadido---
+//Show the card of a headerid corresponding to a language
 function genetic_show_cards2($headerid,$langname) {
 	global $CFG;
 	$query = "SELECT * 

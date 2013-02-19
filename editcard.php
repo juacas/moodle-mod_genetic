@@ -60,7 +60,7 @@
 	
 	
 	// Get the form variables
-	$ncards= optional_param('ncards', 0, PARAM_INT);
+	$ncards= optional_param('ncards', 0, PARAM_INT);  
 	$bes = optional_param('be', 0, PARAM_INT);
 	$ty = optional_param('ty', 0, PARAM_INT);
 	$ni = optional_param('ni', 0, PARAM_INT);
@@ -70,7 +70,7 @@
 	$datecreated = optional_param('datecreated', 0, PARAM_INT);
 	$array_header = array("$bes[0]", "$ty", "$domsubdom[0]", "$authors[0]");
 	$narrayh = 4;
-	// Language 1
+	// Arrays with data for each language of the dictionary, some may be empty if user does not introduce information for a language
 	$isolang = optional_param('isolang', '', PARAM_TEXT);
 	$cardid = optional_param('cardid', 0, PARAM_INT);
 	$term = optional_param('termino', '', PARAM_TEXT);
@@ -103,7 +103,7 @@
 	$adjuntos= optional_param('adjuntos', 'null', PARAM_TEXT);
 	$enlacesnuevos = optional_param('enlacesnuevos', 'null', PARAM_TEXT);
 	$rem_type2 = optional_param('rem_type2', 'null', PARAM_TEXT);
-	$remission2 = optional_param('remission2', 'null', PARAM_TEXT);
+	$remission2 = optional_param('remission2', 'null', PARAM_TEXT);   //evp esto de remission2 y 3 no estoy segura ¿es un número fijo?
 	$rem_type3 = optional_param('rem_type3', 'null', PARAM_TEXT);
 	$remission3 = optional_param('remission3', 'null', PARAM_TEXT);
 	$nrem = optional_param('nrem', 0, PARAM_INT);
@@ -138,8 +138,7 @@
 	// Log table
     add_to_log($course->id, "genetic", "edit card", "editcard.php?id={$cm->id}", "$genetic->id");
     
-    
-	//Get the strings wich are necessaries
+    //Get the strings wich are necessaries
     $strgenetics = get_string("modulenameplural", "genetic");
     $strgenetic  = get_string("modulename", "genetic");
 
@@ -238,7 +237,7 @@
 				$result = mysql_query($query, $link);
 			}
 			
-			//imagenes  Language 1
+			//imagenes 
 			
 				$query = genetic_delete_image($ni);
 				$result = mysql_query($query,$link);
@@ -250,8 +249,8 @@
 					$result = mysql_query($query, $link);
 				}
 				
-			//update data 	
-			for ($i=0; $i<count($ncards); $i++){
+			//update data for each language 	
+			for ($i=0; $i<$ncards; $i++){
 			
 				// Card Language 1
 				
@@ -343,7 +342,9 @@
 				$result = mysql_query($query,$link);
 				$nok3 = mysql_affected_rows($link);
 			
-			
+				//evp esto no está bien hecho
+				//echo"count audio es"; echo count($audio); //los seleccionados
+			//echo "count audio i es ";echo count($audio[$i]); // 
 				for ($k=0; $k<count($audio); $k++) {
 				
 					$query = genetic_insert_has_audio($cardid[$i],$audio[$i][$k]);

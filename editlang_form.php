@@ -87,8 +87,8 @@
 	// Check if current user is logged in
     require_login($course->id);
 	
-	// Log table
-    add_to_log($course->id, "genetic", "edit departments", "editbe_form.php?id=$cm->id&idbe=$idbe&action=$action", "$genetic->id");
+	// Log table     evp idbe sin definir, será idlang? he cambiado idbe por idlang
+    add_to_log($course->id, "genetic", "edit departments", "editbe_form.php?id=$cm->id&idbe=$idlang&action=$action", "$genetic->id");
 	
 	// Get the context of the module instance
 	$context = get_context_instance(CONTEXT_MODULE, $cm->id);
@@ -240,7 +240,7 @@
 	
 	} // Close caps ELSE
 	// Finish the page
-		include('banner_foot.html');
+	//	include('banner_foot.html');  evp hay que incluirlo, ya veremos como
 		print_footer($course);
 	
 

@@ -164,7 +164,7 @@
 		$geneticname = substr($geneticname, 0, 40)."...";
 	}
 
-	
+	$strgenetics = get_string("modulenameplural", "genetic");
     $navlinks = array();
     $navlinks[] = array('name' => $strgenetics, 'link' => "index.php?id=$course->id", 'type' => 'activity');
     $navlinks[] = array('name' => format_string($genetic->name), 'link' => '', 'type' => 'activityinstance');
@@ -1496,7 +1496,7 @@
 						
 							$cardrow3 = mysql_fetch_array($resultado3); 
 							$cardrowcross3 = stripslashes($cardrow3['term']);
-							$cross=$cardrowcross3;
+							$cross3=$cardrowcross3;  
 							$cadena_devuelta3= str_replace($cardrowcross3,"<a href=\"search.php?id=$id&term=$cross3&search=term\"><NOBR>".$cardrowcross3."</NOBR></a>",$cardrowdefinition);
 							
 							$replace=$cadena_devuelta3;
