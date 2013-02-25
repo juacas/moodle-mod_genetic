@@ -256,7 +256,7 @@
 														
 														$rutaDestino=$dir.'/'.$nombreImagen;
 														//echo"".$rutaDestino;
-														
+														$no_continue=0;
 													//comprobar que ese archivo no existe ya en la BD
 														$query = genetic_search_im($nombreImagen);
 														$result = mysql_query($query,$link);
@@ -273,11 +273,14 @@
 															//$nombreImagen=$idimage."".$format;
 															echo get_string("errnameimageexists","genetic");
 															$redirectmsg = get_string("insertimnok", "genetic");
-															redirect($url="addcard_form.php?id={$cm->id}", $redirectmsg, $delay=-1);
+															//redirect($url="addcard_form.php?id={$cm->id}", $redirectmsg, $delay=-1);
 															// Close the db
 															mysql_close($link);
+															echo_hidden_form($id,$bes,$authors,$ty,$domsubdom,$prevformimagen,$audio,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$rem_type,$remission);
+																
 															// Finish the page
 															print_footer($course);
+															$no_continue=1; //to no continue with further checkings
 															}
 
 														$rutaDestino=$dir.'/'.$nombreImagen;
@@ -285,19 +288,25 @@
 												
 												//compruebo si las características del archivo son las que deseo 
 														if (!((strpos($tipo_imagen, "gif") || strpos($tipo_imagen, "jpg")|| strpos($tipo_imagen, "jpeg")) && ($tamano_archivo < 100000000))) {
-															echo get_string('errextensionimage','genetic');
-															$redirectmsg = get_string("insertimnok", "genetic");
-															redirect($url="addcard_form.php?id={$cm->id}", $redirectmsg, $delay=-1); 
-															// Close the db    
-															mysql_close($link);
-															// Finish the page
-															print_footer($course);
+															if($no_continue==0)
+																{	
+																	echo get_string('errextensionimage','genetic');
+																	// Close the db																										
+																	mysql_close($link);
+																	$redirectmsg = get_string("insertimnok", "genetic");
+																	//redirect($url="addcard_form.php?id={$cm->id}", $redirectmsg, $delay=-1); 
+																	echo_hidden_form($id,$bes,$authors,$ty,$domsubdom,$prevformimagen,$audio,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$rem_type,$remission);
+																	// Close the db    
+																	// Finish the page
+																	print_footer($course);
+																	$no_continue=1;
+																}
 														}
 														else{ 
 															
 														
 															
-															if (move_uploaded_file($_FILES['imagen']['tmp_name'], $rutaDestino)){
+															if (move_uploaded_file($_FILES['imagen']['tmp_name'], $rutaDestino) && $no_continue==0){
 															
 																	echo get_string("fileuploadcorrect","genetic");
 															
@@ -319,9 +328,11 @@
 																	
 																		$redirectmsg = get_string("insertimnok", "genetic");
 																	
-																		redirect($url="addcard_form.php?id={$cm->id}", $redirectmsg, $delay=-1);					
+																		//redirect($url="addcard_form.php?id={$cm->id}", $redirectmsg, $delay=-1);					
 																		// Close the db    
 																		mysql_close($link);
+																		echo_hidden_form($id,$bes,$authors,$ty,$domsubdom,$prevformimagen,$audio,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$rem_type,$remission);
+																		
 																		// Finish the page
 																		print_footer($course);
 																	}
@@ -344,7 +355,14 @@
 															
 																	} //end move_uploaded file
 															else{ //else move_uploaded file
-																	echo "Ocurrió algún error al subir el fichero. No pudo guardarse."; 
+																	
+																if($no_continue==0){
+																echo "Ocurrió algún error al subir el fichero. No pudo guardarse."; 
+																echo_hidden_form($id,$bes,$authors,$ty,$domsubdom,$prevformimagen,$audio,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$rem_type,$remission);
+																																
+																// Finish the page
+																print_footer($course);
+																}
 															} 
 												
 														} //cierre del else si cumple las especificaciones dadas

@@ -78,7 +78,7 @@
         }
 		
 		// TODO: count only approved if not allowed to see them
-        $count = count_records_sql("SELECT COUNT(*) FROM {$CFG->prefix}genetic_headercards where (idgenetic = $genetic->id)");
+        $count = count_records_sql("SELECT COUNT(*) FROM {$CFG->prefix}genetic_headercards where (id_genetic = $genetic->id)");
 		
 		if ($course->format == "weeks" or $course->format == "topics") {
             $linedata = array ($printsection, $link, $count);

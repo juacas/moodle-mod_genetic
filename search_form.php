@@ -175,7 +175,7 @@
 	echo "<TR><TD><INPUT TYPE=\"radio\" NAME=\"search\" VALUE=\"gramcats\">&nbsp;".$strgramcat."&nbsp;</TD>";
 	echo "<TD><SELECT NAME=\"gramcat\">";
 		echo "<OPTION VALUE=\"\">".$str = get_string("nodefined", "genetic");
-		$gramcat = genetic_array_gramcat();
+		$gramcat = genetic_array_gramcat('de'); // as German ('de') contains all gram cat, we show the gram cat of German Language
 		for ($i=0; $i<count($gramcat); $i++) {
 			echo "<OPTION VALUE=\"".$gramcat[$i]."\">".$gramcat[$i];
 		}

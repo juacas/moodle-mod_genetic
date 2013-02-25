@@ -1,4 +1,4 @@
-<?php  // $Id: genetic.php,v 1.0 2012/06/11 18:11:00 Ana Mar�a Lozano de la Fuente Exp $
+<?php  // $Id: genetic.php,v 1.0 2012/06/11 18:11:00 Ana Mar�a Lozano de la Fuente Exp $
 /*********************************************************************************
 
 * This file is part of Genetic.
@@ -7,13 +7,13 @@
 
 * Designed and directed by the ITAST group (http://www.eduvalab.uva.es/contact)
 
-* Implemented by Ana Mar�a Lozano de la Fuente, using the previous software called Terminology, implemented by Irene Fern�ndez Ram�rez (2010)
+* Implemented by Ana Mar�a Lozano de la Fuente, using the previous software called Terminology, implemented by Irene Fern�ndez Ram�rez (2010)
 
  
 
 * @ copyright (C) 2012 ITAST group
 
-* @ author:  Ana Mar�a Lozano de la Fuente, Irene Fern�ndez Ram�rez, Mar�a Jes�s Verd� P�rez, Juan Pablo de Castro Fern�ndez, Luisa M. Regueras Santos,  Elena Verd� P�rez and Mar�a �ngeles P�rez Ju�rez
+* @ author:  Ana Mar�a Lozano de la Fuente, Irene Fern�ndez Ram�rez, Mar�a Jes�s Verd� P�rez, Juan Pablo de Castro Fern�ndez, Luisa M. Regueras Santos,  Elena Verd� P�rez and Mar�a �ngeles P�rez Ju�rez
 
 * @ package genetic
 
@@ -48,11 +48,11 @@
 *********************************************************************************/
 
 //header('Content-Type: text/html; charset=iso-8859-1');
-//---a�adido---
+//---a�adido---
 $string['abreviaturas'] = 'Abreviaturas :';
 $string['accept'] = 'Aceptar';
 $string['action'] = 'Acción';
-//---a�adido---
+//---a�adido---
 $string['acronyms'] = 'Acrónimos :';
 $string['advaudio'] = 'El nombre del archivo de audio ha de seguir el siguiente patrón: nombre_término.extensión';
 $string['addaudio'] = 'Añadir audio';
@@ -61,7 +61,7 @@ $string['addbe'] = 'Añadir nueva institución';
 $string['addcard'] = 'Añadir ficha';
 $string['addcardf'] = 'Añadir nueva ficha terminológica';
 $string['adddom'] = 'Añadir nuevo dominio';
-//---a�adido---
+//---a�adido---
 $string['addim'] = 'Añadir nueva imagen';
 $string['addlang'] = 'Añadir nuevo idioma';
 $string['addau'] = 'Añadir nuevo audio';
@@ -85,7 +85,7 @@ $string['buttonaddau'] = 'Añadir autor/a';
 $string['buttonaddaudio'] = 'Añadir audio';
 $string['buttonaddbe'] = 'Añadir institución';
 $string['buttonadddom'] = 'Añadir dominio';
-//a�adido
+//a�adido
 $string['buttonaddim'] = 'Añadir imágen';
 $string['buttonaddrt'] = 'Añadir término relacionado';
 $string['buttonaddcr'] = 'Añadir término relación cruzada';
@@ -103,13 +103,13 @@ $string['commonheaderdata'] = 'Datos comunes a los idiomas de la ficha terminol�
 $string['context'] = 'Contexto';
 $string['continue'] = 'Continuar';
 $string['criteria'] = 'Criterio de búsqueda';
-//---a�adido---
+//---a�adido---
 $string['crossrelatedterms'] = 'Términos cruzados';
 $string['datecreated'] = 'Fecha de creación / modificación';
 $string['indexuse'] = 'Use este índice para ordenar las fichas según la fecha de creación / modificación o alfabeticamente escogiendo el idioma:';
 $string['datemodified'] = 'Fecha de modificación';
 $string['date'] = 'Fecha :';
-//---a�adido---
+//---a�adido---
 $string['de'] = 'Alemán ';
 $string['definition'] = 'Definición';
 $string['delete'] = 'Borrar';
@@ -130,7 +130,7 @@ $string['deletecardsure'] = ' Está seguro de borrar la ficha terminológica ?';
 $string['deletedomused'] = 'No se puede borrar el subdominio. La entrada está siendo usada por una ficha terminológica.';
 $string['deletedom'] = 'Borrar dominio';
 $string['deletedomparent'] = 'No se puede borrar subdominio; contiene a otros';
-//---a�adido---
+//---a�adido---
 $string['deleteim'] = 'Borrar imagen';
 $string['deletevi'] = 'Borrar vídeo';
 $string['deleteimnok'] = 'Error al borrar la imagen';
@@ -186,7 +186,7 @@ $string['editauthor'] = 'Editar autor/a';
 $string['editbe'] = 'Editar institución';
 $string['editcard'] = 'Editar ficha terminológica';
 $string['editdom'] = 'Editar dominio';
-//---a�adido---
+//---a�adido---
 
 $string['editim'] = 'Editar imágen';
 $string['editsyn'] = 'Editar sinónimo';
@@ -202,18 +202,18 @@ $string['emptyfielddom'] = 'Campo vacío. Seleccione el dominio sobre el que des
 $string['emptyfieldgramcat'] = 'Campo vacío. Debe seleccionar una categoría gramatical.';
 $string['emptyfieldheader'] = 'Campo obligatorio de cabecera no seleccionado. Revise los datos comunes a las fichas terminológicas.';
 $string['emptyfieldisolang'] = 'Campo vacío. Seleccione el idioma sobre el que desea buscar.';
-$string['emptyfieldlanguage'] = 'Campo obligatorio de idioma vacío. Revise los datos refrentes a los términos.';
+$string['emptyfieldlanguage'] = 'Campo obligatorio de idioma vacío. Revise los datos referentes a los términos.';
 $string['emptysearchtype'] = 'Debe seleccionar un criterio de búsqueda y rellenarlo';
-//---a�adido---
+//---a�adido---
 $string['en'] = 'Inglés ';
 $string['errordb'] = 'Se ha producido un error al seleccionar la base de datos correspondiente a la actividad. Vuelva a intentarlo.';
 $string['es'] = 'Castellano ';
 $string['expression'] = 'Fraseología';
-$string['errextensionimage']="La extensi�n o el tama�o de los archivos no es correcta. <br><br><table><tr><td><li>Se permiten archivos .gif o .jpg<br><li>se permiten archivos de 100 MB m�ximo.</td></tr></table>";
+$string['errextensionimage']="La extensión o el tamaño de los archivos no es correcta. <br><br><table><tr><td><li>Se permiten archivos .gif o .jpg<br><li>se permiten archivos de 100 MB m�ximo.</td></tr></table>";
 $string['errnameimageexists'] = 'El nombre del fichero ya existe.<br><br><table><tr><td><li>No se permite subir dos ficheros con el mismo nombre en un mismo curso.</td></tr></table>';
 $string['errnamevideoexists'] = 'El nombre del fichero ya existe.<br><br><table><tr><td><li>No se permite subir dos ficheros con el mismo nombre en un mismo curso.</td></tr></table>';
 $string['fileuploadcorrect']='El archivo ha sido cargado correctamente.';
-$string['footsentences'] = 'Con la colaboraci�n de la Consejer�a de Educaci�n de la Junta de Castilla y Le�n.';
+$string['footsentences'] = 'Con la colaboración de la Consejería de Educación de la Junta de Castilla y León.';
 $string['fr'] = 'Francés ';
 $string['genetic'] = 'Genetic';
 $string['gramcat'] = 'Categoría gramatical';
@@ -250,13 +250,13 @@ $string['insertsynused'] = 'El sinónimo en ese idioma ya existe en el diccionar
 $string['inserttynok'] = 'Error al insertar el proyecto';
 $string['inserttyok'] = 'proyecto insertado correctamente';
 $string['labelspecial'] = 'Muestra las fichas cuyo término no comienza por una letra';
-//---a�adido---
+//---a�adido---
 $string['lang'] = 'Idioma';
 $string['langdicexist'] = ' ya existe en el diccionario';
 $string['languagecarddata'] = 'Datos particulares de cada idioma de la ficha terminológica';
 $string['link'] = 'Enlace';
 $string['linksubd'] = 'Pulsar sobre cada subdominio para acceder al topic browser de Eurogene.';
-$string['maximumchars'] = 'N�mero máximo de caracteres';
+$string['maximumchars'] = 'N�mero máximo de caracteres';
 $string['modau'] = 'Modificar audio';
 $string['modimagen'] = 'Modificar imagen';
 $string['name'] = 'Nombre';
@@ -277,10 +277,11 @@ $string['noresultisolang'] = 'No se han encontrado fichas terminológicas en el 
 $string['noresultterm'] = 'No se han encontrado término(s) que coincidan';
 $string['nosources'] = 'No se han encontrado fuentes para el término';
 $string['nosrcimage'] = 'No se han encontrado fuentes para la imagen';
-$string['nosrcvideo'] = 'No Sources were  found for this video';
+$string['nosrcvideo'] = 'No se han encontrado fuentes para el video';
+$string['notermsadded'] = 'No se han a�adido t�rminos en ning�n idioma';
 $string['notes'] = 'Notas';
 $string['nummatch'] = 'Número de coincidencias';
-//----a�adido---
+//----a�adido---
 $string['pieimagen'] = 'Descripción de la imagen (es)';
 $string['pieimagen_fr'] = 'Descripción de la imagen (fr)';
 $string['pieimagen_en'] = 'Descripción de la imagen (en)';
@@ -290,7 +291,7 @@ $string['pievideo_fr'] = 'Descripción del vídeo (fr)';
 $string['pievideo_en'] = 'Descripción del vídeo (en)';
 $string['pievideo_de'] = 'Descripción del vídeo (de)';
 $string['reference'] = 'Remisiones';
-//---a�adido---
+//---a�adido---
 $string['relatedterms'] = 'Términos relacionados';
 $string['reliabilitycode'] = 'Código de fiabilidad';
 $string['requiredfields'] = '(*) Campos obligatorios. No es necesario rellenar todos los idiomas';
@@ -308,7 +309,7 @@ $string['searchterm'] = 'Buscar por término';
 $string['searchtopdf'] = 'Resultado de la búsqueda en PDF';
 $string['searchword'] = 'Palabra/s introducida';
 $string['seealso'] = 'Ver tambien:';
-//--a�adido--
+//--a�adido--
 $string['selimagen'] = 'Añadir imagen';
 $string['selvideo'] = 'Añadir vídeo';
 $string['seltypesearch'] = 'Seleccione el criterio de búsqueda y escriba/elija la casilla correspondiente';
@@ -323,35 +324,35 @@ $string['showsubdoms'] = 'Gestionar subdominios';
 $string['showrt'] = 'Ver términos relacionados';
 $string['showty'] = 'Ver proyectos';
 $string['showsyn'] = 'Ver sinónimos';
-//---a�adido---
+//---a�adido---
 $string['showim'] = 'Ver imágenes';
 $string['showvi'] = 'Ver vídeos';
 $string['showau'] = 'Audio';
 $string['siglas'] = 'Siglas';
 $string['sources'] = 'Fuentes';
-//---a�adido---
+//---a�adido---
 $string['src'] = 'Fuente:';
 $string['src_image'] = 'Fuentes de la imagen';
-//---a�adido---
+//---a�adido---
 $string['src_video'] = 'Fuentes del vídeo';
 $string['student'] = 'Alumno';
 $string['subdom'] = 'Subdominios';
 $string['subdomain'] = 'Subdominio';
 $string['surname'] = 'Apellidos';
-//---a�adido---
+//---a�adido---
 $string['synonym'] = 'Sinonimos :';
 $string['synonymm'] = 'Sinónimo';
 
 
-//---a�adido---
+//---a�adido---
 $string['symbols'] = 'Simbolos';
 $string['teacher'] = 'Profesor';
 $string['term'] = 'Término';
 $string['termnoexists'] = 'El término no existe en el diccionario';
 $string['termnoexistslang'] = 'El término en ese idioma no esta disponible en el diccionario';
-//--a�adido---
+//--a�adido---
 $string['term_already_exists'] = 'El término ya existe.  Confirma que desea introducir otra vez el término?';
-//--a�adido---
+//--a�adido---
 $string['title_video'] = 'Título del vídeo';
 
 $string['ty'] = 'Proyecto';

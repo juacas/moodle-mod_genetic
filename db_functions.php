@@ -7,13 +7,13 @@
 
 * Designed and directed by the ITAST group (http://www.eduvalab.uva.es/contact)
 
-* Implemented by Ana María Lozano de la Fuente, using the previous software called Terminology, implemented by Irene Fernández Ramírez (2010)
+* Implemented by Ana Marï¿½a Lozano de la Fuente, using the previous software called Terminology, implemented by Irene Fernï¿½ndez Ramï¿½rez (2010)
 
  
 
 * @ copyright (C) 2012 ITAST group
 
-* @ author:  Ana María Lozano de la Fuente, Irene Fernández Ramírez, María Jesús Verdú Pérez, Juan Pablo de Castro Fernández, Luisa M. Regueras Santos,  Elena Verdú Pérez and María Ángeles Pérez Juárez
+* @ author:  Ana Marï¿½a Lozano de la Fuente, Irene Fernï¿½ndez Ramï¿½rez, Marï¿½a Jesï¿½s Verdï¿½ Pï¿½rez, Juan Pablo de Castro Fernï¿½ndez, Luisa M. Regueras Santos,  Elena Verdï¿½ Pï¿½rez and Marï¿½a ï¿½ngeles Pï¿½rez Juï¿½rez
 
 * @ package genetic
 
@@ -80,6 +80,14 @@ function genetic_count_lang($geneticid) {
 	return $query;
 }
 
+// take the id of the languages of the dictionary
+function genetic_id_lang($geneticid) {
+	global $CFG;
+	$query = "SELECT genetic_lang_id
+	FROM {$CFG->prefix}genetic_lang_has_genetic
+	WHERE genetic_id='$geneticid'";
+	return $query;
+}
 /*********
   QUERIES
  *********/
@@ -112,7 +120,7 @@ function genetic_show_types() {
 	return $query;
 }
 
-// Show all the terms order by alphabetic ---añadido---
+// Show all the terms order by alphabetic ---aï¿½adido---
 
 function genetic_show_headers_order2($geneticid,$langname) {
 	global $CFG;
@@ -142,6 +150,14 @@ function genetic_exist_lang_dic($idlang,$idgenetic) {
 		  AND genetic_id='$idgenetic'";
 	return $query;
 }
+//get the isolang from id
+function genetic_get_isolang($idlang) {
+	global $CFG;
+	$query = "SELECT language
+	FROM {$CFG->prefix}genetic_lang
+	WHERE id='$idlang'";
+	return $query;
+}
 //
 function genetic_show_headers_term_exist($geneticid,$langname) {
 	global $CFG;
@@ -153,7 +169,7 @@ function genetic_show_headers_term_exist($geneticid,$langname) {
 	return $query;
 }
 
-//ordenar las fichas segun su fecha de creación si el orden es ASC o DESC
+//ordenar las fichas segun su fecha de creaciï¿½n si el orden es ASC o DESC
 function genetic_show_headers_order($geneticid,$order) {
 	global $CFG;
 	$query = "SELECT *
@@ -162,7 +178,7 @@ function genetic_show_headers_order($geneticid,$order) {
 		 ORDER BY datecreated $order";
 	return $query;
 }
-// Show all the languages order by name ---añadido---
+// Show all the languages order by name ---aï¿½adido---
 function genetic_show_lang() {
 	global $CFG;
 	$query = "SELECT DISTINCT isolang
@@ -170,7 +186,7 @@ function genetic_show_lang() {
 		 ORDER BY isolang ASC";
 	return $query;
 }
-// Show all the languages order by name ---añadido---
+// Show all the languages order by name ---aï¿½adido---
 function genetic_show_lang_dic($idgenetic) {
 	global $CFG;
 	$query = "SELECT *
@@ -219,7 +235,7 @@ function genetic_show_cards2($headerid,$langname) {
 	return $query;
 }
 
-//----añadido---
+//----aï¿½adido---
 function genetic_show_images($headerrowni){
 	global $CFG;
 	$query = "SELECT {$CFG->prefix}genetic_images.*
@@ -229,8 +245,16 @@ function genetic_show_images($headerrowni){
 	return $query;
 
 }
+// function that gets the images for a headercard
+function genetic_get_images_header($headercardid,$imageid){
+	global $CFG;
+	$query = "SELECT * from {$CFG->prefix}genetic_images_has_genetic_cards
+	WHERE genetic_images_id='$imageid' and genetic_headercards_id='$headercardid'";
+	return $query;
+}
 
-//----añadido---
+
+//----aï¿½adido---
 function genetic_show_videos($cardrowid){
 	global $CFG;
 	$query = "SELECT {$CFG->prefix}genetic_videos.*  
@@ -241,7 +265,7 @@ function genetic_show_videos($cardrowid){
 
 }
 
-//----añadido---
+//----aï¿½adido---
 function genetic_show_remissions($cardrowid){
 	global $CFG;
 	$query = "SELECT * 
@@ -250,7 +274,7 @@ function genetic_show_remissions($cardrowid){
 	return $query;
 
 }
-//----añadido---
+//----aï¿½adido---
 function genetic_show_remissions_dist($cardrowid){
 	global $CFG;
 	$query = "SELECT DISTINCT rem_type 
@@ -259,7 +283,7 @@ function genetic_show_remissions_dist($cardrowid){
 	return $query;
 
 }
-//----añadido---
+//----aï¿½adido---
 function genetic_show_remissions_name($cardrowref,$cardrowid){
 	global $CFG;
 	$query = "SELECT * 
@@ -270,7 +294,7 @@ function genetic_show_remissions_name($cardrowref,$cardrowid){
 
 }
 
-//----añadido---
+//----aï¿½adido---
 function genetic_show_synonims($cardrowid_remissions,$cardrowid){
 	global $CFG;
 	$query = "SELECT {$CFG->prefix}genetic_synonyms.* 
@@ -282,7 +306,7 @@ function genetic_show_synonims($cardrowid_remissions,$cardrowid){
 	return $query;
 
 }
-//----añadido---
+//----aï¿½adido---
 function genetic_show_relatedterms($cardrowid_remissions,$cardrowid){
 	global $CFG;
 	$query = "SELECT {$CFG->prefix}genetic_relatedterms.* 
@@ -294,7 +318,7 @@ function genetic_show_relatedterms($cardrowid_remissions,$cardrowid){
 	return $query;
 
 }
-//----añadido---
+//----aï¿½adido---
 function genetic_show_crossrelations($cardrowidremissions,$cardrowid){
 	global $CFG;
 	$query = "SELECT {$CFG->prefix}genetic_crossrelations.* 
@@ -307,7 +331,7 @@ function genetic_show_crossrelations($cardrowidremissions,$cardrowid){
 
 }
 
-//----añadido---
+//----aï¿½adido---
 function genetic_show_terms($idgenetic){
 	global $CFG;
 	
@@ -318,7 +342,7 @@ function genetic_show_terms($idgenetic){
 	return $query;
 
 }
-//----añadido---
+//----aï¿½adido---
 function genetic_show_crossrelations2($cardrowterm){
 	global $CFG;
 	
@@ -329,7 +353,7 @@ function genetic_show_crossrelations2($cardrowterm){
 	return $query;
 
 }
-//---añadido--- para ver si existe el termino antes de introducirlo
+//---aï¿½adido--- para ver si existe el termino antes de introducirlo
 function genetic_term_exists($term,$idgenetic){
 	global $CFG;
 	$query = "SELECT * 
@@ -339,7 +363,27 @@ function genetic_term_exists($term,$idgenetic){
 	return $query;
 
 }
-//---añadido--- para ver si existe el termino antes de introducirlo
+// Function that checks if the term exists in that language 
+function genetic_term_exists_inlang($term,$idgenetic, $isolang){
+	global $CFG;
+	$query = "SELECT *
+	FROM {$CFG->prefix}genetic_cards
+	WHERE term= '$term' AND isolang='$isolang' 
+	AND idgenetic='$idgenetic'";
+	return $query;
+
+}
+// Function that checks if the term exists in that language but it is not the own card
+function genetic_term_exists_inlang2($term,$idgenetic, $isolang,$idheadercard){
+	global $CFG;
+	$query = "SELECT *
+	FROM {$CFG->prefix}genetic_cards
+	WHERE term= '$term' AND isolang='$isolang'
+	AND idgenetic='$idgenetic' AND idheader<>'$idheadercard'";
+	return $query;
+
+}
+//---aï¿½adido--- para ver si existe el termino antes de introducirlo
 function genetic_subdomain_exists($name){
 	global $CFG;
 	$query = "SELECT * 
@@ -348,7 +392,7 @@ function genetic_subdomain_exists($name){
 	return $query;
 
 }
-//---añadido--- para ver si existe el sinonimo antes de introducirlo
+//---aï¿½adido--- para ver si existe el sinonimo antes de introducirlo
 function genetic_synonym_exists($name, $lang){
 	global $CFG;
 	$query = "SELECT * 
@@ -358,7 +402,7 @@ function genetic_synonym_exists($name, $lang){
 	return $query;
 
 }
-//---añadido--- para ver si existe el termino relacionado antes de introducirlo
+//---aï¿½adido--- para ver si existe el termino relacionado antes de introducirlo
 function genetic_related_exists($name, $lang){
 	global $CFG;
 	$query = "SELECT * 
@@ -369,7 +413,7 @@ function genetic_related_exists($name, $lang){
 
 }
 
-//---añadido--- para ver si existe el termino cruzado antes de introducirlo
+//---aï¿½adido--- para ver si existe el termino cruzado antes de introducirlo
 function genetic_crossrelated_exists($name, $lang){
 	global $CFG;
 	$query = "SELECT * 
@@ -379,7 +423,7 @@ function genetic_crossrelated_exists($name, $lang){
 	return $query;
 
 }
-//---añadido---
+//---aï¿½adido---
 function genetic_dom_null(){
 	global $CFG;
 	$query = "SELECT * 
@@ -475,7 +519,7 @@ function genetic_show_lastcard() {
 		 ORDER BY id DESC LIMIT 1";
 	return $query;
 }
-// ----añadido----Show the id of the last image
+// ----aï¿½adido----Show the id of the last image
 function genetic_show_lastimage() {
 	global $CFG;
 	$query = "SELECT * 
@@ -483,7 +527,7 @@ function genetic_show_lastimage() {
 		 ORDER BY id DESC LIMIT 1";
 	return $query;
 }
-// ----añadido----Show the id of the last video
+// ----aï¿½adido----Show the id of the last video
 function genetic_show_lastvideo() {
 	global $CFG;
 	$query = "SELECT * 
@@ -491,7 +535,7 @@ function genetic_show_lastvideo() {
 		 ORDER BY id DESC LIMIT 1";
 	return $query;
 }
-// ----añadido----Show the id of the last video
+// ----aï¿½adido----Show the id of the last video
 function genetic_show_lastaudio() {
 	global $CFG;
 	$query = "SELECT * 
@@ -499,7 +543,7 @@ function genetic_show_lastaudio() {
 		 ORDER BY id DESC LIMIT 1";
 	return $query;
 }
-// ----añadido----Show the id of the last remission
+// ----aï¿½adido----Show the id of the last remission
 function genetic_show_last_remission() {
 	global $CFG;
 	$query = "SELECT * 
@@ -507,7 +551,7 @@ function genetic_show_last_remission() {
 		 ORDER BY id DESC LIMIT 1";
 	return $query;
 }
-// ----añadido----Show the id of the last synonym
+// ----aï¿½adido----Show the id of the last synonym
 function genetic_show_last_synonym() {
 	global $CFG;
 	$query = "SELECT * 
@@ -515,7 +559,7 @@ function genetic_show_last_synonym() {
 		 ORDER BY id DESC LIMIT 1";
 	return $query;
 }
-// ----añadido----Show the id of the last relatedterm
+// ----aï¿½adido----Show the id of the last relatedterm
 function genetic_show_last_relatedterm() {
 	global $CFG;
 	$query = "SELECT * 
@@ -570,7 +614,7 @@ function genetic_show_crossrelated($lang) {
 	return $query;
 }
 
-// -----añadido---Show all the images
+// -----aï¿½adido---Show all the images
 function genetic_show_idsyn($synonym) {
 	global $CFG;
 	$query = "SELECT * 
@@ -580,7 +624,7 @@ function genetic_show_idsyn($synonym) {
 	return $query;
 }
 
-// -----añadido---Show all the images
+// -----aï¿½adido---Show all the images
 function genetic_show_img() {
 	global $CFG;
 	$query = "SELECT * 
@@ -589,7 +633,7 @@ function genetic_show_img() {
 	return $query;
 }
 
-// -----añadido---Show all the images
+// -----aï¿½adido---Show all the images
 function genetic_show_im() {
 	global $CFG;
 	$query = "SELECT * 
@@ -597,7 +641,7 @@ function genetic_show_im() {
 		 ORDER BY fileimage ASC";
 	return $query;
 }
-// -----añadido---Show all the images
+// -----aï¿½adido---Show all the images
 function genetic_show_vi() {
 	global $CFG;
 	$query = "SELECT * 
@@ -605,7 +649,7 @@ function genetic_show_vi() {
 		 ORDER BY filevideo ASC";
 	return $query;
 }
-// -----añadido---Show all the audio files
+// -----aï¿½adido---Show all the audio files
 function genetic_show_au($lang) {
 	global $CFG;
 	$query = "SELECT {$CFG->prefix}genetic_audio.* 
@@ -620,6 +664,22 @@ function genetic_show_audio($cardrowid) {
 	$query = "SELECT * 
 		 FROM {$CFG->prefix}genetic_cards_has_genetic_audio
 		 WHERE {$CFG->prefix}genetic_cards_has_genetic_audio.genetic_cards_id='$cardrowid'";
+	return $query;
+}
+
+function genetic_is_audio_incard($cardrowid,$audioid) {
+	global $CFG;
+	$query = "SELECT *
+	FROM {$CFG->prefix}genetic_cards_has_genetic_audio
+	WHERE {$CFG->prefix}genetic_cards_has_genetic_audio.genetic_cards_id='$cardrowid' AND {$CFG->prefix}genetic_cards_has_genetic_audio.genetic_audio_id='$audioid'";
+	return $query;
+}
+
+function genetic_is_video_incard($cardrowid,$videoid) {
+	global $CFG;
+	$query = "SELECT *
+	FROM {$CFG->prefix}genetic_videos_has_genetic_cards
+	WHERE genetic_cards_id='$cardrowid' AND genetic_videos_id='$videoid'";
 	return $query;
 }
 //show all audio files in a language
@@ -717,7 +777,7 @@ function genetic_choose_be($be) {
 		 WHERE id='$be'";
 	return $query;
 }
-// ----añadido----Show A synonym
+// ----aï¿½adido----Show A synonym
 function genetic_choose_syn($idsyn) {
 	global $CFG;
 	$query = "SELECT * 
@@ -725,7 +785,7 @@ function genetic_choose_syn($idsyn) {
 		 WHERE id='$idsyn'";
 	return $query;
 }
-// ----añadido----Show A synonym
+// ----aï¿½adido----Show A synonym
 function genetic_choose_rt($idrt) {
 	global $CFG;
 	$query = "SELECT * 
@@ -734,7 +794,7 @@ function genetic_choose_rt($idrt) {
 	return $query;
 }
 
-// ----añadido----Show A synonym
+// ----aï¿½adido----Show A synonym
 function genetic_choose_cr($idcr) {
 	global $CFG;
 	$query = "SELECT * 
@@ -749,6 +809,15 @@ function genetic_show_rel_be($ni) {
 		 FROM {$CFG->prefix}genetic_be, {$CFG->prefix}genetic_rel_headerbe
 		 WHERE {$CFG->prefix}genetic_rel_headerbe.idheadercard='$ni'
 		 AND {$CFG->prefix}genetic_be.id={$CFG->prefix}genetic_rel_headerbe.idbe";
+	return $query;
+}
+
+// show if the headercard has that be (institution) asssigned
+function genetic_header_has_be($idheadercard,$idbe) {
+	global $CFG;
+	$query = "SELECT * from {$CFG->prefix}genetic_rel_headerbe
+	WHERE {$CFG->prefix}genetic_rel_headerbe.idheadercard='$idheadercard'
+	AND {$CFG->prefix}genetic_rel_headerbe.idbe='$idbe'";
 	return $query;
 }
 
@@ -778,6 +847,12 @@ function genetic_choose_ty($ty) {
 	$query = "SELECT * 
 		 FROM {$CFG->prefix}genetic_ty
 		 WHERE id='$ty'";
+	return $query;
+}
+// gets the id of the ty (project) of the headercard
+function get_ty_headercard($headercardid,$idty){
+	global $CFG;
+	$query = "SELECT * FROM {$CFG->prefix}genetic_headercards where id_genetic='$headercardid' and ty='$idty'";
 	return $query;
 }
 // Show A lang
@@ -1025,7 +1100,7 @@ function genetic_search_subdomain($did) {
 		 WHERE iddom='$did'";
 	return $query;
 }
-// ----añadido--
+// ----aï¿½adido--
 function genetic_subdomain_by_id($id) {
 	global $CFG;
 	$query = "SELECT *
@@ -1080,12 +1155,12 @@ function genetic_use_be($beid) {
 function genetic_use_lang($isolang,$idgenetic) {
 	global $CFG;
 	$query = "SELECT * 
-		 FROM {$CFG->prefix}genetic_cards,
+		 FROM {$CFG->prefix}genetic_cards
 		 WHERE {$CFG->prefix}genetic_cards.idgenetic=$idgenetic
 		 AND {$CFG->prefix}genetic_cards.isolang='$isolang'";
 	return $query;
 }
-// añadido--Search an using synonym to avoid delete the entry
+// aï¿½adido--Search an using synonym to avoid delete the entry
 function genetic_use_syn($synid) {
 	global $CFG;
 	$query = "SELECT * 
@@ -1149,7 +1224,7 @@ function genetic_use_cr($crid) {
 		 WHERE genetic_crossrelations_id = '$crid'";
 	return $query;
 }
-// ---añadido---Search a card using the image to avoid delete the entry
+// ---aï¿½adido---Search a card using the image to avoid delete the entry
 function genetic_use_im($imid) {
 	global $CFG;
 	$query = "SELECT * 
@@ -1158,7 +1233,7 @@ function genetic_use_im($imid) {
 	return $query;
 }
 
-// ---añadido---Search a card using the video to avoid delete the entry
+// ---aï¿½adido---Search a card using the video to avoid delete the entry
 function genetic_use_vi($viid) {
 	global $CFG;
 	$query = "SELECT * 
@@ -1166,7 +1241,7 @@ function genetic_use_vi($viid) {
 		 WHERE genetic_videos_id = '$viid'";
 	return $query;
 }
-// ---añadido---Search a card using theaudio to avoid delete the entry
+// ---aï¿½adido---Search a card using theaudio to avoid delete the entry
 function genetic_use_au($name) {
 	global $CFG;
 	$query = "SELECT * 
@@ -1251,42 +1326,42 @@ function genetic_insert_source($cardid, $sourceterm, $sourcedefinition, $sourcec
 	return $query;
 }
 
-//---añadido----
+//---aï¿½adido----
 function genetic_insert_remission($cardid,$remission,$rem_type) {
 	global $CFG;
 	$query = "INSERT INTO {$CFG->prefix}genetic_remission(idcard, remission, rem_type)
 		VALUES ('$cardid', '$remission', '$rem_type')";
 	return $query;
 }
-//---añadido----
+//---aï¿½adido----
 function genetic_insert_remissions2($cardid, $abreviaturas, $acronyms) {
 	global $CFG;
 	$query = "INSERT INTO {$CFG->prefix}genetic_remission(idcard, abreviaturas, acronims)
 		VALUES ('$cardid', '$abreviaturas', '$acronyms')";
 	return $query;
 }
-//---añadido----
+//---aï¿½adido----
 function genetic_insert_has_image($ni, $idimage) {
 	global $CFG;
 	$query = "INSERT INTO {$CFG->prefix}genetic_images_has_genetic_cards(genetic_headercards_id, genetic_images_id)
 		VALUES ('$ni', '$idimage')";
 	return $query;
 }
-//---añadido----
+//---aï¿½adido----
 function genetic_insert_has_video($cardid, $idvideo) {
 	global $CFG;
 	$query = "INSERT INTO {$CFG->prefix}genetic_videos_has_genetic_cards(genetic_cards_id, genetic_videos_id)
 		VALUES ('$cardid', '$idvideo')";
 	return $query;
 }
-//---añadido----
+//---aï¿½adido----
 function genetic_insert_has_synonym($remissionid, $synonymid) {
 	global $CFG;
 	$query = "INSERT INTO {$CFG->prefix}genetic_synonyms_has_genetic_remission(genetic_remission_id, genetic_synonyms_id)
 		VALUES ('$remissionid', '$synonymid')";
 	return $query;
 }
-//---añadido----
+//---aï¿½adido----
 function genetic_insert_has_remission($cardid, $rel_remission) {
 	global $CFG;
 	$query = "INSERT INTO {$CFG->prefix}genetic_rel_remissions(idremission, idcard)
@@ -1294,14 +1369,14 @@ function genetic_insert_has_remission($cardid, $rel_remission) {
 	return $query;
 }
 
-//---añadido----
+//---aï¿½adido----
 function genetic_insert_has_relatedterm($remissionid, $relatedtermid) {
 	global $CFG;
 	$query = "INSERT INTO {$CFG->prefix}genetic_remission_has_genetic_relatedterms(genetic_remission_id, genetic_relatedterms_id)
 		VALUES ('$remissionid', '$relatedtermid')";
 	return $query;
 }
-//---añadido----
+//---aï¿½adido----
 function genetic_insert_has_crossrelatedterm($remissionid, $crossrelatedtermid) {
 	global $CFG;
 	$query = "INSERT INTO {$CFG->prefix}genetic_remission_has_genetic_crossrelations(genetic_remission_id, genetic_crossrelations_id)
@@ -1310,7 +1385,7 @@ function genetic_insert_has_crossrelatedterm($remissionid, $crossrelatedtermid) 
 }
 
 
-//---añadido----
+//---aï¿½adido----
 function genetic_insert_has_audio($cardid, $audioid) {
 	global $CFG;
 	$query = "INSERT INTO {$CFG->prefix}genetic_cards_has_genetic_audio(genetic_cards_id, genetic_audio_id)
@@ -1502,7 +1577,7 @@ function genetic_update_be($idbe, $name) {
 	return $query;
 }
 
-// ----añadido---Update sinonimo
+// ----aï¿½adido---Update sinonimo
 function genetic_update_syn($idsyn, $name) {
     global $CFG;
 	$query = "UPDATE {$CFG->prefix}genetic_synonyms
@@ -1569,7 +1644,7 @@ function genetic_update_au($idau,$name,$name3,$lang) {
 	return $query;
 }
 
-//---añadido----
+//---aï¿½adido----
 function genetic_update_has_synonym($remissionid, $synonymid) {
 	global $CFG;
 	$query = "UPDATE {$CFG->prefix}genetic_synonyms_has_genetic_remission
@@ -1825,7 +1900,7 @@ function genetic_delete_audio($idcard) {
  		 WHERE genetic_cards_id = '$idcard'";
 	return $query;
 }
-// ----añadido---arbol
+// ----aï¿½adido---arbol
 function genetic_arbol($nivel) {
 	global $CFG;
 	$query = "SELECT id, name, iddom 
@@ -1833,7 +1908,7 @@ function genetic_arbol($nivel) {
  		 WHERE iddom= '$nivel'";
 	return $query;
 }
-// ----añadido---arbol2
+// ----aï¿½adido---arbol2
 function genetic_arbol2($iddom) {
 	global $CFG;
 	$query = "SELECT id
@@ -1841,7 +1916,7 @@ function genetic_arbol2($iddom) {
  		 WHERE iddom= '$iddom'";
 	return $query;
 }
-// ----añadido---arbol2
+// ----aï¿½adido---arbol2
 function genetic_arbol3($iddom) {
 	global $CFG;
 	$query = "SELECT id

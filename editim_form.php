@@ -1,4 +1,4 @@
-<?php  // $Id: image_form.php,v 1.0 2010/01/12 16:40:00 Irene Fernández Ramírez Exp $
+<?php  // $Id: image_form.php,v 1.0 2010/01/12 16:40:00 Irene Fernï¿½ndez Ramï¿½rez Exp $
 /*********************************************************************************
 
 * This file is part of Genetic.
@@ -7,13 +7,13 @@
 
 * Designed and directed by the ITAST group (http://www.eduvalab.uva.es/contact)
 
-* Implemented by Ana María Lozano de la Fuente, using the previous software called Terminology, implemented by Irene Fernández Ramírez (2010)
+* Implemented by Ana Marï¿½a Lozano de la Fuente, using the previous software called Terminology, implemented by Irene Fernï¿½ndez Ramï¿½rez (2010)
 
  
 
 * @ copyright (C) 2012 ITAST group
 
-* @ author:  Ana María Lozano de la Fuente, Irene Fernández Ramírez, María Jesús Verdú Pérez, Juan Pablo de Castro Fernández, Luisa M. Regueras Santos,  Elena Verdú Pérez and María Ángeles Pérez Juárez
+* @ author:  Ana Marï¿½a Lozano de la Fuente, Irene Fernï¿½ndez Ramï¿½rez, Marï¿½a Jesï¿½s Verdï¿½ Pï¿½rez, Juan Pablo de Castro Fernï¿½ndez, Luisa M. Regueras Santos,  Elena Verdï¿½ Pï¿½rez and Marï¿½a ï¿½ngeles Pï¿½rez Juï¿½rez
 
 * @ package genetic
 
@@ -57,6 +57,10 @@
     $id = optional_param('id',0,PARAM_INT);
     $t = optional_param('t',0,PARAM_INT);
 	
+    // Necessary parameters to add/edit/delete types
+    $idim = optional_param('idim',0,PARAM_INT);
+    $action = optional_param('action','',PARAM_ALPHA);
+        
     // parameters (hidden) used to fill in the add_card form with the data the user entered previously
     $bes = optional_param('be', 0, PARAM_INT);
     $ty = optional_param('ty', 0, PARAM_INT);
@@ -65,71 +69,76 @@
     //$aux = explode("-", $domsubdom);
     $authors = optional_param('author', 0, PARAM_INT);
     $datecreated = optional_param('datecreated', 0, PARAM_INT);
-    // Language 
-    $isolang = optional_param('isolang', null, PARAM_TEXT);
-    $term = optional_param('term', null, PARAM_TEXT);
-    $gramcat = optional_param('gramcat', null, PARAM_TEXT);
-    $weight_type = optional_param('weight_type', null, PARAM_TEXT);
-    $rem_type = optional_param('rem_type', null, PARAM_TEXT);
-    $remission = optional_param('remission', null, PARAM_TEXT);
-    $definition = optional_param('definition', null, PARAM_TEXT);
-    $formcontext = optional_param('context', null, PARAM_TEXT);
-    $expression = optional_param('expression', null, PARAM_TEXT);
-    //$rv = optional_param('rv', 'null', PARAM_TEXT);
-    $notes = optional_param('notes', null, PARAM_TEXT);
-    $sourceterm = optional_param('sourceterm', null, PARAM_TEXT);
-    $sourcedefinition = optional_param('sourcedefinition', null, PARAM_TEXT);
-    $sourcecontext = optional_param('sourcecontext', null, PARAM_TEXT);
-    $sourceexpression = optional_param('sourceexpression', null, PARAM_TEXT);
-    $sourcerv = optional_param('sourcerv', null, PARAM_TEXT);
-    $sourcenotes = optional_param('sourcenotes', null, PARAM_TEXT);
-    $synonyms = optional_param('synonyms', 0, PARAM_INT);
     $prevformimagen = optional_param('imagen', 0, PARAM_INT);
-    $video = optional_param('video', 0, PARAM_INT);
-    $relatedterms = optional_param('relatedterms', 0, PARAM_INT);
-    $audio = optional_param('audio', null, PARAM_INT);
-    $pieimagen = optional_param('pieimagen', null, PARAM_TEXT);
-    $pievideo = optional_param('pievideo', null, PARAM_TEXT);
-    $srcimage = optional_param('srcimage', null, PARAM_TEXT);
-    $srcvideo = optional_param('srcvideo', null, PARAM_TEXT);
-    $acronyms = optional_param('acronyms', null, PARAM_TEXT);
-    $abreviaturas=optional_param('abreviaturas', null, PARAM_TEXT);
-    $symbols = optional_param('symbols', null, PARAM_TEXT);
-    $enlacesnuevos = optional_param('enlacesnuevos', null, PARAM_TEXT);
-    $rem_type = optional_param('rem_type', null, PARAM_TEXT);
-    $remission = optional_param('remission', null, PARAM_TEXT);
     
-    //$rem_type2 = optional_param('rem_type2', 'null', PARAM_TEXT);
-    //$remission2 = optional_param('remission2', 'null', PARAM_TEXT);
-    
-    
-    
-	// Necessary parameters to add/edit/delete types
-	$idim = optional_param('idim',0,PARAM_INT);
-	$action = optional_param('action','',PARAM_ALPHA);
-
-	
     if ($id) {
-        if (! $cm = get_record("course_modules", "id", $id)) {
-            error("Course Module ID was incorrect");
-        }
-        if (! $course = get_record("course", "id", $cm->course)) {
-            error("Course is misconfigured");
-        }
-        if (! $genetic = get_record("genetic", "id", $cm->instance)) {
-            error("Course module is incorrect");
-        }
+    	if (! $cm = get_record("course_modules", "id", $id)) {
+    		error("Course Module ID was incorrect");
+    	}
+    	if (! $course = get_record("course", "id", $cm->course)) {
+    		error("Course is misconfigured");
+    	}
+    	if (! $genetic = get_record("genetic", "id", $cm->instance)) {
+    		error("Course module is incorrect");
+    	}
     } else {
-        if (! $genetic = get_record("genetic", "id", $t)) {
-            error("Course module is incorrect");
-        }
-        if (! $course = get_record("course", "id", $genetic->course)) {
-            error("Course is misconfigured");
-        }
-        if (! $cm = get_coursemodule_from_instance("genetic", $genetic->id, $course->id)) {
-            error("Course Module ID was incorrect");
-        }
+    	if (! $genetic = get_record("genetic", "id", $t)) {
+    		error("Course module is incorrect");
+    	}
+    	if (! $course = get_record("course", "id", $genetic->course)) {
+    		error("Course is misconfigured");
+    	}
+    	if (! $cm = get_coursemodule_from_instance("genetic", $genetic->id, $course->id)) {
+    		error("Course Module ID was incorrect");
+    	}
     }
+    
+    // Connect to the database
+    $link = connect_genetic($CFG->dbhost,$CFG->dbuser,$CFG->dbpass,$CFG->dbname);
+    
+    // parameter depending on the language
+    
+    //take the ids of the languages of the dictionary
+    $query=genetic_id_lang($genetic->id);
+    $resultlang = mysql_query($query,$link);
+    while($langrow=mysql_fetch_array($resultlang)){
+    
+    	$idlanguage=$langrow['genetic_lang_id'];
+    	$isolang[$idlanguage] = optional_param('isolang'.$idlanguage, null, PARAM_TEXT);
+    	$term[$idlanguage] = optional_param('term'.$idlanguage, null, PARAM_TEXT);
+    	$gramcat[$idlanguage] = optional_param('gramcat'.$idlanguage, null, PARAM_TEXT);
+    	
+    	$weight_type[$idlanguage] = optional_param('weight_type'.$idlanguage, null, PARAM_TEXT);
+    	$definition[$idlanguage] = optional_param('definition'.$idlanguage, null, PARAM_TEXT);
+    	$formcontext[$idlanguage] = optional_param('context'.$idlanguage, null, PARAM_TEXT);
+    	$expression[$idlanguage] = optional_param('expression'.$idlanguage, null, PARAM_TEXT);
+    	$notes[$idlanguage] = optional_param('notes'.$idlanguage, null, PARAM_TEXT);
+    	$sourceterm[$idlanguage] = optional_param('sourceterm'.$idlanguage, null, PARAM_TEXT);
+    	$sourcedefinition[$idlanguage] = optional_param('sourcedefinition'.$idlanguage, null, PARAM_TEXT);
+    	$sourcecontext[$idlanguage] = optional_param('sourcecontext'.$idlanguage, null, PARAM_TEXT);
+    	$sourceexpression[$idlanguage] = optional_param('sourceexpression'.$idlanguage, null, PARAM_TEXT);
+    	$sourcerv[$idlanguage] = optional_param('sourcerv'.$idlanguage, null, PARAM_TEXT);
+    	$sourcenotes[$idlanguage] = optional_param('sourcenotes'.$idlanguage, null, PARAM_TEXT);
+    	$synonyms[$idlanguage] = optional_param('synonyms'.$idlanguage, 0, PARAM_INT);
+    	$video[$idlanguage] = optional_param('video'.$idlanguage, 0, PARAM_INT);
+    	$relatedterms[$idlanguage] = optional_param('relatedterms'.$idlanguage, 0, PARAM_INT);
+    	$audio[$idlanguage] = optional_param('audio'.$idlanguage, 0, PARAM_INT);
+    	$numfieldsremission[$idlanguage] = optional_param('numfieldsremission'.$idlanguage,0,PARAM_INT);
+    	$j=1;
+    	for($i=0;$i<$numfieldsremission[$idlanguage];$i++){
+    		if(optional_param('remission_'.$idlanguage.'_'.$j)!=null){
+    			$remission[$idlanguage][$i]=optional_param('remission_'.$idlanguage.'_'.$j);
+    			$rem_type[$idlanguage][$i]=optional_param('remtype_'.$idlanguage.'_'.$j);
+    			$j++;
+    		}
+    	
+    	}
+    	 
+   	}	 
+    
+    
+	
+   
 	
 
 	// Check if current user is logged in
@@ -230,28 +239,40 @@
 			}
 		}
 		
-		$num_languages=count($isolang);
-		for($i=0;$i<$num_languages;$i++){
-			echo "<INPUT TYPE=\"hidden\" NAME=\"isolang[]\" VALUE=\"".$isolang[$i]."\"\>";
-		}
-		
-		for($i=0;$i<$num_languages;$i++){
-			echo "<INPUT TYPE=\"hidden\" NAME=\"term[]\" value=\"".$term[$i]."\"\>";
-			echo "<INPUT TYPE=\"hidden\" NAME=\"gramcat[]\" value=\"".$gramcat[$i]."\"\>";
-			echo "<INPUT TYPE=\"hidden\" NAME=\"definition[]\" value=\"".$definition[$i]."\"\>";
-			echo "<INPUT TYPE=\"hidden\" NAME=\"context[]\" value=\"".$formcontext[$i]."\"\>";
-			echo "<INPUT TYPE=\"hidden\" NAME=\"expression[]\" value=\"".$expression[$i]."\"\>";
-			echo "<INPUT TYPE=\"hidden\" NAME=\"notes[]\" value=\"".$notes[$i]."\"\>";
-			echo "<INPUT TYPE=\"hidden\" NAME=\"weight_type[]\" value=\"".$weight_type[$i]."\"\>";
-			echo "<INPUT TYPE=\"hidden\" NAME=\"sourceterm[]\" value=\"".$sourceterm[$i]."\"\>";
-			echo "<INPUT TYPE=\"hidden\" NAME=\"sourcedefinition[]\" value=\"".$sourcedefinition[$i]."\"\>";
-			echo "<INPUT TYPE=\"hidden\" NAME=\"sourcecontext[]\" value=\"".$sourcecontext[$i]."\"\>";
-			echo "<INPUT TYPE=\"hidden\" NAME=\"sourceexpression[]\" value=\"".$sourceexpression[$i]."\"\>";
-			echo "<INPUT TYPE=\"hidden\" NAME=\"sourcerv[]\" value=\"".$sourcerv[$i]."\"\>";
-			echo "<INPUT TYPE=\"hidden\" NAME=\"sourcenotes[]\" value=\"".$sourcenotes[$i]."\"\>";
-			echo "<INPUT TYPE=\"hidden\" NAME=\"rem_type[]\" value=\"".$rem_type[$i]."\"\>";
-			echo "<INPUT TYPE=\"hidden\" NAME=\"remission[]\" value=\"".$remission[$i]."\"\>";
+		$resultlang = mysql_query($query,$link);
+		while($langrow=mysql_fetch_array($resultlang)){
+			$idlanguage=$langrow['genetic_lang_id'];
+			echo "<INPUT TYPE=\"hidden\" NAME=\"isolang$idlanguage\" VALUE=\"".$isolang[$idlanguage]."\"\>";
+			echo "<INPUT TYPE=\"hidden\" NAME=\"term$idlanguage\" value=\"".$term[$idlanguage]."\"\>";
+			echo "<INPUT TYPE=\"hidden\" NAME=\"gramcat$idlanguage\" value=\"".$gramcat[$idlanguage]."\"\>";
+			echo "<INPUT TYPE=\"hidden\" NAME=\"definition$idlanguage\" value=\"".$definition[$idlanguage]."\"\>";
+			echo "<INPUT TYPE=\"hidden\" NAME=\"context$idlanguage\" value=\"".$formcontext[$idlanguage]."\"\>";
+			echo "<INPUT TYPE=\"hidden\" NAME=\"expression$idlanguage\" value=\"".$expression[$idlanguage]."\"\>";
+			echo "<INPUT TYPE=\"hidden\" NAME=\"notes$idlanguage\" value=\"".$notes[$idlanguage]."\"\>";
+			echo "<INPUT TYPE=\"hidden\" NAME=\"weight_type$idlanguage\" value=\"".$weight_type[$idlanguage]."\"\>";
+			echo "<INPUT TYPE=\"hidden\" NAME=\"sourceterm$idlanguage\" value=\"".$sourceterm[$idlanguage]."\"\>";
+			echo "<INPUT TYPE=\"hidden\" NAME=\"sourcedefinition$idlanguage\" value=\"".$sourcedefinition[$idlanguage]."\"\>";
+			echo "<INPUT TYPE=\"hidden\" NAME=\"sourcecontext$idlanguage\" value=\"".$sourcecontext[$idlanguage]."\"\>";
+			echo "<INPUT TYPE=\"hidden\" NAME=\"sourceexpression$idlanguage\" value=\"".$sourceexpression[$idlanguage]."\"\>";
+			echo "<INPUT TYPE=\"hidden\" NAME=\"sourcerv$idlanguage\" value=\"".$sourcerv[$idlanguage]."\"\>";
+			echo "<INPUT TYPE=\"hidden\" NAME=\"sourcenotes$idlanguage\" value=\"".$sourcenotes[$idlanguage]."\"\>";
 			
+			$long=count($remission[$idlanguage]);
+			$j=1;
+			for($z=0;$z<$long;$z++){
+				echo "<INPUT TYPE=\"hidden\" NAME=\"remission_".$idlanguage."_$j\" VALUE=\"".$remission[$idlanguage][$z]."\">";
+				echo "<INPUT TYPE=\"hidden\" NAME=\"remtype_".$idlanguage."_$j\" VALUE=\"".$rem_type[$idlanguage][$z]."\">";
+				$j++;
+			}
+			echo "<INPUT TYPE=\"hidden\" NAME=\"numfieldsremission_".$idlanguage."\" VALUE=\"".$long."\">";
+				
+			for($r=0;$r<count($audio[$idlanguage]);$r++){
+				echo "<INPUT TYPE=\"hidden\" NAME=\"audio".$idlanguage."[]\" VALUE=\"".$audio[$idlanguage][$r]."\">";
+			}
+			
+			for($e=0;$e<count($video[$idlanguage]);$e++){
+					echo "<INPUT TYPE=\"hidden\" NAME=\"video".$idlanguage."[]\" VALUE=\"".$video[$idlanguage][$e]."\">";
+			}			
 		}
 		
 		

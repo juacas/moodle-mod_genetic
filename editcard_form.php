@@ -1,149 +1,4 @@
-<script type="text/javascript">
-var numero = 0; //Esta es una variable de control para mantener nombres
-            //diferentes de cada campo creado dinamicamente.
-evento = function (evt) { //esta funcion nos devuelve el tipo de evento disparado
-   return (!evt) ? event : evt;
-}
-
-//Aqui se hace lamagia... jejeje, esta funcion crea dinamicamente los nuevos campos 
-addCampo = function (indice) {
-//Creamos un nuevo div para que contenga el nuevo campo
-   nDiv = document.createElement('div');
-//con esto se establece la clase de la div
-   nDiv.className = 'archivo';
-   
-//este es el id de la div, aqui la utilidad de la variable numero
-//nos permite darle un id unico
-   nDiv.id = 'text' + (++numero);
-   
-//creamos el input para el formulario:
-   nCampo = document.createElement('input');
-//le damos un nombre, es importante que lo nombren como vector, pues todos los campos
-//compartiran el nombre en un arreglo, asi es mas facil procesar posteriormente con php
-   nCampo.name = 'remission3[]';
-//Establecemos el tipo de campo
-   nCampo.type = 'text';
- //NUEVOOOOOOOOOOOOOOOOOO
-	ele = document.createElement('select');
-	ele.name = 'rem_type3[]'; 
-	
-   b = document.createElement('option');
-   c = document.createElement('option');
-   d = document.createElement('option');
-   e = document.createElement('option');
-   f = document.createElement('option');
-   g = document.createElement('option');
-   h = document.createElement('option');
-   i = document.createElement('option');
-   j = document.createElement('option');
-   k = document.createElement('option');
-   l = document.createElement('option');
-   m = document.createElement('option');
-   n = document.createElement('option');
-   o = document.createElement('option');
-   p = document.createElement('option');
-   q = document.createElement('option');
-   
-    b.value="";
-    c.value="sin";
-	d.value="fv";
-	e.value="acr";
-    f.value="abr";
-	g.value="abrform";
-	h.value="sci_na";
-    i.value="sim";
-	j.value="diat_var";
-	k.value="diaf_var";
-    l.value="hiper";
-	m.value="hipo";
-	n.value="cohipo";
-    o.value="anton";
-	p.value="reject_form";
-	q.value="obs";
-	
-	
-	
-	
-	 b.innerHTML ="Sin definir";
-	ele.appendChild(b);
-	 c.innerHTML ="Sinonimo";
-	ele.appendChild(c);
-	 d.innerHTML ="Variante formal";
-	ele.appendChild(d);
-	
-	 e.innerHTML ="Acronimo";
-	ele.appendChild(e);
-	 f.innerHTML ="Abreviatura";
-	ele.appendChild(f);
-	 g.innerHTML ="Forma abreviada";
-	ele.appendChild(g);
-	 h.innerHTML ="Nombre cientifico";
-	ele.appendChild(h);
-	 i.innerHTML ="Simbolo";
-	ele.appendChild(i);
-	 j.innerHTML ="Variante diatopica";
-	ele.appendChild(j);
-	 k.innerHTML ="Variante diafasica";
-	ele.appendChild(k);
-	 l.innerHTML ="hiperonimo";
-	ele.appendChild(l);
-	 m.innerHTML ="Hiponimo";
-	ele.appendChild(m);
-	 n.innerHTML ="Cohiponimo";
-	ele.appendChild(n);
-	 o.innerHTML ="Antonimo";
-	ele.appendChild(o);
-	 p.innerHTML ="Forma rechazable";
-	ele.appendChild(p);
-	q.innerHTML ="Termino obsoleto";
-	ele.appendChild(q);
-	
-	
-	
-	nDiv.appendChild(ele); 
-//Ahora creamos un link para poder eliminar un campo que ya no deseemos
-   a = document.createElement('a');
-//El link debe tener el mismo nombre de la div padre, para efectos de localizarla y eliminarla
-   a.name = nDiv.id;
-//Este link no debe ir a ningun lado
-   a.href = '#';
-//Establecemos que dispare esta funcion en click
-   a.onclick = elimCamp;
-//Con esto ponemos el texto del link
-   a.innerHTML = 'Eliminar';
-//Bien es el momento de integrar lo que hemos creado al documento,
-//primero usamos la función appendChild para adicionar el campo file nuevo
-   nDiv.appendChild(nCampo);
-//Adicionamos el Link
-   nDiv.appendChild(a);
- 
-   
-//Ahora si recuerdan, en el html hay una div cuyo id es 'adjuntos', bien
-//con esta función obtenemos una referencia a ella para usar de nuevo appendChild
-//y adicionar la div que hemos creado, la cual contiene el campo  con su link de eliminación:
-   container = document.getElementById('adjuntos');
-   container.appendChild(nDiv);
-
-   
-}
-//con esta función eliminamos el campo cuyo link de eliminación sea presionado
-elimCamp = function (evt){
-   evt = evento(evt);
-   nCampo = rObj(evt);
-   div = document.getElementById(nCampo.name);
-   div.parentNode.removeChild(div);
-
-   
- }
-//con esta función recuperamos una instancia del objeto que disparo el evento
-rObj = function (evt) {
-   return evt.srcElement ?  evt.srcElement : evt.target;
-}
-
- 
-
-</script>
-<?php  // $Id: editcard_form.php, v20 2012/06/15 09:00:00 Ana María Lozano de la Fuente Exp $
+<?php  // $Id: editcard_form.php, v20 2012/06/15 09:00:00 Ana Marï¿½a Lozano de la Fuente Exp $
 /*********************************************************************************
 
 * This file is part of Genetic.
@@ -152,13 +7,13 @@ rObj = function (evt) {
 
 * Designed and directed by the ITAST group (http://www.eduvalab.uva.es/contact)
 
-* Implemented by Ana María Lozano de la Fuente, using the previous software called Terminology, implemented by Irene Fernández Ramírez (2010)
+* Implemented by Ana Marï¿½a Lozano de la Fuente, using the previous software called Terminology, implemented by Irene Fernï¿½ndez Ramï¿½rez (2010)
 
  
 
 * @ copyright (C) 2012 ITAST group
 
-* @ author:  Ana María Lozano de la Fuente, Irene Fernández Ramírez, María Jesús Verdú Pérez, Juan Pablo de Castro Fernández, Luisa M. Regueras Santos,  Elena Verdú Pérez and María Ángeles Pérez Juárez
+* @ author:  Ana Marï¿½a Lozano de la Fuente, Irene Fernï¿½ndez Ramï¿½rez, Marï¿½a Jesï¿½s Verdï¿½ Pï¿½rez, Juan Pablo de Castro Fernï¿½ndez, Luisa M. Regueras Santos,  Elena Verdï¿½ Pï¿½rez and Marï¿½a ï¿½ngeles Pï¿½rez Juï¿½rez
 
 * @ package genetic
 
@@ -199,6 +54,118 @@ rObj = function (evt) {
 	require_once("db_functions.php");
     require_once("lib.php");
 	require_once("selectsubdomains.php");
+?>
+<script type="text/javascript">
+var numero = 0; //Esta es una variable de control para mantener nombres
+            //diferentes de cada campo creado dinamicamente.
+evento = function (evt) { //esta funcion nos devuelve el tipo de evento disparado
+   return (!evt) ? event : evt;
+}
+
+<?php 
+		//To get the strings for the options of the select generated in JS function addCampo
+		$opts=array();
+		$opts["nodefined"] = get_string("nodefined", "genetic");
+		$type_rem = genetic_array_type_rem();
+		for ($k=0; $k<count($type_rem); $k++) {
+				$opts[$type_rem[$k]]=get_string($type_rem[$k], "genetic");
+			}
+		$type_rem_nodefine[0] = "";
+		$type_rem = array_merge($type_rem_nodefine,$type_rem);
+		echo "var optsNames='".join(',',$opts)."';";
+		echo "var optsValues='".join(',',$type_rem)."';"
+?>
+		
+		// JS function that dinamically create fields to input remissions in the form 
+		// idlang is the id of the language and optionsremtype is a string containing the values of the options of the element select separated with commas
+
+
+addCampo = function (idlang) {
+
+	        numero=++document.getElementById('numfieldsremission'+idlang).value;
+			
+			nDiv = document.getElementById('remissions'+idlang); 
+
+			nCampo = document.createElement('input');
+		    nCampo.name = 'remission_'+idlang+"_"+numero;
+		    nCampo.id = 'remission_'+idlang+"_"+numero;
+		    nCampo.type = 'text';
+			nCampo.size=40;
+		 
+			ele = document.createElement('select');
+			ele.name = 'remtype_'+idlang+"_"+numero; 
+			ele.id = 'remtype_'+idlang+"_"+numero;
+			
+			var option_values=optsValues.split(",");
+			var option_names=optsNames.split(",");
+			var lenght_options=option_values.length;
+			var option= new Array(lenght_options);
+
+			for(i=0;i<lenght_options;i++)
+			{
+				option[i]=document.createElement('option');
+				option[i].value=option_values[i];
+				option[i].innerHTML=option_names[i];
+				ele.appendChild(option[i]);
+			}
+
+			br = document.createElement('br');								
+			br.id = 'br_'+idlang+"_"+numero;
+			nDiv.appendChild(br);
+			
+			
+			nDiv.appendChild(ele); 
+
+			nDiv.appendChild(nCampo);
+
+			//Add eliminate button
+			a=document.createElement('a');
+			a.setAttribute("onclick","javascript:deleteRemission("+idlang+","+numero+");");
+			a.id='a_'+idlang+"_"+numero;
+			img=document.createElement('img');
+			img.src="images/delete.svg";
+			img.alt="Delete remission";
+			img.id='deleteimage'+idlang+"_"+numero;
+			a.appendChild(img);
+			nDiv.appendChild(a);
+			
+			//document.getElementById('numfieldsremission'+idlang).value++;
+}
+
+
+deleteRemission = function(idlang,idelement){
+			nDiv = document.getElementById('remissions'+idlang); 
+			remission = document.getElementById('remission_'+idlang+"_"+idelement);
+			remissiontype = document.getElementById('remtype_'+idlang+"_"+idelement);
+			a = document.getElementById('a_'+idlang+"_"+idelement);
+			br =  document.getElementById('br_'+idlang+"_"+idelement);
+			nDiv.removeChild(remission);
+			nDiv.removeChild(remissiontype);
+			nDiv.removeChild(a);
+			nDiv.removeChild(br);
+}
+		
+
+
+		
+//con esta funciï¿½n eliminamos el campo cuyo link de eliminaciï¿½n sea presionado
+elimCamp = function (evt){
+   evt = evento(evt);
+   nCampo = rObj(evt);
+   div = document.getElementById(nCampo.name);
+   div.parentNode.removeChild(div);
+
+   
+ }
+//con esta funciï¿½n recuperamos una instancia del objeto que disparo el evento
+rObj = function (evt) {
+   return evt.srcElement ?  evt.srcElement : evt.target;
+}
+
+ 
+
+</script>
+<?php 
 	
 	// Necessary parameters
     $id = optional_param('id',0,PARAM_INT);
@@ -323,9 +290,10 @@ rObj = function (evt) {
 		$numlang = mysql_affected_rows($link);  //$numlang contains the number of languages in the dictionary
 	
 
-	echo "<TABLE WIDTH=\"100%\">";
+	
 	echo "<FORM NAME=\"editcardform\" METHOD=\"post\" ACTION=\"editcard.php?id=$id\" ENCTYPE=\"multipart/form-data\">";
-		echo "<TR><TD ALIGN=\"center\"><BR />".$str = get_string("commonheaderdata", "genetic")."</TD></TR>";
+	echo "<TABLE WIDTH=\"100%\">";
+	echo "<TR><TD ALIGN=\"center\"><BR />".$str = get_string("commonheaderdata", "genetic")."</TD></TR>";
 		
 		echo "<TR><TD>";
 		print_box_start($classes='generalbox boxaligncenter boxwidthwide', '', $return=false);
@@ -338,39 +306,32 @@ rObj = function (evt) {
 			$result = mysql_query($query,$link);
 			while ($row = mysql_fetch_array($result)) {
 				$flagprint = 0;
-				$queryaux = genetic_show_rel_be($headerni);
+				$idbe=$row['id'];
+				$name=$row['name'];
+				$queryaux = genetic_header_has_be($headerni,$idbe);
 				$resultaux = mysql_query($queryaux,$link);
-				while ($rowaux = mysql_fetch_array($resultaux)) {
-					if ($rowaux['id'] == $row['id']) {
-						echo "<OPTION SELECTED VALUE=\"".$rowaux['id']."\">".$rowaux['name'];
-						$flagprint = 1;
-					}
-				}
-				if ($flagprint !=1) {
+				if(mysql_fetch_array($resultaux)) {
+						echo "<OPTION SELECTED VALUE=\"".$row['id']."\">".$row['name'];
+				}else{
 					echo "<OPTION VALUE=\"".$row['id']."\">".$row['name'];
 				}
 			}
-			echo "</SELECT>
-				  &nbsp;&nbsp;<A href=\"editbe_form.php?id=$id\"><IMG SRC=\"images/Add.gif\" ALT=\"add department\"/></A></TD></TR>";
+			echo "</SELECT>&nbsp;&nbsp;<A href=\"editbe_form.php?id=$id\"><IMG SRC=\"images/Add.gif\" ALT=\"add department\"/></A></TD></TR>";
 		
 			// TY - card type
 			echo "<TR><TD ALIGN=\"right\"><B>".$strty."</B>&nbsp;*</TD>";
 			echo "<TD><SELECT NAME=\"ty\">";			
-			$query = genetic_choose_ty($headerty);
+			$query = genetic_show_ty();
 			$result = mysql_query($query,$link);
-			$row = mysql_fetch_array($result);
-			$namety = $row['name'];			
-				echo "<OPTION VALUE=\"".$headerty."\">".$namety;
-				echo "<OPTION VALUE=\"0\">";
-				echo "<OPTION VALUE=\"0\">".$str = get_string("nodefined", "genetic");				
-				$query = genetic_show_ty();
-				$result = mysql_query($query,$link);
-				$n = mysql_num_rows($result);
-				for ($i=0; $i<$n; $i++) {
-					$row = mysql_fetch_array($result);
-					$idty = $row['id'];
-					$namety = $row['name'];
-					echo "<OPTION VALUE=\"".$idty."\">".$namety;
+			while($row = mysql_fetch_array($result)){
+				$namety = $row['name'];
+				$idty= $row['id'];
+
+				$queryaux=get_ty_headercard($headerni,$idty);
+				$resultaux=mysql_query($queryaux,$link);
+				if(mysql_fetch_array($resultaux)) {
+			 		echo "<OPTION selected VALUE=\"".$idty."\">".$namety;
+				}else{ echo "<OPTION VALUE=\"".$idty."\">".$namety;}
 				}
 			echo "</SELECT>
 				  &nbsp;&nbsp;<A href=\"editty_form.php?id=$id\"><IMG SRC=\"images/Add.gif\" ALT=\"add card type\"/></A></TD></TR>";
@@ -427,34 +388,23 @@ rObj = function (evt) {
 		echo "<TR><TD ALIGN=\"right\"><B>".$strimagenes."</B>&nbsp;</TD>";
 			
 		
-			echo "<TD><SELECT MULTIPLE NAME=\"img[]\">";			
+		echo "<TD><SELECT MULTIPLE NAME=\"imagen[]\">";			
 			$query = genetic_show_im();
 			$result = mysql_query($query,$link);
-			$nimages = mysql_num_rows($result);
-			
+						
 			while ($row = mysql_fetch_array($result)) {
-				$flagprint = 0;
-				
-				$queryaux = genetic_show_images($headerni);
+				$idimg = $row['id'];
+				$nameimg = $row['fileimage'];
+				$queryaux = genetic_get_images_header($headerni,$idimg);
 				$resultaux = mysql_query($queryaux,$link);
-			
-				while ($rowaux = mysql_fetch_array($resultaux)) {
-					if ($rowaux['id'] == $row['id']) {
-					
-						if($rowaux['titleimage_de']!='')
-						{
-						echo "<OPTION SELECTED VALUE=\"".$rowaux['id']."\">".$rowaux['titleimage_de'];
+			    if(mysql_fetch_array($resultaux)) {
+						echo "<OPTION SELECTED VALUE=\"".$idimg."\">".$nameimg;
+						}else{
+						echo "<OPTION VALUE=\"".$idimg."\">".$nameimg;
 						}
-						else{
-						echo "<OPTION SELECTED VALUE=\"".$rowaux['id']."\">".$rowaux['fileimage'];
-						}
-						$flagprint = 1;
 					}
-				}
-				if ($flagprint !=1) {
-					echo "<OPTION VALUE=\"".$row['id']."\">".$row['titleimage_de'];
-				}
-			}
+				
+			
 			echo "</SELECT>
 				  &nbsp;&nbsp;<A href=\"editim_form.php?id=$id\"><IMG SRC=\"images/Add.gif\" ALT=\"add images\"/></A></TD>";
 
@@ -492,12 +442,18 @@ rObj = function (evt) {
 			
 			
 			//LOOP FOR THE CARDS     $numlang= number of languages of the dictionary
-			for($z=0;$z<$numlang;$z++){
+			
+		//Repite the card the number of languages of the dictionary
+		$j=-1;
+		while($langrow = mysql_fetch_array($resultlang)){
+			$j++;
+				
+			//for($z=0;$z<$numlang;$z++){
 		
 				echo "<INPUT TYPE=\"hidden\" NAME=\"ncards\" VALUE=\"".$ncards."\">"; //evp number of current cards for that term
 				
 				//Search which languages contains the dictionary  $lagrow contains an array with the rows of the DB for each language existing 
-				$langrow = mysql_fetch_array($resultlang); //evp vamos recorriendo los lenguajes
+				//$langrow = mysql_fetch_array($resultlang); //evp vamos recorriendo los lenguajes
 				$idlang = $langrow['genetic_lang_id']; //id of language
 				$query2 =genetic_search_lang_name($idlang);
 				$result2 = mysql_query($query2,$link); //a select regturnign id and name of the languge
@@ -506,40 +462,36 @@ rObj = function (evt) {
 							
 				// Language 1
 			
-				//!!!! se están recorriendo los cards y los idiomas en el for independientemente de su relación, cada card debe ser presentada en su idioma con su bandera
-				// entonces si sólo hay dos card, se presentan en el orden que aparecen en la base de datos y aparecen correpondidos en el formulario con los idiomas también según aparecen en la base de datos y pueden claro no coincidir
-				
-				//posibilidad, voy recorriendo los idiomas, y buscando para cada uno si hay tarjeta de esa ficha
-				
-				// Remove '\' and save result
+			// Remove '\' and save result
 				$queryc = genetic_show_cards2($headerni,$namelang); //take the card corresponding to the language
 				$resultc = mysql_query($queryc,$link);
 				$cardrow = mysql_fetch_array($resultc); //evp only one result as there is one card per language
-				$cardrowid = stripslashes($cardrow['id']);
-				$cardrowisolang = stripslashes($cardrow['isolang']); //name of the language for this card
-				$cardrowterm = stripslashes($cardrow['term']);
-				$cardrowgramcat = stripslashes($cardrow['gramcat']);
-				$cardrowdefinition = stripslashes($cardrow['definition']);
-				$cardrowcontext = stripslashes($cardrow['context']);
-				$cardrowexpression = stripslashes($cardrow['expression']);
-				$cardrownotes = stripslashes($cardrow['notes']);
-				$cardrowweight=stripslashes($cardrow['weighting_mark']);
 				
+					$cardrowid = stripslashes($cardrow['id']);
+					$cardrowisolang = stripslashes($cardrow['isolang']); //name of the language for this card
+					$cardrowterm = stripslashes($cardrow['term']);
+					$cardrowgramcat = stripslashes($cardrow['gramcat']);
+					$cardrowdefinition = stripslashes($cardrow['definition']);
+					$cardrowcontext = stripslashes($cardrow['context']);
+					$cardrowexpression = stripslashes($cardrow['expression']);
+					$cardrownotes = stripslashes($cardrow['notes']);
+					$cardrowweight=stripslashes($cardrow['weighting_mark']);
+								
 		
 			// Term (VE)
-			echo "<TR><TD ROWSPAN=\"13\" VALIGN=\"top\"><INPUT TYPE=\"hidden\" NAME=\"isolang[]\" VALUE=\"".$namelang."\">";
+			echo "<TR><TD ROWSPAN=\"13\" VALIGN=\"top\"><INPUT TYPE=\"hidden\" NAME=\"isolang$idlang\" VALUE=\"".$namelang."\">";
 			//echo "<IMG SRC=\"images/".$cardrowisolang.".png\">";
-			echo "<INPUT TYPE=\"hidden\" NAME=\"cardid[]\" VALUE=\"".$cardrowid."\"></TD>";
+			echo "<INPUT TYPE=\"hidden\" NAME=\"cardid$idlang\" VALUE=\"".$cardrowid."\"></TD>";
 			echo "<TD ALIGN=\"right\"><IMG SRC=\"images/".$namelang.".png\">&nbsp;&nbsp;&nbsp;<B>".$strterm."</B>&nbsp;*</TD>"; 
-			echo "<TD COLSPAN=\"2\"><INPUT TYPE=\"text\" NAME=\"termino[]\" SIZE=\"50\" VALUE=\"".$cardrowterm."\"></TD></TR>";
+			echo "<TD COLSPAN=\"2\"><INPUT TYPE=\"text\" NAME=\"termino$idlang\" SIZE=\"50\" VALUE=\"".$cardrowterm."\"></TD></TR>";
 			
 		
 			// Gramatic category (gramcat)
 			
 			echo "<TR><TD ALIGN=\"right\"><B>".$strgramcat."</B>&nbsp;*</TD>";
-			echo "<TD COLSPAN=\"2\"><SELECT NAME=\"gramcat[]\">";
+			echo "<TD COLSPAN=\"2\"><SELECT NAME=\"gramcat$idlang\">";
 				echo "<OPTION VALUE=\"\">".$str = get_string("nodefined", "genetic");
-				$gramcat = genetic_array_gramcat();
+				$gramcat = genetic_array_gramcat($namelang);
 				for ($i=0; $i<count($gramcat); $i++) {
 					if ($gramcat[$i] == $cardrowgramcat) {
 						echo "<OPTION SELECTED VALUE=\"".$gramcat[$i]."\">".$gramcat[$i];
@@ -552,26 +504,26 @@ rObj = function (evt) {
 			
 			// Definition (DF)
 			echo "<TR><TD VALIGN=\"top\" ALIGN=\"right\"><B>".$strdefinition."</B>&nbsp;*</TD>";
-			echo "<TD COLSPAN=\"2\"><TEXTAREA NAME=\"definition[]\" ROWS=\"2\" COLS=\"70\" WRAP=\"soft\">".$cardrowdefinition."</TEXTAREA></TD></TR>";
+			echo "<TD COLSPAN=\"2\"><TEXTAREA NAME=\"definition$idlang\" ROWS=\"2\" COLS=\"70\" WRAP=\"soft\">".$cardrowdefinition."</TEXTAREA></TD></TR>";
 			
 			// Context (CT)
 			echo "<TR><TD VALIGN=\"top\" ALIGN=\"right\"><B>".$strcontext."</B>&nbsp;*</TD>";
-			echo "<TD COLSPAN=\"2\"><TEXTAREA NAME=\"context[]\" ROWS=\"2\" COLS=\"70\" WRAP=\"soft\">".$cardrowcontext."</TEXTAREA></TD></TR>";
+			echo "<TD COLSPAN=\"2\"><TEXTAREA NAME=\"context$idlang\" ROWS=\"2\" COLS=\"70\" WRAP=\"soft\">".$cardrowcontext."</TEXTAREA></TD></TR>";
 			
 			// Expression (PH)
 			echo "<TR><TD VALIGN=\"top\" ALIGN=\"right\"><B>".$strexpression."</B>&nbsp;</TD>";
-			echo "<TD COLSPAN=\"2\"><TEXTAREA NAME=\"expression[]\" ROWS=\"2\" COLS=\"70\" WRAP=\"soft\">".$cardrowexpression."</TEXTAREA></TD></TR>";
+			echo "<TD COLSPAN=\"2\"><TEXTAREA NAME=\"expression$idlang\" ROWS=\"2\" COLS=\"70\" WRAP=\"soft\">".$cardrowexpression."</TEXTAREA></TD></TR>";
 			
 			
 			
 			// Notes (NT)
 			echo "<TR><TD VALIGN=\"top\" ALIGN=\"right\"><B>".$strnotes."</B>&nbsp;</TD>";
-			echo "<TD COLSPAN=\"2\"><TEXTAREA NAME=\"notes[]\" ROWS=\"2\" COLS=\"70\" WRAP=\"soft\">".$cardrownotes."</TEXTAREA></TD></TR>";
+			echo "<TD COLSPAN=\"2\"><TEXTAREA NAME=\"notes$idlang\" ROWS=\"2\" COLS=\"70\" WRAP=\"soft\">".$cardrownotes."</TEXTAREA></TD></TR>";
 			
 			// weighting mark
 			
 			echo "<TR><TD ALIGN=\"right\"><B>".$strwm."</B>&nbsp;</TD>";
-			echo "<TD COLSPAN=\"2\"><SELECT NAME=\"weight_type[]\">";
+			echo "<TD COLSPAN=\"2\"><SELECT NAME=\"weight_type$idlang\">";
 				echo "<OPTION VALUE=\"\">".$str = get_string("nodefined", "genetic");
 				$weighting_mark = genetic_array_weighting_mark();
 				for ($i=0; $i<count($weighting_mark); $i++) {
@@ -607,167 +559,116 @@ rObj = function (evt) {
 			
 			// Sources Language 1
 			echo "<TR><TD ROWSPAN=\"6\" VALIGN=\"top\" ALIGN=\"right\"><B>".$strsources."</B>&nbsp;</TD>";
-			echo "<TD>".$strterm."&nbsp;</TD><TD><INPUT TYPE=\"text\" NAME=\"sourceterm[]\" SIZE=\"63\" VALUE=\"".$sourcerowterm."\"></TD></TR>";
-			echo "<TR><TD>".$strdefinition."&nbsp;</TD><TD><INPUT TYPE=\"text\" NAME=\"sourcedefinition[]\" SIZE=\"63\" VALUE=\"".$sourcerowdefinition."\"></TD></TR>";
+			echo "<TD>".$strterm."&nbsp;</TD><TD><INPUT TYPE=\"text\" NAME=\"sourceterm$idlang\" SIZE=\"63\" VALUE=\"".$sourcerowterm."\"></TD></TR>";
+			echo "<TR><TD>".$strdefinition."&nbsp;</TD><TD><INPUT TYPE=\"text\" NAME=\"sourcedefinition$idlang\" SIZE=\"63\" VALUE=\"".$sourcerowdefinition."\"></TD></TR>";
 
-			echo "<TR><TD>".$strcontext."&nbsp;</TD><TD><INPUT TYPE=\"text\" NAME=\"sourcecontext[]\" SIZE=\"63\"></TD></TR>";
+			echo "<TR><TD>".$strcontext."&nbsp;</TD><TD><INPUT TYPE=\"text\" NAME=\"sourcecontext$idlang\"  SIZE=\"63\" VALUE=\"".$sourcerowcontext."\"></TD></TR>";
 
-			echo "<TR><TD>".$strexpression."&nbsp;</TD><TD><INPUT TYPE=\"text\" NAME=\"sourceexpression[]\" SIZE=\"63\"></TD></TR>";
+			echo "<TR><TD>".$strexpression."&nbsp;</TD><TD><INPUT TYPE=\"text\" NAME=\"sourceexpression$idlang\" SIZE=\"63\" VALUE=\"".$sourcerowexpression."\"></TD></TR>";
 
-			echo "<TR><TD>".$strrv."&nbsp;</TD><TD><INPUT TYPE=\"text\" NAME=\"sourcerv[]\" SIZE=\"63\"></TD></TR>";
+			echo "<TR><TD>".$strrv."&nbsp;</TD><TD><INPUT TYPE=\"text\" NAME=\"sourcerv$idlang\" SIZE=\"63\" VALUE=\"".$sourcerowrv."\"></TD></TR>";
 			
-			echo "<TR><TD>".$strnotes."&nbsp;</TD><TD><INPUT TYPE=\"text\" NAME=\"sourcenotes[]\" SIZE=\"63\" VALUE=\"".$sourcerownotes."\"></TD></TR>";
+			echo "<TR><TD>".$strnotes."&nbsp;</TD><TD><INPUT TYPE=\"text\" NAME=\"sourcenotes$idlang\" SIZE=\"63\" VALUE=\"".$sourcerownotes."\"></TD></TR>";
 			
-			// Referrals (RV)
-			$queryrem = genetic_show_remissions($cardrowid);
+			//Referrals (RV)
+			echo "<TR><TD></TD><TD ALIGN=\"right\"><NOBR><B>".$strrv."</B></NOBR>&nbsp;</TD>";
+			echo "<TD COLSPAN=\"2\">";
+			
+			$queryrem = genetic_show_remissions($cardrowid); //select the remissions for a card
 			$results = mysql_query($queryrem, $link);
 			$nrem= mysql_num_rows($results);
-			
-			echo "<INPUT TYPE=\"hidden\" NAME=\"nrem\" VALUE=\"".$nrem."\">";
-			
-			if($nrem!=0){
-			
-				while($remrow = mysql_fetch_array($results)){
-					echo "<TR><TD></TD><TD ALIGN=\"right\"><NOBR><B>".$strrv."</B></NOBR>&nbsp;</TD>";
-			
-					// Remove '\' from the entries and allow them in variables
-					$cardrowremty = stripslashes($remrow['rem_type']);
-					$cardrowrem = stripslashes($remrow['remission']);
 						
-					
-					
-					echo "<TD COLSPAN=\"2\"><SELECT NAME=\"rem_type[]\">";
-					echo "<OPTION VALUE=\"\">".$str = get_string("nodefined", "genetic");
-					$type_rem = genetic_array_type_rem();
-					for ($i=0; $i<count($type_rem); $i++) {
-						if ($type_rem[$i] == $cardrowremty) {
-						echo "<OPTION SELECTED VALUE=\"".$type_rem[$i]."\">".get_string($type_rem[$i],"genetic");
-						}
-						else {
-						echo "<OPTION VALUE=\"".$type_rem[$i]."\">".get_string($type_rem[$i],"genetic");
+			echo "<fieldset><legend>$strrv</legend>";
+			echo "<div id=\"remissions$idlang\">";
+			$z=1;
+			while($remrow = mysql_fetch_array($results)){
+				$cardrowremty = stripslashes($remrow['rem_type']);
+				$cardrowrem = stripslashes($remrow['remission']);
+				echo "<SELECT ID=\"remtype_".$idlang."_".$z."\" NAME=\"remtype_".$idlang."_$z\" id=\"selector\">";
+				$type_rem = genetic_array_type_rem();
+					for ($k=0; $k<count($type_rem); $k++) {
+						if($type_rem[$k]==$cardrowremty){
+							echo "<OPTION VALUE=\"".$type_rem[$k]."\" selected>".$str = get_string($type_rem[$k], "genetic");}
+						else{
+							echo "<OPTION VALUE=\"".$type_rem[$k]."\">".$str = get_string($type_rem[$k], "genetic");
 						}
 					}
-		
-				echo "</SELECT><INPUT TYPE=\"text\" NAME=\"remission[]\" SIZE=\"40\" VALUE=\"".$cardrowrem."\"></TD></TR>";	
-				}
-			}
-			
-			
-			//New referrals to add
-			echo "<TR><TD></TD><TD ALIGN=\"right\"><NOBR><B>".$strrv."</B></NOBR>&nbsp;</TD>";
-				echo "<TD><div align=\"center\" id=\"adjuntos2\">";
-			echo "<TD COLSPAN=\"2\"><SELECT NAME=\"rem_type2[]\" id= \"selector\">";
-				echo "<OPTION VALUE=\"\">".$str = get_string("nodefined", "genetic");
-				$type_rem = genetic_array_type_rem();
-				for ($k=0; $k<count($type_rem); $k++) {
-					echo "<OPTION VALUE=\"".$type_rem[$k]."\">".$str = get_string($type_rem[$k], "genetic");
-				}
 				
-			echo "</SELECT>";
-			//echo "</div>";
-			//echo "<div align=\"center\" id=\"adjuntos\" >";
-			echo"<INPUT TYPE=\"text\" NAME=\"remission2[]\" SIZE=\"40\"><a href=\"#?id=$id&numrem=$z\" onClick=\"addCampo()\"><IMG SRC=\"images/Add.gif\" ALT=\"add remission\"/></a></TD></TR>";	
-			
+				echo "</SELECT>";
+
+				echo"<INPUT TYPE=\"text\" NAME=\"remission_".$idlang."_".$z."\" ID=\"remission_".$idlang."_$z\" value=\"".$cardrowrem."\" SIZE=\"40\">";
+				echo"<a id=\"a_".$idlang."_$z\" onClick=\"deleteRemission($idlang,$z);\"><IMG SRC=\"images/delete.svg\" ALT=\"Delete remission\"/></a>";
+				echo"<br id=\"br_".$idlang."_$z\">";
+				$z++;
+			} // end while
 			echo "</div>";
-			if($z==$numrem){
-			echo "<TR><TD></TD><TD></TD><TD ALIGN=\"right\"><div id=\"adjuntos\" name=\"adjuntos[]\"></TD></TR>";
-			}
-			echo "</div>";
+			echo "</fieldset>";
+			echo "<a onClick=\"addCampo($idlang);\"><IMG SRC=\"images/Add.gif\" ALT=\"add remission\"/></a></TD></TR>";
+			echo "<INPUT TYPE=\"hidden\" NAME=\"numfieldsremission$idlang\" ID=\"numfieldsremission$idlang\" VALUE=\"$nrem\">";
 			
 			
-				  // Añadir los archivos de audio 
+			
+			echo "<TR><TD COLSPAN=\"20\"><BR /></TD></TR>";
+			
+			
+				  // Aï¿½adir los archivos de audio 
 			
 			echo "<TD ALIGN=\"right\"><B>".$straudio."</B>&nbsp;</TD>";
 			
-			echo "<TD><SELECT MULTIPLE NAME=\"audio[][]\" >";
+			echo "<TD><SELECT MULTIPLE NAME=\"audio".$idlang."[]\" >";
 				$query = genetic_show_audio_files($namelang);
 				$result = mysql_query($query,$link);
 				$noaudio= true;
-				while ($row = mysql_fetch_array($result)) {
-				$noudio=false;
-				$flagprint = 0;
-				$queryaux = genetic_show_audio($cardrowid);
-				$resultaux = mysql_query($queryaux,$link);
-				while ($rowaux = mysql_fetch_array($resultaux)) {
-					if ($rowaux['genetic_audio_id'] == $row['id']) {
-						echo "<OPTION SELECTED VALUE=\"".$rowaux['genetic_audio_id']."\">".$row['fileaudio'];
-						$flagprint = 1;
-					}
+				while ($row = mysql_fetch_array($result)) {  //row for all audios of the language
+					$queryaux = genetic_is_audio_incard($cardrowid,$row['id']);
+					$resultaux = mysql_query($queryaux,$link);
+					
+					if($rowaux = mysql_fetch_array($resultaux)) { //rowaux for the audios of that card
+							echo "<OPTION SELECTED VALUE=\"".$row['id']."\">".$row['fileaudio'];
+							$noaudio=false;
+						}else{
+							echo "<OPTION  VALUE=\"".$row['id']."\">".$row['fileaudio'];
+						} 
 				}
-				if ($flagprint !=1) {
-					echo "<OPTION VALUE=\"".$row['id']."\">".$row['fileaudio'];
-				}
-
-				}//evp if no file of audio is found, leave the values empty
+				//evp if no file of audio is found, leave the values empty
 				if($noaudio){
-					echo "<OPTION VALUE=\"\">";
+					echo "<OPTION selected VALUE=\"0\">".$str = get_string("nodefined", "genetic");
+				}else{
+					echo "<OPTION VALUE=\"0\">".$str = get_string("nodefined", "genetic");
 				}
 			echo "</SELECT>
 				  &nbsp;&nbsp;<A href=\"editau_form.php?id=$id\"><IMG SRC=\"images/Add.gif\" ALT=\"add audio file\"/></A></TD></TR>";
 				  
-						//Terminos de relacion cruzada
-
-				/*
-				echo "<TD ALIGN=\"right\"><B>".$strcrossrelatedterms."</B>&nbsp;</TD>";
-			
-		
-			echo "<TD><SELECT MULTIPLE NAME=\"crossrel[][]\">";			
-			$query = genetic_show_crossrelated($cardrowisolang);
-			$result = mysql_query($query,$link);
-			while ($row = mysql_fetch_array($result)) {
-				$flagprint = 0;
-				$queryaux = genetic_show_crossrelations($cardrowidremissions,$cardrowid);
-				$resultaux = mysql_query($queryaux,$link);
-				while ($rowaux = mysql_fetch_array($resultaux)) {
-					if ($rowaux['id'] == $row['id']) {
-						echo "<OPTION SELECTED VALUE=\"".$rowaux['id']."\">".$rowaux['name'];
-						$flagprint = 1;
-					}
-				}
-				if ($flagprint !=1) {
-					echo "<OPTION VALUE=\"".$row['id']."\">".$row['name'];
-				}
-			}
-			echo "</SELECT>
-				  &nbsp;&nbsp;<A href=\"editcr_form.php?id=$id\"><IMG SRC=\"images/Add.gif\" ALT=\"add crossrelated term\"/></A></TD></TR>";
-				  
-			  
-				*/  
-				  	
-			
+								
 				  	 //Videos
 
 				
 				echo "<TD ALIGN=\"right\"><B>".$strvideos."</B>&nbsp;</TD>";
 			
 		
-			echo "<TD><SELECT MULTIPLE NAME=\"video[][]\">";			
+			echo "<TD><SELECT MULTIPLE NAME=\"video".$idlang."[]\">";			
 			$query = genetic_show_vi();
 			$result = mysql_query($query,$link);
-			
+			$novideo = true;
 			
 			while ($row = mysql_fetch_array($result)) {
-				$flagprint = 0;
-				$queryaux = genetic_show_videos($cardrowid);
+				$queryaux = genetic_is_video_incard($cardrowid,$row['id']);
 				$resultaux = mysql_query($queryaux,$link);
-			
-				while ($rowaux = mysql_fetch_array($resultaux)) {
-					if ($rowaux['id'] == $row['id']) {
-					
-						if($rowaux['titlevideo_de']!='')
-						{
-						echo "<OPTION SELECTED VALUE=\"".$rowaux['id']."\">".$rowaux['titlevideo_de'];
-						}
-						else{
-						echo "<OPTION SELECTED VALUE=\"".$rowaux['id']."\">".$rowaux['filevideo'];
-						}
-						$flagprint = 1;
-					}
-				}
-				if ($flagprint !=1) {
-					echo "<OPTION VALUE=\"".$row['id']."\">".$row['titlevideo_de'];
+				if($rowaux = mysql_fetch_array($resultaux)) { //rowaux for the audios of that card
+					echo "<OPTION SELECTED VALUE=\"".$row['id']."\">".$row['filevideo'];
+					$novideo=false;
+				}else{
+					echo "<OPTION  VALUE=\"".$row['id']."\">".$row['filevideo'];
 				}
 			}
+				//evp if no file of video is found, leave the values empty
+			if($novideo){
+				echo "<OPTION selected VALUE=\"0\">".$str = get_string("nodefined", "genetic");
+			}else{
+				echo "<OPTION VALUE=\"0\">".$str = get_string("nodefined", "genetic");
+			}
+				
+				
 			echo "</SELECT>
 				  &nbsp;&nbsp;<A href=\"editvi_form.php?id=$id\"><IMG SRC=\"images/Add.gif\" ALT=\"add videos\"/></A></TD></TR>";
 				  
@@ -792,7 +693,7 @@ rObj = function (evt) {
 		echo "<INPUT TYPE=\"button\" VALUE=\"".$str = get_string("cancel", "genetic")."\" NAME=\"buttoncancel\" onClick=\"location.href='view.php?id=$id'\"/>";
 		echo "</TD></TR>";
 
-	echo "</FORM></TABLE>";	
+	echo "</TABLE></FORM>";	
 	
 	// Close the db    
 	mysql_close($link);

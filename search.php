@@ -1,4 +1,4 @@
-<?php  // $Id: search.php,v 2.0 2012/06/25 10:45:00 Ana María Lozano de la Fuente Exp $
+<?php  // $Id: search.php,v 2.0 2012/06/25 10:45:00 Ana Marï¿½a Lozano de la Fuente Exp $
 /*********************************************************************************
 
 * This file is part of Genetic.
@@ -7,13 +7,13 @@
 
 * Designed and directed by the ITAST group (http://www.eduvalab.uva.es/contact)
 
-* Implemented by Ana María Lozano de la Fuente, using the previous software called Terminology, implemented by Irene Fernández Ramírez (2010)
+* Implemented by Ana Marï¿½a Lozano de la Fuente, using the previous software called Terminology, implemented by Irene Fernï¿½ndez Ramï¿½rez (2010)
 
  
 
 * @ copyright (C) 2012 ITAST group
 
-* @ author:  Ana María Lozano de la Fuente, Irene Fernández Ramírez, María Jesús Verdú Pérez, Juan Pablo de Castro Fernández, Luisa M. Regueras Santos,  Elena Verdú Pérez and María Ángeles Pérez Juárez
+* @ author:  Ana Marï¿½a Lozano de la Fuente, Irene Fernï¿½ndez Ramï¿½rez, Marï¿½a Jesï¿½s Verdï¿½ Pï¿½rez, Juan Pablo de Castro Fernï¿½ndez, Luisa M. Regueras Santos,  Elena Verdï¿½ Pï¿½rez and Marï¿½a ï¿½ngeles Pï¿½rez Juï¿½rez
 
 * @ package genetic
 
@@ -1350,7 +1350,7 @@
 				$headerrowni = stripslashes($headerrow['id']);
 				$headerrowty = stripslashes($headerrow['ty']);
 				$headerrowdate = date("j F Y", $headerrow['datecreated']);
-				//---Añadido----
+				//---Aï¿½adido----
 				
 				
 				// Make queries for numerical fields				
@@ -1555,7 +1555,7 @@
 						}
 							
 						*/	
-						// ---añadido---GET THE IMAGES  
+						// ---aï¿½adido---GET THE IMAGES  
 						
 						$query2 = genetic_show_images($headerrowni);
 						$resultc2 = mysql_query($query2, $link);
@@ -1568,7 +1568,7 @@
 						echo"<TR><TD><IMG SRC=\"images/Picture.gif\"><B>".$strimagenes."</B></TD><TD></TD><TD><B>".$strsrc."</TD></TR>";
 						while($cardrow3 = mysql_fetch_array($resultc2))
 						{
-						//---añadido---mostrar imagenes
+						//---aï¿½adido---mostrar imagenes
 						
 						
 						if($cardrowisolang=='es')
@@ -1626,17 +1626,19 @@
 							//echo "<BR>";
 							
 							
-						// ---añadido---GET THE VIDEOS  
+						// ---aï¿½adido---GET THE VIDEOS  
+						$ncards4=0;
 						$query4 = genetic_show_videos($cardrowid);
 						$resultc4 = mysql_query($query4, $link);
 						$ncards4 = mysql_num_rows($resultc4);
 						echo "<BR>";
 						if($ncards4!=0){
 						      //ncard3 seria el numero de videos de cada termino
-						echo"<TR><TD><B>".$strvideos."</B></TD><TD><B>".$straudio.":</TD><TD><B>".$strsrc."</TD></TR>";
+						echo"<TR><TD><B>$strvideos</TD></TR>";
+						echo"<TR><TD><B><i> </B></TD><TD><B><i>".$strtitle_video.":</TD><TD><B><i>".$strlang.":</TD><TD><B><i>".$strsrc."</TD></TR>";
 						while($cardrow4 = mysql_fetch_array($resultc4))
 						{
-						//---añadido---mostrar videos
+						//---aï¿½adido---mostrar videos
 							
 						$cardrowfile_video = stripslashes($cardrow4['filevideo']);
 						if($cardrowisolang=='es')
@@ -1662,34 +1664,36 @@
 					
 						$rutaDestino='http://localhost/moodle/file.php/'.$COURSE->id.'/video/'.$cardrowfile_video;
 						
-							if($cardrowtitle_video!=''){
-							echo "<TR><NOBR><TD><IMG SRC=\"images/Movie.gif\"><A HREF=".$rutaDestino." target=\"blank\" >".$cardrowtitle_video."</A></NOBR></TD>";		
-							}
-							else{
-							echo "<TR><TD><IMG SRC=\"images/Movie.gif\"><A HREF=".$rutaDestino." target=\"blank\" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$cardrowfile_video."</A></TD>";	
-							}
+						echo "<TR><NOBR><TD><IMG SRC=\"images/Movie.gif\"><A HREF=".$rutaDestino." target=\"blank\" >".$cardrowfile_video."</A></NOBR></TD>";
+								
+						echo "<td>".$cardrowtitle_video."</A></NOBR></TD>";		
+						
+							
 						echo"<TD>&nbsp;".$cardrowlang_video."</TD>";	
 						echo"<TD>&nbsp;".$cardrowsrc_video."</TD></TR>";
 						}
 						}
 						
 						//AUDIO FILES
+						$ncardsaudio=0;
+						$queryaudio = genetic_show_audio($cardrowid);
+						$resultaudio = mysql_query($queryaudio, $link);
+						$ncardsaudio = mysql_num_rows($resultaudio);
+						//$cardrowaudio = mysql_fetch_array($resultaudio);
+						if($ncardsaudio!=0){
+							echo"<TR><TD><B>".$straudio.":</B></TD></tr><tr><td> </td><TD><B><i>".$strsources."</B> : </TD></TR>";
+						}
 						
-						$query4 = genetic_show_audio($cardrowid);
-						$resultc4 = mysql_query($query4, $link);
-						$ncards4 = mysql_num_rows($resultc4);
-						$cardrow4 = mysql_fetch_array($resultc4);
-						
-						if($ncards4!=0){
+						while($cardrow4 = mysql_fetch_array($resultaudio)){
 						  
-							//---añadido---mostrar archivo audio
+							//---aï¿½adido---mostrar archivo audio
 							
 							$cardrowidaudio = stripslashes($cardrow4['genetic_audio_id']);
-							if($cardrowidaudio!=0){echo"<TR><TD><B>".$straudio.":</B></TD><TD><B>".$strsources."</B> : </TD></TR>";}
 							
-							$query4 = genetic_show_audio_id($cardrowidaudio);
-							$resultc4 = mysql_query($query4, $link);
-							while($cardrow4 = mysql_fetch_array($resultc4))
+							
+							$queryaudioid = genetic_show_audio_id($cardrowidaudio);
+							$resultaudioid = mysql_query($queryaudioid, $link);
+							while($cardrow4 = mysql_fetch_array($resultaudioid))
 							{
 							$cardrowsrcaudio = stripslashes($cardrow4['srcaudio']);
 							$cardrowaudioname = stripslashes($cardrow4['fileaudio']);
@@ -1698,7 +1702,7 @@
 							//$rutaDestino=$rutaEnServidor.'/'.$cardrow4['fileaudio'];
 							$rutaDestino='http://localhost/moodle/file.php/'.$COURSE->id.'/audio/'.$cardrowaudioname;
 							
-							echo "<TR><NOBR><TD><IMG SRC=\"images/Sound.gif\"><A HREF=".$rutaDestino." target=\"blank\" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$cardrowaudioname."</A></TD><TD></TD></NOBR><TD>".$cardrowsrcaudio."</TD></TR>";		
+							echo "<TR><NOBR><TD><IMG SRC=\"images/Sound.gif\"><A HREF=".$rutaDestino." target=\"blank\" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$cardrowaudioname."</A></TD></NOBR><TD>".$cardrowsrcaudio."</TD></TR>";		
 							
 							}
 						
@@ -1724,7 +1728,7 @@
 						if($numero!=0){
 									
 								while($cardrow6 = mysql_fetch_array($resultado)){
-									//---añadido---mostrar crossrelations
+									//---aï¿½adido---mostrar crossrelations
 						
 									$cardrowcross = stripslashes($cardrow6['term']);
 									$cardrowcross_link = stripslashes($cardrow6['isolang']);
@@ -1751,7 +1755,7 @@
 						  if($numeroref!=0){
 								echo"<TR><TD><B>".$strrem.":</B></TD></TR>";	
 								while($cardrowref = mysql_fetch_array($resultadoref)){
-									//---añadido---mostrar crossrelations
+									//---aï¿½adido---mostrar crossrelations
 						
 									$cardrowref = stripslashes($cardrowref['rem_type']);
 									
@@ -2027,7 +2031,7 @@
 						
 						// INCLUSION CODIGO POR TERMINO
 						
-						// ---añadido---GET THE IMAGES  
+						// ---aï¿½adido---GET THE IMAGES  
 						
 						$query2 = genetic_show_images($headerrowni);
 						$resultc2 = mysql_query($query2, $link);
@@ -2040,7 +2044,7 @@
 						echo"<TR><TD><IMG SRC=\"images/Picture.gif\"><B>".$strimagenes."</B></TD><TD></TD><TD><B>".$strsrc."</TD></TR>";
 						while($cardrow3 = mysql_fetch_array($resultc2))
 						{
-						//---añadido---mostrar imagenes
+						//---aï¿½adido---mostrar imagenes
 						
 						
 						if($cardrowisolang=='es')
@@ -2086,7 +2090,7 @@
 							echo "<BR>";
 							
 							
-						// ---añadido---GET THE VIDEOS  
+						// ---aï¿½adido---GET THE VIDEOS  
 						$query4 = genetic_show_videos($cardrowid);
 						$resultc4 = mysql_query($query4, $link);
 						$ncards4 = mysql_num_rows($resultc4);
@@ -2095,7 +2099,7 @@
 						echo"<TR><TD><B>".$strvideos."</B></TD><TD><B>".$straudio."</TD><TD><B>".$strsrc."</TD></TR>";
 						while($cardrow4 = mysql_fetch_array($resultc4))
 						{
-						//---añadido---mostrar videos
+						//---aï¿½adido---mostrar videos
 							
 						$cardrowfile_video = stripslashes($cardrow4['filevideo']);
 						if($cardrowisolang=='es')
@@ -2143,7 +2147,7 @@
 						
 						      //ncard4 seria el numero de archivos de audio de cada termino
 							//echo"<TR><TD><B>".$straudio.":</B></TD></TR>";
-							//---añadido---mostrar archivo audio
+							//---aï¿½adido---mostrar archivo audio
 							
 							$cardrowidaudio = stripslashes($cardrow4['genetic_audio_id']);
 							if($cardrowidaudio!=0){echo"<TR><TD><B>".$straudio.":</B></TD></TR>";}
@@ -2182,7 +2186,7 @@
 						if($numero!=0){
 									
 								while($cardrow6 = mysql_fetch_array($resultado)){
-									//---añadido---mostrar crossrelations
+									//---aï¿½adido---mostrar crossrelations
 						
 									$cardrowcross = stripslashes($cardrow6['term']);
 									$cardrowcross_link = stripslashes($cardrow6['isolang']);
@@ -2211,7 +2215,7 @@
 								echo"<TR><TD><B>".$strrem.":</B></TD></TR>";	
 								while($cardrowref = mysql_fetch_array($resultadoref)){
 								
-									//---añadido---mostrar crossrelations
+									//---aï¿½adido---mostrar crossrelations
 						
 									$cardrowref = stripslashes($cardrowref['rem_type']);
 									

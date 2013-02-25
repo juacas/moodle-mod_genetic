@@ -1,4 +1,4 @@
-<?php  // $Id: projectmanagement.php,v 1.0 2012/06/11 18:11:00 Ana María Lozano de la Fuente Exp $
+<?php  // $Id: projectmanagement.php,v 1.0 2012/06/11 18:11:00 Ana Marï¿½a Lozano de la Fuente Exp $
 /**
  * Library of functions and constants for module terminology
  * This file should have two well differenced parts:
@@ -31,11 +31,11 @@ function genetic_add_instance($genetic) {
     echo "ADD INSTANCE CALLED";
     print_object($genetic);
     
-	//Si añadimos campos en mod_form, evaluar aqui si se marcaron o por defecto se definen aqui
+	//Si aï¿½adimos campos en mod_form, evaluar aqui si se marcaron o por defecto se definen aqui
 	//(ejemplo, lib de glossary)
 	
-	//insert_record($genetic_lang, $language, $returnid=true, $primarykey=’id’);
-	//$genetic->insert_record("genetic_lang", $language, $returnid=true, $primarykey=’id’);
+	//insert_record($genetic_lang, $language, $returnid=true, $primarykey=ï¿½idï¿½);
+	//$genetic->insert_record("genetic_lang", $language, $returnid=true, $primarykey=ï¿½idï¿½);
 
     $genetic->timecreated = time();
 	$genetic->timemodified = $genetic->timecreated;
@@ -241,6 +241,17 @@ function genetic_scale_used_anywhere($scaleid) {
 		}
 	}
 }
+
+// Function that returns the number of empty elements of an array.
+function count_genetic_field_null($term , $definition, $gramcat, $context) {
+	$empty = 0;
+	if(($gramcat=='none')||($gramcat==null))$empty++;
+	if($term==null)$empty++;
+	if($definition==null)$empty++;
+	if($context==null)$empty++;	
+	return $empty;
+}
+
 function genetic_field_which_null ($array, $narray) {
  
 	$empty = 0;
@@ -312,18 +323,21 @@ function genetic_field_which_null ($array, $narray) {
 /**
  * Creates an array with gramatic categories and return it to the form. *
  */
- function genetic_array_gramcat () {
+ function genetic_array_gramcat ($namelang) {
 
 	// Get the gramatical categories in the specified language
 	
 
 	// Make an array with this categories
-	
-	
+	if($namelang=='de'){
+	  $gramcat = array ("f", "m", "n", "adj", "adv", "vtr", "vintr"); // German includes also neutral 
+	} else{		
 	$gramcat = array ("f", "m", "adj", "adv", "vtr", "vintr");
-
+	}
+	
 	return ($gramcat);
 }
+
 /**
  * Creates an array with weighting mark and return it to the form. *
  */

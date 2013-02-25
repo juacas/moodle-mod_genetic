@@ -221,14 +221,14 @@ function genetic_select_subdomains4($nivel=0)
       {
 		
 		
-			echo "<li><NOBR><INPUT TYPE=\"radio\" NAME=\"belongto\" VALUE=\"".$row_rsRegistro['id']."\"><FONT COLOR=\"#238E23\">".$row_rsRegistro['name']."</FONT></A></NOBR>";
+			echo "<center><li><NOBR><INPUT TYPE=\"radio\" NAME=\"belongto\" VALUE=\"".$row_rsRegistro['id']."\"><FONT COLOR=\"#238E23\">".$row_rsRegistro['name']."</FONT></A></NOBR>";
 			
 		  
          // Ejecutamos la funcion dentro de si misma
          // Y le pasamos el id del registro actual
-         genetic_select_subdomains4($row_rsRegistro['id'],$belongto2);
-
-         echo '</li>';
+      //   genetic_select_subdomains4($row_rsRegistro['id'],$belongto2);
+			genetic_select_subdomains4($row_rsRegistro['id']);
+         echo '</li></center>';
       }
       while($row_rsRegistro = mysql_fetch_assoc($rsRegistro));
 	

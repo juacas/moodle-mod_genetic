@@ -191,27 +191,30 @@
 				echo "<OPTION VALUE=\"teacher\">".$str = get_string("teacher", "genetic");
 				echo "<OPTION VALUE=\"student\">".$str = get_string("student", "genetic");
 				echo "<OPTION VALUE=\"guest\">".$str = get_string("guest", "genetic");
-			}
-			if ($type == 'teacher') {
+			}else if ($type == 'teacher') {
 				echo "<OPTION VALUE=\"\">".$str = get_string("nodefined", "genetic");
 				echo "<OPTION VALUE=\"admin\">".$str = get_string("admin", "genetic");
 				echo "<OPTION SELECTED VALUE=\"teacher\">".$str = get_string("teacher", "genetic");
 				echo "<OPTION VALUE=\"student\">".$str = get_string("student", "genetic");
 				echo "<OPTION VALUE=\"guest\">".$str = get_string("guest", "genetic");
-			}
-			if ($type == 'student') {
+			}else if ($type == 'student') {
 				echo "<OPTION VALUE=\"\">".$str = get_string("nodefined", "genetic");
 				echo "<OPTION VALUE=\"admin\">".$str = get_string("admin", "genetic");
 				echo "<OPTION VALUE=\"teacher\">".$str = get_string("teacher", "genetic");
 				echo "<OPTION SELECTED VALUE=\"student\">".$str = get_string("student", "genetic");
 				echo "<OPTION VALUE=\"guest\">".$str = get_string("guest", "genetic");
-			}
-			if ($type == 'guest') {
+			}else if ($type == 'guest') {
 				echo "<OPTION VALUE=\"\">".$str = get_string("nodefined", "genetic");
 				echo "<OPTION VALUE=\"admin\">".$str = get_string("admin", "genetic");
 				echo "<OPTION VALUE=\"teacher\">".$str = get_string("teacher", "genetic");
 				echo "<OPTION VALUE=\"student\">".$str = get_string("student", "genetic");
 				echo "<OPTION SELECTED VALUE=\"guest\">".$str = get_string("guest", "genetic");
+			}else{
+				echo "<OPTION VALUE=\"\">".$str = get_string("nodefined", "genetic");
+				echo "<OPTION VALUE=\"admin\">".$str = get_string("admin", "genetic");
+				echo "<OPTION VALUE=\"teacher\">".$str = get_string("teacher", "genetic");
+				echo "<OPTION VALUE=\"student\">".$str = get_string("student", "genetic");
+				echo "<OPTION VALUE=\"guest\">".$str = get_string("guest", "genetic");
 			}
 		echo "</SELECT></TD></TR>";
 		//$namesurname = explode(" ", $name);

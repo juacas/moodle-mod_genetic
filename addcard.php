@@ -1,4 +1,4 @@
-<?php  // $Id: addcard.php, v2.0 2012/06/21 10:15:00 Ana María Lozano de la Fuente Exp $
+<?php  // $Id: addcard.php, v2.0 2012/06/21 10:15:00 Ana Marï¿½a Lozano de la Fuente Exp $
 /*********************************************************************************
 
 * This file is part of Genetic.
@@ -7,13 +7,13 @@
 
 * Designed and directed by the ITAST group (http://www.eduvalab.uva.es/contact)
 
-* Implemented by Ana María Lozano de la Fuente, using the previous software called Terminology, implemented by Irene Fernández Ramírez (2010)
+* Implemented by Ana Marï¿½a Lozano de la Fuente, using the previous software called Terminology, implemented by Irene Fernï¿½ndez Ramï¿½rez (2010)
 
  
 
 * @ copyright (C) 2012 ITAST group
 
-* @ author:  Ana María Lozano de la Fuente, Irene Fernández Ramírez, María Jesús Verdú Pérez, Juan Pablo de Castro Fernández, Luisa M. Regueras Santos,  Elena Verdú Pérez and María Ángeles Pérez Juárez
+* @ author:  Ana Marï¿½a Lozano de la Fuente, Irene Fernï¿½ndez Ramï¿½rez, Marï¿½a Jesï¿½s Verdï¿½ Pï¿½rez, Juan Pablo de Castro Fernï¿½ndez, Luisa M. Regueras Santos,  Elena Verdï¿½ Pï¿½rez and Marï¿½a ï¿½ngeles Pï¿½rez Juï¿½rez
 
 * @ package genetic
 
@@ -62,48 +62,11 @@
 	$ty = optional_param('ty', 0, PARAM_INT);
 	//$domsubdom = optional_param('domsubdom', 0, PARAM_TEXT);
 	$domsubdom = optional_param('domsubdom', 0, PARAM_INT);
-	$aux = explode("-", $domsubdom);
+	//$aux = explode("-", $domsubdom);
 	$authors = optional_param('author', 0, PARAM_INT);
 	$datecreated = optional_param('datecreated', 0, PARAM_INT);
-	// Language 1
-	$isolang = optional_param('isolang', 'null', PARAM_TEXT);
-	$term = optional_param('term', 'null', PARAM_TEXT);
-	$gramcat = optional_param('gramcat', 'null', PARAM_TEXT);
-	
-	$weight_type = optional_param('weight_type', 'null', PARAM_TEXT);
-	$rem_type = optional_param('rem_type', 'null', PARAM_TEXT);
-	$remission = optional_param('remission', 'null', PARAM_TEXT);
-	
-	$definition = optional_param('definition', 'null', PARAM_TEXT);
-	$context = optional_param('context', 'null', PARAM_TEXT);
-	$expression = optional_param('expression', 'null', PARAM_TEXT);
-	//$rv = optional_param('rv', 'null', PARAM_TEXT);
-	$notes = optional_param('notes', 'null', PARAM_TEXT);
-	$sourceterm = optional_param('sourceterm', 'null', PARAM_TEXT);
-	$sourcedefinition = optional_param('sourcedefinition', 'null', PARAM_TEXT);
-	$sourcecontext = optional_param('sourcecontext', 'null', PARAM_TEXT);
-	$sourceexpression = optional_param('sourceexpression', 'null', PARAM_TEXT);
-	$sourcerv = optional_param('sourcerv', 'null', PARAM_TEXT);
-	$sourcenotes = optional_param('sourcenotes', 'null', PARAM_TEXT);
-	$synonyms = optional_param('synonyms', 0, PARAM_INT);
 	$imagen = optional_param('imagen', 0, PARAM_INT);
-	$video = optional_param('video', 0, PARAM_INT);
-	$relatedterms = optional_param('relatedterms', 0, PARAM_INT);
-	$audio = optional_param('audio', 0, PARAM_INT);
-	//----añadido---lenguage 1
-	$pieimagen = optional_param('pieimagen', 'null', PARAM_TEXT);
-	$pievideo = optional_param('pievideo', 'null', PARAM_TEXT);
-	$srcimage = optional_param('srcimage', 'null', PARAM_TEXT);
-	$srcvideo = optional_param('srcvideo', 'null', PARAM_TEXT);
-	$acronyms = optional_param('acronyms', 'null', PARAM_TEXT);
-	$abreviaturas=optional_param('abreviaturas', 'null', PARAM_TEXT);
-	$symbols = optional_param('symbols', 'null', PARAM_TEXT);
-	$enlacesnuevos = optional_param('enlacesnuevos', 'null', PARAM_TEXT);
-	$rem_type2 = optional_param('rem_type2', 'null', PARAM_TEXT);
-	$remission2 = optional_param('remission2', 'null', PARAM_TEXT);
-	$strviewfull=get_string("viewfullcard", "genetic");
-	
-	
+		
     if ($id) {
         if (! $cm = get_record("course_modules", "id", $id)) {
             error("Course Module ID was incorrect");
@@ -126,6 +89,73 @@
         }
     }
 
+    
+    // Connect to the database
+    $link = connect_genetic($CFG->dbhost,$CFG->dbuser,$CFG->dbpass,$CFG->dbname);
+        
+    // parameter depending on the language
+    
+    //take the ids of the languages of the dictionary
+    $query=genetic_id_lang($genetic->id);
+    $resultlang = mysql_query($query,$link);
+    while($langrow=mysql_fetch_array($resultlang)){
+    
+    	$idlanguage=$langrow['genetic_lang_id'];
+    	
+    	$isolang[$idlanguage] = optional_param('isolang'.$idlanguage, null, PARAM_TEXT);
+    	$term[$idlanguage] = optional_param('term'.$idlanguage, null, PARAM_TEXT);
+    	$gramcat[$idlanguage] = optional_param('gramcat'.$idlanguage, null, PARAM_TEXT);
+    
+	    $weight_type[$idlanguage] = optional_param('weight_type'.$idlanguage, null, PARAM_TEXT);
+	    $definition[$idlanguage] = optional_param('definition'.$idlanguage, null, PARAM_TEXT);
+	    $context[$idlanguage] = optional_param('context'.$idlanguage, null, PARAM_TEXT);
+	    $expression[$idlanguage] = optional_param('expression'.$idlanguage, null, PARAM_TEXT);
+	    //$rv = optional_param('rv', 'null', PARAM_TEXT);
+	    $notes[$idlanguage] = optional_param('notes'.$idlanguage, null, PARAM_TEXT);
+	    $sourceterm[$idlanguage] = optional_param('sourceterm'.$idlanguage, null, PARAM_TEXT);
+	    $sourcedefinition[$idlanguage] = optional_param('sourcedefinition'.$idlanguage, null, PARAM_TEXT);
+	    $sourcecontext[$idlanguage] = optional_param('sourcecontext'.$idlanguage, null, PARAM_TEXT);
+	    $sourceexpression[$idlanguage] = optional_param('sourceexpression'.$idlanguage, null, PARAM_TEXT);
+	    $sourcerv[$idlanguage] = optional_param('sourcerv'.$idlanguage, null, PARAM_TEXT);
+	    $sourcenotes[$idlanguage] = optional_param('sourcenotes'.$idlanguage, null, PARAM_TEXT);
+	    $synonyms[$idlanguage] = optional_param('synonyms'.$idlanguage, 0, PARAM_INT);
+	    $video[$idlanguage] = optional_param('video'.$idlanguage, 0, PARAM_INT);
+	   // $relatedterms[$idlanguage] = optional_param('relatedterms'.$idlanguage, 0, PARAM_INT);
+	    $audio[$idlanguage] = optional_param('audio'.$idlanguage, 0, PARAM_INT);
+    	$numfieldsremission[$idlanguage] = optional_param('numfieldsremission'.$idlanguage,0,PARAM_INT);
+    	$j=0;
+    	for($i=1;$i<=$numfieldsremission[$idlanguage];$i++){
+    		if(optional_param('remission_'.$idlanguage.'_'.$i)!=null){
+    			$remission[$idlanguage][$j]=optional_param('remission_'.$idlanguage.'_'.$i);
+    			$rem_type[$idlanguage][$j]=optional_param('remtype_'.$idlanguage.'_'.$i);
+    			$j++;
+    		}
+    		
+    	}
+    	
+    }
+    
+        
+
+    //----aï¿½adido---lenguage 1    //EVP ESTO NO ESTOY SEGURA DE QUE SE USE NI CUANDO SE ENVIA COMPROBAR
+    //$pieimagen = optional_param('pieimagen', 'null', PARAM_TEXT);
+    //$pievideo = optional_param('pievideo', 'null', PARAM_TEXT);
+    //$srcimage = optional_param('srcimage', 'null', PARAM_TEXT);
+    //$srcvideo = optional_param('srcvideo', 'null', PARAM_TEXT);
+    //$acronyms = optional_param('acronyms', 'null', PARAM_TEXT);
+    //$abreviaturas=optional_param('abreviaturas', 'null', PARAM_TEXT);
+    $symbols = optional_param('symbols', 'null', PARAM_TEXT);
+    $enlacesnuevos = optional_param('enlacesnuevos', 'null', PARAM_TEXT);
+    
+    
+   // $rem_type2 = optional_param('rem_type2', 'null', PARAM_TEXT);
+   // $remission2 = optional_param('remission2', 'null', PARAM_TEXT);
+    
+    
+    
+    $strviewfull=get_string("viewfullcard", "genetic");
+    
+    
 	// Check if current user is logged in
     require_login($course->id);
 	
@@ -161,8 +191,7 @@
 	include('tabs.php');	
 
 	
-	// Connect to the database
-	$link = connect_genetic($CFG->dbhost,$CFG->dbuser,$CFG->dbpass,$CFG->dbname);
+	
 	$narrayh = 4;		
 	$array_header = array("$bes[0]", "$ty", "$domsubdom[0]", "$authors[0]");
 	
@@ -182,55 +211,68 @@
 	else {
 			//Count the languages of the dictionary
 			
-			$query = genetic_count_lang($genetic->id);
+			//$query = genetic_count_lang($genetic->id);
+			//$resultlang = mysql_query($query,$link);
+			$query=genetic_id_lang($genetic->id);
 			$resultlang = mysql_query($query,$link);
 			$numlang = mysql_affected_rows($link);
 			
+			$ncompulsoryitems = 4;  //number of compulsory fields for each term
+			$empty2=0;
+			$allfieldsempty=0;
+			
+			while($langrow=mysql_fetch_array($resultlang)){
+				
+				
+			
 			// Check if there is any obligatory field empty
-	
-				$narrayc = 4;
-				$empty2=0;
+				$idlanguage=$langrow['genetic_lang_id'];
 				
-				for($u=0;$u<$numlang;$u++){
-	
-						$array_card[$u] = array("$term[$u] ", "$definition[$u]", "$gramcat[$u]", "$context[$u]");
-	
-						// Language 1
-						$empty[$u] = genetic_field_not_null($array_card[$u], $narrayc);
+				//for($u=0;$u<$numlang;$u++){
+						
+						// Language 
+						$empty[$idlanguage] = count_genetic_field_null($term[$idlanguage] , $definition[$idlanguage], $gramcat[$idlanguage], $context[$idlanguage]);
 						//$empty3[$u] = genetic_field_not_null2($array_card[$u], $narrayc);
-						if($empty[$u]==1){
-								$empty2++;
-								//$z[$u]=genetic_field_which_null($array_card[$u], $narrayc);
-								
-					
+						if($empty[$idlanguage]==$ncompulsoryitems)  //all fields are empty
+						{
+							$allfieldsempty++;
+						}else{
+							if($empty[$idlanguage]>0) $empty2++; //not all compulsory fields filled in for that language	
 						}
-				
+						
 				}
 			
-		
-		//Comprobar si hay algun campo vacio en la ficha en cualquier idioma
-		if (($empty2==$numlang) ) {
+		//checks if no terms have been added in any language
+		if($allfieldsempty==$numlang){
+			print_box_start($classes='generalbox boxaligncenter boxwidthwide');
+			$msg = get_string("notermsadded", "genetic");
+			echo $msg;
+			print_box_end($return=false);
+			echo "<CENTER><A HREF=\"javascript:history.back(1)\">".get_string('back')."</A></CENTER>";
+		}else if (($empty2)>0) {
 			print_box_start($classes='generalbox boxaligncenter boxwidthwide');
 			$msg = get_string("emptyfieldlanguage", "genetic");
 			echo $msg;
 			print_box_end($return=false);
 			echo "<CENTER><A HREF=\"javascript:history.back(1)\">".get_string('back')."</A></CENTER>";
-		}
-		
-		else {	
+		}else {	
 			
-			
-			
-				
-					//comprobar si el termino ya existe en  
+				//comprobar si el termino ya existe en  
 					
 				//if($confirm!=0){
-				
-							for($i=0;$i<$numlang;$i++){
-							
-								if($term[$i]!=''){
+						$resultlang = mysql_query($query,$link);
+						while($langrow=mysql_fetch_array($resultlang)){
+							//for($i=0;$i<$numlang;$i++){
+								$idlanguage=$langrow['genetic_lang_id'];
+								$query2 =genetic_search_lang_name($idlanguage);
+								$result2 = mysql_query($query2,$link);
+								$row2 = mysql_fetch_array($result2);
+								$namelang=$row2['language'];
+								
+								if($term[$idlanguage]!=''){
 									//echo"termino dist de cero".$term[$i]."".$isolang[$i];
-								$query2= genetic_term_exists($term[$i],$genetic->id);
+								//$query2= genetic_term_exists($term[$idlanguage],$genetic->id);
+								$query2=genetic_term_exists_inlang($term[$idlanguage],$genetic->id,$namelang);
 								$result2= mysql_query($query2,$link);
 								$n2= mysql_num_rows($result2);
 						
@@ -242,13 +284,13 @@
 				
 					//Term in any language already exists
 				
-					if(($n2!=0)&&($confirm!=1)){
-				
-						$msg2 = get_string("term_already_exists", "genetic");
-				
-						if($n2!=0)
-						{	
+					//if(($n2!=0)&&($confirm!=1)){
+			
 						
+				
+						if(($n2!=0)&&($confirm!=1))
+						{	
+							$msg2 = get_string("term_already_exists", "genetic");
 							print_box_start($classes='generalbox boxaligncenter boxwidthwide', '', $return=false);
 							echo "<TABLE ALIGN=\"center\">";
 							echo "<FORM NAME=\"addcard\" METHOD=\"post\" ACTION=\"addcard.php?id={$cm->id}&confirm=1\" ENCTYPE=\"multipart/form-data\">";
@@ -270,59 +312,53 @@
 
 								echo "<INPUT TYPE=\"hidden\" NAME=\"author[ ]\" VALUE=\"".$authors[$l]."\">";
 							}
+							
 							echo "<INPUT TYPE=\"hidden\" NAME=\"datecreated\" VALUE=\"".$datecreated."\">";
-							$contador=count($imagen);
+							
 							for($e=0;$e<count($imagen);$e++){
-							
+								echo "<INPUT TYPE=\"hidden\" NAME=\"imagen[]\" VALUE=\"".$imagen[$e]."\">";
 								
-								echo "<INPUT TYPE=\"hidden\" NAME=\"imagen[ ]\" VALUE=\"".$imagen[$e]."\">";
-								
-							
 							}
 							
-							for($i=0;$i<count($numlang)+1;$i++){
+						
 							
-							
-								echo "<INPUT TYPE=\"hidden\" NAME=\"term[]\" VALUE=\"".$term[$i]."\">";
+							$resultlang = mysql_query($query,$link);
+							while($langrow=mysql_fetch_array($resultlang)){
+								$idlanguage=$langrow['genetic_lang_id'];
+												
+								echo "<INPUT TYPE=\"hidden\" NAME=\"term$idlanguage\" VALUE=\"".$term[$idlanguage]."\">";
+								echo "<INPUT TYPE=\"hidden\" NAME=\"isolang$idlanguage\" VALUE=\"".$isolang[$idlanguage]."\">";
+								echo "<INPUT TYPE=\"hidden\" NAME=\"definition$idlanguage\" VALUE=\"".$definition[$idlanguage]."\">";
+								echo "<INPUT TYPE=\"hidden\" NAME=\"gramcat$idlanguage\" VALUE=\"".$gramcat[$idlanguage]."\">";
+								echo "<INPUT TYPE=\"hidden\" NAME=\"weight_type$idlanguage\" VALUE=\"".$weight_type[$idlanguage]."\">";
+								//echo "<INPUT TYPE=\"hidden\" NAME=\"rem_type$idlanguage\" VALUE=\"".$rem_type[$idlanguage]."\">";
+								echo "<INPUT TYPE=\"hidden\" NAME=\"context$idlanguage\" VALUE=\"".$context[$idlanguage]."\">";
+								echo "<INPUT TYPE=\"hidden\" NAME=\"expression$idlanguage\" VALUE=\"".$expression[$idlanguage]."\">";
+								echo "<INPUT TYPE=\"hidden\" NAME=\"notes$idlanguage\" VALUE=\"".$notes[$idlanguage]."\">";
+								echo "<INPUT TYPE=\"hidden\" NAME=\"sourceterm$idlanguage\" VALUE=\"".$sourceterm[$idlanguage]."\">";
+								echo "<INPUT TYPE=\"hidden\" NAME=\"sourcedefinition$idlanguage\" VALUE=\"".$sourcedefinition[$idlanguage]."\">";
+								echo "<INPUT TYPE=\"hidden\" NAME=\"sourcecontext$idlanguage\" VALUE=\"".$sourcecontext[$idlanguage]."\">";
+								echo "<INPUT TYPE=\"hidden\" NAME=\"sourceexpression$idlanguage\" VALUE=\"".$sourceexpression[$idlanguage]."\">";
+								echo "<INPUT TYPE=\"hidden\" NAME=\"sourcerv$idlanguage\" VALUE=\"".$sourcerv[$idlanguage]."\">";
+								echo "<INPUT TYPE=\"hidden\" NAME=\"sourcenotes$idlanguage\" VALUE=\"".$sourcenotes[$idlanguage]."\">";
 								
-								echo "<INPUT TYPE=\"hidden\" NAME=\"isolang[]\" VALUE=\"".$isolang[$i]."\">";
-								echo "<INPUT TYPE=\"hidden\" NAME=\"definition[]\" VALUE=\"".$definition[$i]."\">";
-								echo "<INPUT TYPE=\"hidden\" NAME=\"gramcat[]\" VALUE=\"".$gramcat[$i]."\">";
-								echo "<INPUT TYPE=\"hidden\" NAME=\"weight_type[]\" VALUE=\"".$weight_type[$i]."\">";
-								echo "<INPUT TYPE=\"hidden\" NAME=\"rem_type[]\" VALUE=\"".$rem_type[$i]."\">";
-								echo "<INPUT TYPE=\"hidden\" NAME=\"remission[]\" VALUE=\"".$remission[$i]."\">";
-								echo "<INPUT TYPE=\"hidden\" NAME=\"context[]\" VALUE=\"".$context[$i]."\">";
-								echo "<INPUT TYPE=\"hidden\" NAME=\"expression[]\" VALUE=\"".$expression[$i]."\">";
-								echo "<INPUT TYPE=\"hidden\" NAME=\"notes[]\" VALUE=\"".$notes[$i]."\">";
-								echo "<INPUT TYPE=\"hidden\" NAME=\"sourceterm[]\" VALUE=\"".$sourceterm[$i]."\">";
-								echo "<INPUT TYPE=\"hidden\" NAME=\"sourcedefinition[]\" VALUE=\"".$sourcedefinition[$i]."\">";
-								echo "<INPUT TYPE=\"hidden\" NAME=\"sourcecontext[]\" VALUE=\"".$sourcecontext[$i]."\">";
-								echo "<INPUT TYPE=\"hidden\" NAME=\"sourceexpression[]\" VALUE=\"".$sourceexpression[$i]."\">";
-								echo "<INPUT TYPE=\"hidden\" NAME=\"sourcerv[]\" VALUE=\"".$sourcerv[$i]."\">";
-								echo "<INPUT TYPE=\"hidden\" NAME=\"sourcenotes[]\" VALUE=\"".$sourcenotes[$i]."\">";
+								$long=count($remission[$idlanguage]);
+								$j=1;
+								for($z=0;$z<$long;$z++){
+									echo "<INPUT TYPE=\"hidden\" NAME=\"remission_".$idlanguage."_$j\" VALUE=\"".$remission[$idlanguage][$z]."\">";
+									echo "<INPUT TYPE=\"hidden\" NAME=\"remtype_".$idlanguage."_$j\" VALUE=\"".$rem_type[$idlanguage][$z]."\">";
+									$j++;
+								}
+								echo "<INPUT TYPE=\"hidden\" NAME=\"numfieldsremission_".$idlanguage."\" VALUE=\"".$long."\">";
+									
+																
+								for($r=0;$r<count($audio[$idlanguage]);$r++){
+								echo "<INPUT TYPE=\"hidden\" NAME=\"audio$idlanguage\" VALUE=\"".$audio[$idlanguage][$r]."\">";
+								}
+								for($e=0;$e<count($video[$idlanguage]);$e++){
+									echo "<INPUT TYPE=\"hidden\" NAME=\"video$idlanguage\" VALUE=\"".$video[$idlanguage][$e]."\">";
+								}
 								
-								for($z=0;$z<count($synonyms);$z++){
-								echo "<INPUT TYPE=\"hidden\" NAME=\"synonyms[][]\" VALUE=\"".$synonyms[$i][$z]."\">";
-								}
-								for($e=0;$e<count($video);$e++){
-								echo "<INPUT TYPE=\"hidden\" NAME=\"video[][]\" VALUE=\"".$video[$i][$e]."\">";
-								}
-								for($r=0;$r<count($audio);$r++){
-								echo "<INPUT TYPE=\"hidden\" NAME=\"audio[][]\" VALUE=\"".$audio[$i][$r]."\">";
-								}
-								for($u=0;$u<count($relatedterms);$u++){
-								echo "<INPUT TYPE=\"hidden\" NAME=\"relatedterms[][]\" VALUE=\"".$relatedterms[$i][$u]."\">";
-								}
-								for($l=0;$l<count($crossrelatedterms);$l++){
-								echo "<INPUT TYPE=\"hidden\" NAME=\"crossrelatedterms[][]\" VALUE=\"".$crossrelatedterms[$i][$l]."\">";
-								}
-								echo "<INPUT TYPE=\"hidden\" NAME=\"pieimagen[]\" VALUE=\"".$pieimagen[$i]."\">";
-								echo "<INPUT TYPE=\"hidden\" NAME=\"pievideo[]\" VALUE=\"".$pievideo[$i]."\">";
-								echo "<INPUT TYPE=\"hidden\" NAME=\"srcimage[]\" VALUE=\"".$srcimage[$i]."\">";
-								echo "<INPUT TYPE=\"hidden\" NAME=\"srcvideo[]\" VALUE=\"".$srcvideo[$i]."\">";
-								echo "<INPUT TYPE=\"hidden\" NAME=\"acronyms[]\" VALUE=\"".$acronyms[$i]."\">";
-								echo "<INPUT TYPE=\"hidden\" NAME=\"abreviaturas[]\" VALUE=\"".$abreviaturas[$i]."\">";
-	
 							}
 							
 							
@@ -338,7 +374,7 @@
 						
 						}
 					
-					} //FIN DEL IF SI EXISTE EN ALGUN IDIOMA
+		//			} //FIN DEL IF SI EXISTE EN ALGUN IDIOMA
 			
 				//}//fin del confirm
 				
@@ -360,9 +396,7 @@
 					mysql_close($link);
 						// Finish the page
 					print_footer($course);				
-					}
-			
-					else {
+					}else {
 					// Idheader for cards
 					$query = genetic_show_lastheader();
 					$result = mysql_query($query,$link);
@@ -396,13 +430,18 @@
 					
 					
 						//Language 1
+					$query=genetic_id_lang($genetic->id);
+					$resultlang = mysql_query($query);
+					
+					while($langrow=mysql_fetch_array($resultlang)){
+					
+						$idlanguage=$langrow['genetic_lang_id'];
 						
+					//for ($i=0; $i<count($term); $i++){ 
 						
-					for ($i=0; $i<count($term); $i++){ 
+							if($term[$idlanguage]!=""){	
 						
-							if($term[$i]!=""){	
-						
-								$query = genetic_insert_card($genetic->id, $ni, $isolang[$i], $term[$i], $gramcat[$i], $definition[$i], $context[$i], $expression[$i], $notes[$i],$weight_type[$i]);		
+								$query = genetic_insert_card($genetic->id, $ni, $isolang[$idlanguage], $term[$idlanguage], $gramcat[$idlanguage], $definition[$idlanguage], $context[$idlanguage], $expression[$idlanguage], $notes[$idlanguage],$weight_type[$idlanguage]);		
 								$result = mysql_query($query,$link);
 								$nok = mysql_affected_rows($link);
 						
@@ -430,7 +469,7 @@
 									
 										
 										// Sources language 1
-										$query = genetic_insert_source($cardid, $sourceterm[$i], $sourcedefinition[$i], $sourcecontext[$i], $sourceexpression[$i], $sourcerv[$i], $sourcenotes[$i]);		
+										$query = genetic_insert_source($cardid, $sourceterm[$idlanguage], $sourcedefinition[$idlanguage], $sourcecontext[$idlanguage], $sourceexpression[$idlanguage], $sourcerv[$idlanguage], $sourcenotes[$idlanguage]);		
 										$result = mysql_query($query,$link);
 										$nok = mysql_affected_rows($link);
 									
@@ -446,60 +485,33 @@
 											
 										//REMISIONES	
 											//echo "datos:".$remission."".$rem_type."".$;
-										if(($remission[$i]!="")||($rem_type[$i]!="")){
-																	
-										$query = genetic_insert_remission($cardid,$remission[$i],$rem_type[$i]);		
-										$result = mysql_query($query,$link);
-										$nok = mysql_affected_rows($link);
-									
-										// Update ok or not?
+										$long=count($remission[$idlanguage]);
+										for ($z=0;$z<$long;$z++){
+											$query = genetic_insert_remission($cardid,$remission[$idlanguage][$z],$rem_type[$idlanguage][$z]);
+											$result = mysql_query($query,$link);
+											$nok = mysql_affected_rows($link);
+											// Update ok or not?
 											if($nok == 0) {
 												$redirectmsg = get_string("insertnok", "genetic");
 												redirect($url="view.php?id={$cm->id}", $redirectmsg, $delay=-1);
-												// Close the db    
+												// Close the db
 												mysql_close($link);
 												// Finish the page
 												print_footer($course);
 											}
-										
-									
+											
 										}
-										//REMISIONES dinamicas
-										for($r=0;$r<count($enlacesnuevos);$r++){
-											//echo "datos:".$remission."".$rem_type."".$;
-										if(($remission2[$r]!="")||($rem_type2[$r]!="")){
-																	
-										$query = genetic_insert_remission($cardid,$remission2[$r],$rem_type2[$r]);		
-										$result = mysql_query($query,$link);
-										$nok = mysql_affected_rows($link);
-									
-										// Update ok or not?
-											if($nok == 0) {
-												$redirectmsg = get_string("insertnok", "genetic");
-												redirect($url="view.php?id={$cm->id}", $redirectmsg, $delay=-1);
-												// Close the db    
-												mysql_close($link);
-												// Finish the page
-												print_footer($course);
-											}
 										
+																		
 									
-										}	
-										
-									}
-										//añadir los sinonimos a la tabla genetic_synonyms_has_genetic_remission (solo a esta tabla porque estos sinonimos ya estan guardados)
-										//(en la tabla de sinonimos, solo los asociamos a una remision determinada)
-										
-											//obtener la cantidad de elementos que tiene el array sinonimos
-									
-											//recorremos el array entero tot=numero de sinonimos para ese termino en ese idioma	
+										}//end else nok
 											
-									//---añadido--- terminos audio
-										for ($l=0; $l<count($audio[$i]); $l++){
-											
-															
+									
+										
+										for ($l=0; $l<count($audio[$idlanguage]); $l++){
+																										
 																// insertar remissionid y synonymid delos sinonimos escogidos 
-																$query = genetic_insert_has_audio($cardid, $audio[$i][$l]);		
+																$query = genetic_insert_has_audio($cardid, $audio[$idlanguage][$l]);		
 																$result = mysql_query($query,$link);
 																$nok = mysql_affected_rows($link);	
 																//echo "lang:".$isolang[$i]."AUDIO:".$audio[$i][$l]."coord:".$i."".$l;
@@ -516,39 +528,35 @@
 																
 																
 															
-											}		
+											}	//end for audio	
 									
 									
-								//---añadido--- guardar los video/s
+								//videos
 								
-								
-															//echo "numero de videos".count($video[$i]);
-															for ($k = 0; $k < count($video[$i]); $k++){
-																// insertar cardid e idimage
-																//echo "valor de cardid: " .$cardid;
-																//echo "valor de id video: " .$video[$k];
-																$query = genetic_insert_has_video($cardid, $video[$i][$k]);		
-																$result = mysql_query($query,$link);
-																$nok = mysql_affected_rows($link);
-																	
-																// Update ok or not?
-																if($nok == 0) {
-																	$redirectmsg = get_string("insertnok", "genetic");
-																	redirect($url="view.php?id={$cm->id}", $redirectmsg, $delay=-1);
-																	// Close the db    
-																	mysql_close($link);
-																	// Finish the page
-																	print_footer($course);
-																}
+										for ($k = 0; $k < count($video[$idlanguage]); $k++){ 
+											//if($video[$idlanguage][$e]!=0) {  //the value 0 is for default, when no video is selected
+													$query = genetic_insert_has_video($cardid, $video[$idlanguage][$k]);		
+													$result = mysql_query($query,$link);
+													$nok = mysql_affected_rows($link);
+
+													// Update ok or not?
+													if($nok == 0) {
+														$redirectmsg = get_string("insertnok", "genetic");
+														redirect($url="view.php?id={$cm->id}", $redirectmsg, $delay=-1);
+														// Close the db    
+														mysql_close($link);
+														// Finish the page
+														print_footer($course);
+												//	}
+											}
 																
-															}
+										} //end for video
 					
 								
 							
-								}
+								} //endif-else term
 						
-							}//fin de que existe termino !=0
-						
+			
 					}//nuevo del for
 
 						
