@@ -1414,28 +1414,23 @@
 				echo "<TR><TD><B>".$strni."</B>&nbsp;&nbsp;</TD><TD>".$headerrowni."</TD></TR>";
 								
 				// Subdomain
-													echo "<TR><TD><B>".$strsubdom."</B>&nbsp;&nbsp;</TD>";
+						echo "<TR><TD><B>".$strsubdom."</B>&nbsp;&nbsp;</TD>";
+
+						$query = genetic_show_rel_subdomain($headerrowni);
+						$resultdom = mysql_query($query);
+							echo "<TD>";
+									while ($row = mysql_fetch_array($resultdom)) {
+										$headerrowsubdomiddom = stripslashes($row['iddom']);
+										$headerrowsubdom = stripslashes($row['name']);
+										$headerrowsubdom2=str_replace(" ","-",$headerrowsubdom);
+									//---------------------search tree subdomain
+										$cadena="";
+										$subdomparent=calcular_ruta_subdominios($headerrowsubdomiddom,$cadena);
+								//--------------------end of the search tree subdomain
+										echo"".$subdomparent. " <A HREF=\"http://eurogene.open.ac.uk/theme/$headerrowsubdom2\" target=\"blank\" ><FONT COLOR=\"#238E23\">".$headerrowsubdom."</FONT></A><BR>";
+									}
+								echo "</TD>";				
 				
-													$query = genetic_show_rel_subdomain($headerrowni);
-													$resultdom = mysql_query($query);
-													echo "<TD>";
-													while ($row = mysql_fetch_array($resultdom)) {
-															$headerrowsubdomiddom = stripslashes($row['iddom']);
-															$headerrowsubdom = stripslashes($row['name']);
-															$headerrowsubdom2=str_replace(" ","-",$headerrowsubdom);
-						
-															//---------------------search tree subdomain
-						
-																$cadena="";
-																$subdomparent=calcular_ruta_subdominios($headerrowsubdomiddom,$cadena);
-															//--------------------end of the search tree subdomain
-						
-						
-														echo"".$subdomparent. " <A HREF=\"http://eurogene.open.ac.uk/theme/$headerrowsubdom2\" target=\"blank\" ><FONT COLOR=\"#238E23\">".$headerrowsubdom."</FONT></A><BR>";
-					
-													}
-					
-													echo "</TD>";				
 				// Author
 				echo "<TR><TD><B>".$strauthor."</B>&nbsp;&nbsp;</TD><TD>".$headerauthor."</TD></TR>";
 				// Creation/ Modified date
@@ -1476,9 +1471,10 @@
 					// Print languages
 					
 					if ($cardrowterm != '') {
-						echo "<BR /><TABLE ALIGN=\"center\" STYLE=\"table-layout:fixed\" WIDTH=\"80%\">
-							<TR><TD ROWSPAN=\"13\" VALIGN=\"top\" WIDTH=\"5%\"><IMG SRC=\"images/".$cardrowisolang.".png\">&nbsp;&nbsp;&nbsp;&nbsp;</TD>
-								<TD WIDTH=\"27%\"><B>".$strterm.":</B>&nbsp;&nbsp;</TD>
+						echo "<BR /><br/><br/><TABLE  ALIGN=\"center\" STYLE=\"table-layout:fixed\" WIDTH=\"80%\">
+							
+							<Tr><td colSPAN=\"4\" VALIGN=\"top\" WIDTH=\"5%\"><IMG SRC=\"images/".$cardrowisolang.".png\">&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+								<tr><TD WIDTH=\"27%\"><B>".$strterm.":</B>&nbsp;&nbsp;</TD>
 								<TD>".$cardrowterm."</a><a href=\"http://eurogene.open.ac.uk/search03/$cardrowterm\" target=\"blank\"><img src=\"images/eurogene.jpg\"  width=\"40\" height=\"30\"></a></TD></TR>
 							<TR><TD><B>".$strgramcat.":</B>&nbsp;&nbsp;</TD><TD>".$cardrowgramcat."</TD></TR>";
 							//Definition
@@ -1532,29 +1528,10 @@
 							<TR><TD><B>".$strnotes.":</B>&nbsp;&nbsp;</TD><TD>".$cardrownotes."</TD></TR>";
 							
 							if($cardrowweight!=""){
-							echo"<TR><TD><NOBR><B>".$strwm.":</B>&nbsp;&nbsp;".get_string($cardrowweight,"genetic")."</NOBR></TD></TR>";
+							echo"<TR><TD><NOBR><B>".$strwm.":</B>&nbsp;&nbsp;</TD><TD>".get_string($cardrowweight,"genetic")."</NOBR></TD></TR>";
 							}
 							echo "<BR>";
-						//Show referrals 
-
-						/*
-						$queryref = genetic_show_rem($cardrowid);
-						$resultref = mysql_query($queryref, $link);
-						$nref = mysql_num_rows($resultref);
 						
-						
-						//ncard2 seria el numero de imagenes de cada termino
-							  
-						if($nref!=0){	
-						echo"<TR><TD><IMG SRC=\"images/Picture.gif\"><B>".$strrem."</B></TD></TR>";
-						while($cardrow3 = mysql_fetch_array($resultref))
-						{
-							$ref_type = stripslashes($cardrow3['rem_type']);
-							$ref = stripslashes($cardrow3['remission']);
-							echo"<TD>&nbsp;".$ref_type."</TD><TD></TD><TD>".$ref."</TD></TR>";
-						}
-							
-						*/	
 						// ---a�adido---GET THE IMAGES  
 						
 						$query2 = genetic_show_images($headerrowni);
@@ -1565,38 +1542,38 @@
 						//ncard2 seria el numero de imagenes de cada termino
 							  
 						if($ncards2!=0){	
-						echo"<TR><TD><IMG SRC=\"images/Picture.gif\"><B>".$strimagenes."</B></TD><TD></TD><TD><B>".$strsrc."</TD></TR>";
+						
+						echo"<tr><td colspan='4' height='10'><hr></td></tr><TR><TD colspan='4' ><IMG SRC=\"images/Picture.gif\"><B>".$strimagenes."</B></TD></tr>";
+						echo"<TD></TD><TD><b><i>".get_string('title_image','genetic')."</b></i></TD><TD><B><i>$strsrc</i></TD></TR>";
 						while($cardrow3 = mysql_fetch_array($resultc2))
 						{
 						//---a�adido---mostrar imagenes
 						
 						
-						if($cardrowisolang=='es')
-						{						
-						$cardrowtitle_image = stripslashes($cardrow3['titleimage_es']);
-						}
-						if($cardrowisolang=='de')
-						{
-						$cardrowtitle_image = stripslashes($cardrow3['titleimage_de']);
-						}
-						if($cardrowisolang=='en')
-						{
-						$cardrowtitle_image = stripslashes($cardrow3['titleimage_en']);
-						}
-						if($cardrowisolang=='fr')
-						{
-						$cardrowtitle_image = stripslashes($cardrow3['titleimage_fr']);
-						}
-						
+							if($cardrowisolang=='es')
+							{						
+							$cardrowtitle_image = stripslashes($cardrow3['titleimage_es']);
+							}
+							if($cardrowisolang=='de')
+							{
+							$cardrowtitle_image = stripslashes($cardrow3['titleimage_de']);
+							}
+							if($cardrowisolang=='en')
+							{
+							$cardrowtitle_image = stripslashes($cardrow3['titleimage_en']);
+							}
+							if($cardrowisolang=='fr')
+							{
+							$cardrowtitle_image = stripslashes($cardrow3['titleimage_fr']);
+							}
+							
 						
 						
 						$cardrowfile_image = stripslashes($cardrow3['fileimage']);
 						$cardrowsrc_image = stripslashes($cardrow3['srcimage']);
 						
 
-						
-						
-						
+											
 						
 						
 						
@@ -1608,16 +1585,16 @@
 						$rutaDestino=$Servidor.'/file.php/'.$COURSE->id.'/imagen/'.$cardrowfile_image;
 						
 							if($cardrowtitle_image!=''){
-							echo "<TR><TD><TR><TD><img src=".$rutaDestino." width=\"100\" height=\"90\" ></TD><TD>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$cardrowtitle_image."</TD>";		
+							echo "<TR><TD><TR><TD><img src=".$rutaDestino." width=\"100\" height=\"90\" ></TD><TD>".$cardrowtitle_image."</TD>";		
 							
 							echo"<BR>";
 							}
 							else{
-							echo "<TR><TD><TR><TD><img src=".$rutaDestino." width=\"50\" height=\"50\" ></TD><TD>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$cardrowfile_image."</TD>";
+							echo "<TR><TD><TR><TD><img src=".$rutaDestino." width=\"50\" height=\"50\" ></TD><TD>".$cardrowfile_image."</TD>";
 							
 							}
 							
-						echo"<TD>&nbsp;".$cardrowsrc_image."</TD></TR>";
+						echo"<TD><nobr>".$cardrowsrc_image."</nobr></TD></TR>";
 						
 						}
 					
@@ -1634,6 +1611,7 @@
 						echo "<BR>";
 						if($ncards4!=0){
 						      //ncard3 seria el numero de videos de cada termino
+						echo"<tr><td colspan='4' height='10'><hr></td></tr>";
 						echo"<TR><TD><B>$strvideos</TD></TR>";
 						echo"<TR><TD><B><i> </B></TD><TD><B><i>".$strtitle_video.":</TD><TD><B><i>".$strlang.":</TD><TD><B><i>".$strsrc."</TD></TR>";
 						while($cardrow4 = mysql_fetch_array($resultc4))
@@ -1664,13 +1642,13 @@
 					
 						$rutaDestino='http://localhost/moodle/file.php/'.$COURSE->id.'/video/'.$cardrowfile_video;
 						
-						echo "<TR><NOBR><TD><IMG SRC=\"images/Movie.gif\"><A HREF=".$rutaDestino." target=\"blank\" >".$cardrowfile_video."</A></NOBR></TD>";
+						echo "<TR><TD><IMG SRC=\"images/Movie.gif\"><A HREF=".$rutaDestino." target=\"blank\" >".$cardrowfile_video."</A></TD>";
 								
-						echo "<td>".$cardrowtitle_video."</A></NOBR></TD>";		
+						echo "<td>".$cardrowtitle_video."</A></TD>";		
 						
 							
-						echo"<TD>&nbsp;".$cardrowlang_video."</TD>";	
-						echo"<TD>&nbsp;".$cardrowsrc_video."</TD></TR>";
+						echo"<TD>".$cardrowlang_video."</TD>";	
+						echo"<TD>".$cardrowsrc_video."</TD></TR>";
 						}
 						}
 						
@@ -1680,34 +1658,35 @@
 						$resultaudio = mysql_query($queryaudio, $link);
 						$ncardsaudio = mysql_num_rows($resultaudio);
 						//$cardrowaudio = mysql_fetch_array($resultaudio);
-						if($ncardsaudio!=0){
-							echo"<TR><TD><B>".$straudio.":</B></TD></tr><tr><td> </td><TD><B><i>".$strsources."</B> : </TD></TR>";
-						}
+						$counteraud=0;
 						
 						while($cardrow4 = mysql_fetch_array($resultaudio)){
 						  
 							//---a�adido---mostrar archivo audio
 							
 							$cardrowidaudio = stripslashes($cardrow4['genetic_audio_id']);
-							
-							
-							$queryaudioid = genetic_show_audio_id($cardrowidaudio);
-							$resultaudioid = mysql_query($queryaudioid, $link);
-							while($cardrow4 = mysql_fetch_array($resultaudioid))
+							if(($cardrowidaudio!=0)&&($counteraud==0))
 							{
-							$cardrowsrcaudio = stripslashes($cardrow4['srcaudio']);
-							$cardrowaudioname = stripslashes($cardrow4['fileaudio']);
-					
-							//$rutaEnServidor='../../files';
-							//$rutaDestino=$rutaEnServidor.'/'.$cardrow4['fileaudio'];
-							$rutaDestino='http://localhost/moodle/file.php/'.$COURSE->id.'/audio/'.$cardrowaudioname;
+									echo"<tr><td colspan='4' height='10'><hr></td></tr>";
+									echo"<TR><TD colspan='4' ><B>".$straudio.":</B></TD></tr>";
+									echo"<tr><td></td><TD><B><i>".$strsources.":</i></B> </TD></TR>";
+									$counteraud=1;
+							}
 							
-							echo "<TR><NOBR><TD><IMG SRC=\"images/Sound.gif\"><A HREF=".$rutaDestino." target=\"blank\" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$cardrowaudioname."</A></TD></NOBR><TD>".$cardrowsrcaudio."</TD></TR>";		
+								$queryaudioid = genetic_show_audio_id($cardrowidaudio);
+								$resultaudioid = mysql_query($queryaudioid, $link);
+								while($cardrow4 = mysql_fetch_array($resultaudioid))
+								{
+										$cardrowsrcaudio = stripslashes($cardrow4['srcaudio']);
+										$cardrowaudioname = stripslashes($cardrow4['fileaudio']);
+										$rutaDestino='http://localhost/moodle/file.php/'.$COURSE->id.'/audio/'.$cardrowaudioname;
 							
+										echo "<TR><TD><IMG SRC=\"images/Sound.gif\"><A HREF=".$rutaDestino." target=\"blank\" >&nbsp;&nbsp;".$cardrowaudioname."</A></TD><TD>".$cardrowsrcaudio."</TD></TR>";		
+							
+										}
 							}
 						
 						
-						}
 						
 						
 						
@@ -1735,8 +1714,10 @@
 									
 									if($cardrowterm!=$cardrowcross){
 									
-									if($r==0){echo"<TR><TD><B><NOBR>".$strcross."</B> Este termino tambien aparece en las siguientes entradas:</NOBR></TD></TR>";
-									echo"<TR><TD>"; $r=1;}
+									if($r==0){
+										echo"<tr><td colspan='4' height='10'><hr></td></tr>";
+										echo"<TR><TD><B><NOBR>".$strcross.". </B><i>".get_string('crosstermsentence','genetic').":</i></NOBR></TD></TR>";
+										echo"<TR><TD>"; $r=1;}
 									
 									echo"&nbsp;&nbsp;<a href=\"search.php?id=$id&term=$cardrowcross&search=term&way=exact\"><NOBR>".$cardrowcross."</NOBR>";
 									
@@ -1753,13 +1734,14 @@
 						  $resultadoref = mysql_query($consultaref, $link);
 						  $numeroref = mysql_num_rows($resultadoref);
 						  if($numeroref!=0){
-								echo"<TR><TD><B>".$strrem.":</B></TD></TR>";	
+								echo"<tr><td colspan='4' height='10'><hr></td></tr><TR>";
+						  		echo"<TR><TD colspan='4'><B>".$strrem.":</B></TD></TR>";	
 								while($cardrowref = mysql_fetch_array($resultadoref)){
 									//---a�adido---mostrar crossrelations
 						
 									$cardrowref = stripslashes($cardrowref['rem_type']);
 									
-									echo"<TR><NOBR><TD><B>".get_string($cardrowref,"genetic").":</B></TD></NOBR></TR>";
+									echo"<TR><NOBR><TD><B><i>&nbsp;&nbsp;&nbsp;&nbsp;".get_string($cardrowref,"genetic").":</B></i></TD></NOBR>";
 									
 									$consultaref2 = genetic_show_remissions_name($cardrowref,$cardrowid);
 									$resultadoref2 = mysql_query($consultaref2, $link);
@@ -1769,7 +1751,7 @@
 									
 										$cardrowrem2 = stripslashes($cardrowref2['remission']);
 									
-										echo"<TR><TD>".$cardrowrem2."</TD></TR>";
+										echo"<TD>".$cardrowrem2."</TD></tr>";
 									
 									
 									}
@@ -1795,16 +1777,19 @@
 						// Empty fields?
 						if (($sourcerowterm != '') || ($sourcerowdefinition != '') || ($sourcerowcontext != '') || ($sourcerowexpression != '') || ($sourcerowrv != '') || ($sourcerownotes != '')) {
 							// Print the entries of the sources
-							echo "<TR><TD ROWSPAN=\"6\" VALIGN=\"top\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<B>".$strsources.":</B>&nbsp;&nbsp;</TD><TD></TD><NOBR><TD>".$strterm.":&nbsp;&nbsp;".$sourcerowterm."</TD></NOBR></TR>
-								<TR><TD></TD><NOBR><TD>".$strdefinition.":&nbsp;&nbsp;".$sourcerowdefinition."</TD></NOBR></TR>
-								<TR><TD></TD><NOBR><TD>".$strcontext.":&nbsp;&nbsp;".$sourcerowcontext."</TD></NOBR></TR>
-								<TR><TD></TD><NOBR><TD>".$strexpression.":&nbsp;&nbsp;".$sourcerowexpression."</TD></NOBR></TR>
-								<TR><TD></TD><NOBR><TD>".$strrv.":&nbsp;&nbsp;".$sourcerowrv."</TD></NOBR></TR>
-								<TR><TD></TD><NOBR><TD>".$strnotes.":&nbsp;&nbsp;".$sourcerownotes."</TD></NOBR></TR>
+							echo "<tr><td colspan='4' height='10'><hr></td></tr>";
+							echo "<TR><TD colSPAN=\"4\" VALIGN=\"top\"><B>".$strsources.":</B>&nbsp;&nbsp;</td></tr>";
+							echo "<tr><TD><b><i>&nbsp;&nbsp;&nbsp;&nbsp;".$strterm.":</b></i></td><td>".$sourcerowterm."</TD></TR>
+								<TR><TD><b><i>&nbsp;&nbsp;&nbsp;&nbsp;".$strdefinition.":</b></i></td><td>".$sourcerowdefinition."</TD></NOBR></TR>
+								<TR><TD><b><i>&nbsp;&nbsp;&nbsp;&nbsp;".$strcontext.":</b></i></td><td>".$sourcerowcontext."</TD></NOBR></TR>
+								<TR><TD><b><i>&nbsp;&nbsp;&nbsp;&nbsp;".$strexpression.":</b></i></td><td>".$sourcerowexpression."</TD></NOBR></TR>
+								<TR><TD><b><i>&nbsp;&nbsp;&nbsp;&nbsp;".$strrv.":</b></i></td><td>".$sourcerowrv."</TD></NOBR></TR>
+								<TR><TD><b><i>&nbsp;&nbsp;&nbsp;&nbsp;".$strnotes.":</b></i></td><td>".$sourcerownotes."</TD></NOBR></TR>
 								</TABLE>";
 						}
 						else {
-							echo "<TR><TD><B>&nbsp;&nbsp;".$strsources."</B>&nbsp;&nbsp;</TD><TD>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<NOBR>".$strnosources."</NOBR></TD></TR>
+							echo "<tr><td colspan='4' height='10'><hr></td></tr>";
+							echo "<TR><TD><B>".$strsources."</B></TD><TD><NOBR><i>".$strnosources."</i></NOBR></TD></TR>
 								</TABLE>";
 						}
 					}
