@@ -105,6 +105,7 @@ $string['continue'] = 'Continuar';
 $string['criteria'] = 'Criterio de búsqueda';
 //---a�adido---
 $string['crossrelatedterms'] = 'Términos cruzados';
+$string['crosstermsentence'] = 'Este término también aparece en las siguientes entradas';
 $string['datecreated'] = 'Fecha de creación / modificación';
 $string['indexuse'] = 'Use este índice para ordenar las fichas según la fecha de creación / modificación o alfabeticamente escogiendo el idioma:';
 $string['datemodified'] = 'Fecha de modificación';
@@ -353,6 +354,7 @@ $string['termnoexistslang'] = 'El término en ese idioma no esta disponible en e
 //--a�adido---
 $string['term_already_exists'] = 'El término ya existe.  Confirma que desea introducir otra vez el término?';
 //--a�adido---
+$string['title_image'] = 'Título de la imagen';
 $string['title_video'] = 'Título del vídeo';
 
 $string['ty'] = 'Proyecto';
