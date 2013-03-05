@@ -125,6 +125,7 @@ $string['deletebeused'] = 'No se puede borrar la institución. La entrada está 
 $string['deletebenok'] = 'Error al borrar la institución';
 $string['deletebeok'] = 'Institución borrada correctamente';
 $string['deletebesure'] = ' Está seguro de borrar la institución ?';
+$string['deleteremission'] = 'Borrar remisión';
 $string['deletesynsure'] = ' Está seguro de borrar el sinónimo ?';
 $string['deletecard'] = 'Borrar ficha terminológica';
 $string['deletecardsure'] = ' Está seguro de borrar la ficha terminológica ?';

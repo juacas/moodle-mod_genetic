@@ -76,7 +76,8 @@ for ($k=0; $k<count($type_rem); $k++) {
 $type_rem_nodefine[0] = "";
 $type_rem = array_merge($type_rem_nodefine,$type_rem);
 echo "var optsNames='".join(',',$opts)."';";
-echo "var optsValues='".join(',',$type_rem)."';"
+echo "var optsValues='".join(',',$type_rem)."';";
+echo "var strDeleteRem='".get_string('deleteremission','genetic')."';"
 ?>
 
 // JS function that dinamically create fields to input remissions in the form 
@@ -130,7 +131,7 @@ addCampo = function (idlang) {
 	a.id='a_'+idlang+"_"+numero;
 	img=document.createElement('img');
 	img.src="images/delete.svg";
-	img.alt="Delete remission";
+	img.alt=strDeleteRem;
 	img.id='deleteimage'+idlang+"_"+numero;
 	a.appendChild(img);
 	nDiv.appendChild(a);
@@ -354,7 +355,7 @@ rObj = function (evt) {
 			echo "</SELECT>
 				  &nbsp;&nbsp;<A href=\"editbe_form.php?id=$id&idbe=document.getElementById('divfech').innerHTML\"><IMG SRC=\"images/Add.gif\" ALT=\"add department\"/></A></TD></TR>";
 				  
-			echo"<div id=\"divfech\"></div>";	 
+			//echo"<div id=\"divfech\"></div>";	 
 			//echo"<div id=\"un_div\"><input type=\"hidden\" id=\"i\" value=\"4\" /></div>";
 			
 
@@ -383,7 +384,7 @@ rObj = function (evt) {
 			echo "<TD>";
 			genetic_select_subdomains3($nivel=0,$prevdomsubdom);
 			echo"</TD>";
-			echo "<TD>&nbsp;&nbsp;<A href=\"editdom_form.php?id=$id&cat=subdomain\"><IMG SRC=\"images/Add.gif\" ALT=\"add subdomain\"/></A></TD></TR>";
+			echo "<TD align=\"left\">&nbsp;&nbsp;<A href=\"editdom_form.php?id=$id&cat=subdomain\"><IMG SRC=\"images/Add.gif\" ALT=\"add subdomain\"/></A></TD></TR>";
 			//echo"</TABLE>";
 			
 			
@@ -419,7 +420,8 @@ rObj = function (evt) {
 		print_box_end($return=false);
 
 //------------------------------
-print_box_start($classes='generalbox boxaligncenter boxwidthwide', '', $return=false);
+		echo "<TR><TD>";
+		print_box_start($classes='generalbox boxaligncenter boxwidthwide', '', $return=false);
 	
 		echo "<TABLE ALIGN=\"center\">";
 
@@ -460,12 +462,17 @@ print_box_start($classes='generalbox boxaligncenter boxwidthwide', '', $return=f
 		print_box_end($return=false);
 
 //-------------------------		
-		echo "<BR /></TD></TR>";
+		echo "<BR /></td></TR>";
 
-		echo "<TR><TD ALIGN=\"center\">";
-		echo "<BR />".$str = get_string("languagecarddata", "genetic");
-		echo "</TD></TR>";
+		//echo "<TR><TD ALIGN=\"center\">";
+		//echo "<BR />".$str = get_string("languagecarddata", "genetic");
+		//echo "</TD></TR>";
 		
+		
+		
+		//echo "<TABLE WIDTH=\"100%\">";
+		//echo "<FORM  NAME=\"addcardform\" METHOD=\"post\" ACTION=\"addcard.php?id=$id\" ENCTYPE=\"multipart/form-data\">";
+		echo "<TR><TD ALIGN=\"center\"><BR />".$str = get_string("languagecarddata", "genetic")."</TD></TR>";
 		echo "<TR><TD>";
 		print_box_start($classes='generalbox boxaligncenter boxwidthwide', '', $return=false);
 		
@@ -504,7 +511,6 @@ print_box_start($classes='generalbox boxaligncenter boxwidthwide', '', $return=f
 			$prevsourcedefinition = optional_param('sourcedefinition'.$idlang, null, PARAM_TEXT);
 			$prevsourcecontext = optional_param('sourcecontext'.$idlang, null, PARAM_TEXT);
 			$prevsourceexpression = optional_param('sourceexpression'.$idlang, null, PARAM_TEXT);
-			$prevsourcerv = optional_param('sourcerv'.$idlang, null, PARAM_TEXT);
 			$prevsourcenotes = optional_param('sourcenotes'.$idlang, null, PARAM_TEXT);
 			$prevrem_type = optional_param('rem_type'.$idlang, null, PARAM_TEXT);
 			
@@ -532,15 +538,15 @@ print_box_start($classes='generalbox boxaligncenter boxwidthwide', '', $return=f
 					// Language 1
 		
 			// Term (VE)
-			echo "<TR><TD ROWSPAN=\"13\" VALIGN=\"top\"><INPUT TYPE=\"hidden\" NAME=\"isolang$idlang\" VALUE=\"".$namelang."\"></TD>";
-			echo "<TD ALIGN=\"right\"><IMG SRC=\"images/".$namelang.".png\">&nbsp;".$namelang."&nbsp;";
-			echo "<B>".$strterm."</B>&nbsp;*</TD>";
+			echo "<TR><TD colSPAN=\"2\" VALIGN=\"top\" align=\"left\"><INPUT TYPE=\"hidden\" NAME=\"isolang$idlang\" VALUE=\"".$namelang."\">";
+			echo "<IMG SRC=\"images/".$namelang.".png\">&nbsp;".$namelang."&nbsp;</td></tr>";
+			echo "<tr><td ALIGN=\"right\"><B>".$strterm."</B>&nbsp;*</TD>";
 			//evp a lo mejor conviene hacer una comprobaci�n if $term!=null
-			echo "<TD COLSPAN=\"2\"><INPUT TYPE=\"text\" NAME=\"term$idlang\" value=\"".$term."\" SIZE=\"50\"></TD></TR>";
+			echo "<TD><INPUT TYPE=\"text\" NAME=\"term$idlang\" value=\"".$term."\" SIZE=\"50\"></TD></TR>";
 			
 			// Gramatic category
 			echo "<TR><TD ALIGN=\"right\"><B>".$strgramcat."</B>&nbsp;*</TD>";
-			echo "<TD COLSPAN=\"2\"><SELECT NAME=\"gramcat$idlang\">";
+			echo "<TD><SELECT NAME=\"gramcat$idlang\">";
 			echo "<OPTION VALUE=\"none\">".$str = get_string("nodefined", "genetic");
 			$gramcat = genetic_array_gramcat($namelang);
 				for ($i=0; $i<count($gramcat); $i++) {
@@ -554,25 +560,25 @@ print_box_start($classes='generalbox boxaligncenter boxwidthwide', '', $return=f
 			
 			// Definition (DF)
 			echo "<TR><TD VALIGN=\"top\" ALIGN=\"right\"><B>".$strdefinition."</B>&nbsp;*</TD>";
-			echo "<TD COLSPAN=\"2\"><INPUT TYPE=\"TEXTAREA\" NAME=\"definition$idlang\" value=\"".$prevdefinition."\" ROWS=\"2\" COLS=\"70\" WRAP=\"soft\"></TEXTAREA></TD></TR>";
+			echo "<TD><INPUT TYPE=\"TEXTAREA\" NAME=\"definition$idlang\" value=\"".$prevdefinition."\" ROWS=\"2\" COLS=\"70\" WRAP=\"soft\"></TEXTAREA></TD></TR>";
 						
 			// Context (CT)
 			echo "<TR><TD VALIGN=\"top\" ALIGN=\"right\"><B>".$strcontext."</B>&nbsp;*</TD>";
-			echo "<TD COLSPAN=\"2\"><INPUT TYPE=\"TEXTAREA\" NAME=\"context$idlang\" value=\"".$prevcontext."\" ROWS=\"2\" COLS=\"70\" WRAP=\"soft\"></TEXTAREA></TD></TR>";
+			echo "<TD><INPUT TYPE=\"TEXTAREA\" NAME=\"context$idlang\" value=\"".$prevcontext."\" ROWS=\"2\" COLS=\"70\" WRAP=\"soft\"></TEXTAREA></TD></TR>";
 
 			// Expression (PH)
 			echo "<TR><TD VALIGN=\"top\" ALIGN=\"right\"><B>".$strexpression."</B>&nbsp;</TD>";
-			echo "<TD COLSPAN=\"2\"><INPUT TYPE=\"TEXTAREA\" NAME=\"expression$idlang\" value=\"".$prevexpression."\" ROWS=\"2\" COLS=\"70\" WRAP=\"soft\"></TEXTAREA></TD></TR>";
+			echo "<TD><INPUT TYPE=\"TEXTAREA\" NAME=\"expression$idlang\" value=\"".$prevexpression."\" ROWS=\"2\" COLS=\"70\" WRAP=\"soft\"></TEXTAREA></TD></TR>";
 			
 			
 			// Notes (NT)
 			echo "<TR><TD VALIGN=\"top\" ALIGN=\"right\"><B>".$strnotes."</B>&nbsp;</TD>";
-			echo "<TD COLSPAN=\"2\"><INPUT TYPE=\"TEXTAREA\" NAME=\"notes$idlang\" value=\"".$prevnotes."\" ROWS=\"2\" COLS=\"70\" WRAP=\"soft\"></TEXTAREA></TD></TR>";
+			echo "<TD><INPUT TYPE=\"TEXTAREA\" NAME=\"notes$idlang\" value=\"".$prevnotes."\" ROWS=\"2\" COLS=\"70\" WRAP=\"soft\"></TEXTAREA></TD></TR>";
 			
 			
 			//weighting mark
 			echo "<TR><TD ALIGN=\"right\"><B>".$strwm."</B></NOBR>&nbsp;</TD>";
-			echo "<TD COLSPAN=\"2\"><SELECT NAME=\"weight_type$idlang\">";
+			echo "<TD><SELECT NAME=\"weight_type$idlang\">";
 				echo "<OPTION VALUE=\"\">".$str = get_string("nodefined", "genetic");
 				$weighting_mark = genetic_array_weighting_mark();
 				for ($i=0; $i<count($weighting_mark); $i++) {
@@ -586,7 +592,7 @@ print_box_start($classes='generalbox boxaligncenter boxwidthwide', '', $return=f
 			
 			
 			// Sources language 
-			echo "<TR><TD ROWSPAN=\"6\" VALIGN=\"top\" ALIGN=\"right\"><B>".$strsources."</B>&nbsp;</TD>";
+			echo "<TR><TD ROWSPAN=\"5\" VALIGN=\"top\" ALIGN=\"right\"><B>".$strsources."</B>&nbsp;</TD>";
 			echo "<TD>".$strterm."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE=\"text\" NAME=\"sourceterm$idlang\" value=\"".$prevsourceterm."\" SIZE=\"63\"></TD></TR>";
 			echo "<TR><TD>".$strdefinition."&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE=\"text\" NAME=\"sourcedefinition$idlang\" value=\"".$prevsourcedefinition."\" SIZE=\"63\"></TD></TR>";
 
@@ -594,22 +600,17 @@ print_box_start($classes='generalbox boxaligncenter boxwidthwide', '', $return=f
 
 			echo "<TR><TD>".$strexpression."&nbsp;<INPUT TYPE=\"text\" NAME=\"sourceexpression$idlang\" value=\"".$prevsourceexpression."\" SIZE=\"63\"></TD></TR>";
 
-			echo "<TR><TD>".$strrv."&nbsp;<INPUT TYPE=\"text\" NAME=\"sourcerv$idlang\" value=\"".$prevsourcerv."\" SIZE=\"63\"></TD></TR>";
-			
 			echo "<TR><TD>".$strnotes."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE=\"text\" NAME=\"sourcenotes$idlang\" value=\"".$prevsourcenotes."\" SIZE=\"63\"></TD></TR>";
 			
-			echo "<TR><TD COLSPAN=\"4\"><BR /></TD></TR>";
+			echo "<TR><TD COLSPAN=\"2\"><BR /></TD></TR>";
 			
 			// Referrals (RV)
-			echo "<TR><TD></TD><TD ALIGN=\"right\"><NOBR><B>".$strrv."</B></NOBR>&nbsp;</TD>";
+			echo "<TR><TD ALIGN=\"right\"><NOBR><B>".$strrv."</B></NOBR>&nbsp;</TD>";
 			
 			//echo "<TR><TD></TD><TD VALIGN=\"top\" ALIGN=\"right\">".$strabreviaturas."&nbsp;</TD><TD  COLSPAN=\"2\"><INPUT TYPE=\"text\" NAME=\"abreviaturas[]\" SIZE=\"50\"></TD></TR>";
 			//echo "<TD></TD><TD VALIGN=\"top\" ALIGN=\"right\">".$stracronyms."&nbsp;</TD>&nbsp;<TD  COLSPAN=\"2\"><INPUT TYPE=\"text\" NAME=\"acronyms[]\" SIZE=\"50\"></TD></TR>";
-			echo "<TD COLSPAN=\"2\">";
-			
-			
-			
-			
+			echo "<TD>";
+						
 			echo "<fieldset><legend>$strrv</legend>";
 			echo "<div id=\"remissions$idlang\">";
 			echo "<SELECT ID=\"remtype_".$idlang."_1\" NAME=\"remtype_".$idlang."_1\" id=\"selector\">";
@@ -628,10 +629,10 @@ print_box_start($classes='generalbox boxaligncenter boxwidthwide', '', $return=f
 
 			//$strtyperem=implode(',',$type_rem);
 			echo"<INPUT TYPE=\"text\" NAME=\"remission_".$idlang."_1\" ID=\"remission_".$idlang."_1\" value=\"".$prevremission[$idlang]."\" SIZE=\"40\">";
-			echo"<a id=\"a_".$idlang."_1\" onClick=\"deleteRemission($idlang,1);\"><IMG SRC=\"images/delete.svg\" ALT=\"Delete remission\"/></a>";
+			echo"<a id=\"a_".$idlang."_1\" onClick=\"deleteRemission($idlang,1);\"><IMG SRC=\"images/delete.svg\" ALT=\"".get_string('deleteremission','genetic')."\"/></a>";
 			echo "</div>";
-			echo "</fieldset>";
-			echo "<a onClick=\"addCampo($idlang);\"><IMG SRC=\"images/Add.gif\" ALT=\"add remission\"/></a></TD></TR>";
+			echo "</fieldset></td></tr>";
+			echo "<tr><td></td><td align=\"left\"><a onClick=\"addCampo($idlang);\"><IMG SRC=\"images/Add.gif\" ALT=\"add remission\"/></a></TD></TR>";
 			//echo "<a  onClick=\"addCampo($idlang,'$strtyperem');\"><IMG SRC=\"images/Add.gif\" ALT=\"add remission\"/></a></TD></TR>";
 				
 	//		echo"<INPUT TYPE=\"text\" NAME=\"remission$idlang\" value=\"".$prevremission."\" SIZE=\"40\"> <a href=\"#\" onClick=\"addCampo($idlang)\"><IMG SRC=\"images/Add.gif\" ALT=\"add remission\"/></a></div></TD></TR>";
@@ -639,13 +640,13 @@ print_box_start($classes='generalbox boxaligncenter boxwidthwide', '', $return=f
 			
 			
 			
-			echo "<TR><TD COLSPAN=\"20\"><BR /></TD></TR>";
+			echo "<TR><TD COLSPAN=\"2\"><BR /></TD></TR>";
 			
 			
 		
 			// A�adir los archivos de audio 
 			
-			echo "<TD ALIGN=\"right\"><B>".$straudio."</B>&nbsp;</TD>";
+			echo "<tr><TD ALIGN=\"right\"><B>".$straudio."</B>&nbsp;</TD>";
 			
 			echo "<TD><SELECT MULTIPLE NAME=\"audio".$idlang."[]\" >";
 				$query = genetic_show_audio_files($namelang);
@@ -676,7 +677,7 @@ print_box_start($classes='generalbox boxaligncenter boxwidthwide', '', $return=f
 		
 			//----a�adido---subir los videos en el lenguaje 1
 			
-			echo "<TD ALIGN=\"right\"><B>".$strvideos."</B>&nbsp;</TD>";
+			echo "<tr><TD ALIGN=\"right\"><B>".$strvideos."</B>&nbsp;</TD>";
 			
 			
 			echo "<TD><SELECT MULTIPLE NAME=\"video".$idlang."[]\" >";
@@ -705,7 +706,7 @@ print_box_start($classes='generalbox boxaligncenter boxwidthwide', '', $return=f
 			echo "</SELECT>
 				  &nbsp;&nbsp;<A href=\"editvi_form.php?id=$id\"><IMG SRC=\"images/Add.gif\" ALT=\"add video\"/></A></TD></TR>";
 			
-			echo "<TR><TD COLSPAN=\"4\"><BR /></TD></TR>";
+			echo "<TR><TD COLSPAN=\"2\"><BR /></TD></TR>";
 			
 			//echo "<TR><TD COLSPAN=\"20\"><BR /></TD></TR>";
 			
@@ -714,7 +715,7 @@ print_box_start($classes='generalbox boxaligncenter boxwidthwide', '', $return=f
 		echo "</TABLE>";
 		print_box_end($return=false);
 		echo "</TD></TR>";
-		
+		//echo"<br><br>";
 		echo "<TR><TD ALIGN=\"center\"><BR /><BR />";
 		//echo "<INPUT NAME= \"send\" id=\"send\" TYPE=\"submit\" VALUE=\"".$str = get_string("save", "genetic")."\" NAME=\"buttonsave\" />&nbsp;&nbsp;";
 		echo "<INPUT NAME= \"buttonsave\" id=\"send\" TYPE=\"button\" VALUE=\"".$str = get_string("save", "genetic")."\"  onclick=\"this.form.action='addcard.php?id=$id';this.form.submit()\";	>&nbsp;&nbsp;";

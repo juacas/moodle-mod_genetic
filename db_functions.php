@@ -1319,10 +1319,10 @@ function genetic_insert_card($idgenetic, $ni, $isolang, $term, $gramcat, $defini
 
 
 // Insert source
-function genetic_insert_source($cardid, $sourceterm, $sourcedefinition, $sourcecontext, $sourceexpression, $sourcerv, $sourcenotes) {
+function genetic_insert_source($cardid, $sourceterm, $sourcedefinition, $sourcecontext, $sourceexpression, $sourcenotes) {
     global $CFG;
-	$query = "INSERT INTO {$CFG->prefix}genetic_sources(idcard, srcterm, srcdefinition, srccontext, srcexpression, srcrv, srcnotes)
-		VALUES ('$cardid', '$sourceterm', '$sourcedefinition', '$sourcecontext', '$sourceexpression', '$sourcerv', '$sourcenotes')";
+	$query = "INSERT INTO {$CFG->prefix}genetic_sources(idcard, srcterm, srcdefinition, srccontext, srcexpression, srcnotes)
+		VALUES ('$cardid', '$sourceterm', '$sourcedefinition', '$sourcecontext', '$sourceexpression', '$sourcenotes')";
 	return $query;
 }
 
@@ -1529,10 +1529,10 @@ function genetic_update_card($cardid, $term, $gramcat, $definition, $context, $e
 
 
 // Update source
-function genetic_update_source($cardid, $sourceterm, $sourcedefinition, $sourcecontext, $sourceexpression, $sourcerv, $sourcenotes) {
+function genetic_update_source($cardid, $sourceterm, $sourcedefinition, $sourcecontext, $sourceexpression, $sourcenotes) {
     global $CFG;
 	$query = "UPDATE {$CFG->prefix}genetic_sources
-	    SET srcterm='$sourceterm', srcdefinition='$sourcedefinition', srccontext='$sourcecontext', srcexpression='$sourceexpression', srcrv='$sourcerv', srcnotes='$sourcenotes' 
+	    SET srcterm='$sourceterm', srcdefinition='$sourcedefinition', srccontext='$sourcecontext', srcexpression='$sourceexpression',srcnotes='$sourcenotes' 
 	    WHERE idcard='$cardid'";
 	return $query;
 }

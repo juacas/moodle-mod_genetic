@@ -120,7 +120,6 @@
 		$sourcedefinition[$idlanguage] = optional_param('sourcedefinition'.$idlanguage, '', PARAM_TEXT);
 		$sourcecontext[$idlanguage] = optional_param('sourcecontext'.$idlanguage, null, PARAM_TEXT);
 		$sourceexpression[$idlanguage] = optional_param('sourceexpression'.$idlanguage, '', PARAM_TEXT);
-		$sourcerv[$idlanguage] = optional_param('sourcerv'.$idlanguage, null, PARAM_TEXT);
 		$sourcenotes[$idlanguage] = optional_param('sourcenotes'.$idlanguage, '', PARAM_TEXT);
 		
 		$videos[$idlanguage] = optional_param('video'.$idlanguage, 0, PARAM_INT);
@@ -296,7 +295,6 @@
 												echo "<INPUT TYPE=\"hidden\" NAME=\"sourcedefinition$idlanguage\" VALUE=\"".$sourcedefinition[$idlanguage]."\">";
 												echo "<INPUT TYPE=\"hidden\" NAME=\"sourcecontext$idlanguage\" VALUE=\"".$sourcecontext[$idlanguage]."\">";
 												echo "<INPUT TYPE=\"hidden\" NAME=\"sourceexpression$idlanguage\" VALUE=\"".$sourceexpression[$idlanguage]."\">";
-												echo "<INPUT TYPE=\"hidden\" NAME=\"sourcerv$idlanguage\" VALUE=\"".$sourcerv[$idlanguage]."\">";
 												echo "<INPUT TYPE=\"hidden\" NAME=\"sourcenotes$idlanguage\" VALUE=\"".$sourcenotes[$idlanguage]."\">";
 	
 												$long=count($remission[$idlanguage]);
@@ -438,13 +436,13 @@
 				
 				// Sources 
 				if($card_exists){
-				$query = genetic_update_source($cardid[$idlanguage], $sourceterm[$idlanguage], $sourcedefinition[$idlanguage], $sourcecontext[$idlanguage], $sourceexpression[$idlanguage], $sourcerv[$idlanguage], $sourcenotes[$idlanguage]);				
+				$query = genetic_update_source($cardid[$idlanguage], $sourceterm[$idlanguage], $sourcedefinition[$idlanguage], $sourcecontext[$idlanguage], $sourceexpression[$idlanguage],  $sourcenotes[$idlanguage]);				
 				}else{
 					$query = genetic_show_lastcard();
 					$result = mysql_query($query,$link);
 					$row = mysql_fetch_array($result);
 					$newcardid = $row['id'];
-					$query = genetic_insert_source($newcardid, $sourceterm[$idlanguage], $sourcedefinition[$idlanguage], $sourcecontext[$idlanguage], $sourceexpression[$idlanguage], $sourcerv[$idlanguage], $sourcenotes[$idlanguage]);		
+					$query = genetic_insert_source($newcardid, $sourceterm[$idlanguage], $sourcedefinition[$idlanguage], $sourcecontext[$idlanguage], $sourceexpression[$idlanguage],  $sourcenotes[$idlanguage]);		
 				}
 				$result = mysql_query($query,$link);
 				$nok = mysql_affected_rows($link);
@@ -454,10 +452,16 @@
 				$query = genetic_delete_remissions($cardid[$idlanguage]);
 				$result = mysql_query($query,$link);
 				
+				if($card_exists){
+					$idcard=$cardid[$idlanguage];
+				}else{
+					$idcard=$newcardid;
+				}
+				
 				if($numfieldsremission[$idlanguage]>0){
 					$long=count($remission[$idlanguage]);
 					for ($z=0;$z<$long;$z++){
-					$query = genetic_insert_remission($cardid[$idlanguage],$remission[$idlanguage][$z],$rem_type[$idlanguage][$z]);
+					$query = genetic_insert_remission($idcard,$remission[$idlanguage][$z],$rem_type[$idlanguage][$z]);
 					$result = mysql_query($query,$link);
 					$nok = mysql_affected_rows($link);
 					// Update ok or not?
@@ -472,27 +476,29 @@
 					}
 				}
 				//Audio 
-			
+				
+				if($card_exists){
 				$query = genetic_delete_audio($cardid[$idlanguage]);
 				$result = mysql_query($query,$link);
 				$nok3 = mysql_affected_rows($link);
-			
+				}
+					
 				for ($k=0; $k<count($audio[$idlanguage]); $k++) {
 				
-					$query = genetic_insert_has_audio($cardid[$idlanguage],$audio[$idlanguage][$k]);
+					$query = genetic_insert_has_audio($idcard,$audio[$idlanguage][$k]);
 					$result = mysql_query($query, $link);
 				}
 				
 					//videos  
-			
+			if($card_exists){
 					$query = genetic_delete_video($cardid[$idlanguage]);
 					$result = mysql_query($query,$link);
 					$nok3 = mysql_affected_rows($link);
-			
+			}
 			
 				for ($k=0; $k<count($videos); $k++) {
 				
-					$query = genetic_insert_has_video($cardid[$idlanguage],$videos[$idlanguage][$k]);
+					$query = genetic_insert_has_video($idcard,$videos[$idlanguage][$k]);
 					$result = mysql_query($query, $link);
 				}
 			

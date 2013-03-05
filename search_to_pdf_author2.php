@@ -82,7 +82,7 @@ $author = utf8_decode(optional_param('author', '', PARAM_TEXT));
 
 							
 			
-							//define el tipo, estilo y tamaño de fuente / letra a utilizar
+							//define el tipo, estilo y tamaï¿½o de fuente / letra a utilizar
 							$pdf->SetFont('Arial','B',12); 
 			
 			
@@ -122,7 +122,7 @@ $author = utf8_decode(optional_param('author', '', PARAM_TEXT));
 							
 							
 							
-								// agrega una página al pdf
+								// agrega una pï¿½gina al pdf
 									$pdf->AddPage();
 				
 									///------------------
@@ -136,9 +136,9 @@ $author = utf8_decode(optional_param('author', '', PARAM_TEXT));
 									$pdf->SetFont('Arial','B',15);
 									// Movernos a la derecha
 									$pdf->Cell(80);
-									// Título
+									// Tï¿½tulo
 									$pdf->Cell(30,10,utf8_decode($genetic->name),0,0,'C');
-									// Salto de línea
+									// Salto de lï¿½nea
 									$pdf->Ln(20);
 			
 				//END HEAD DOCUMENT
@@ -417,7 +417,7 @@ $author = utf8_decode(optional_param('author', '', PARAM_TEXT));
 										}
 										///IMAGENES
 										
-											// ---añadido---GET THE IMAGES  
+											// ---aï¿½adido---GET THE IMAGES  
 						
 											
 																  
@@ -443,7 +443,7 @@ $author = utf8_decode(optional_param('author', '', PARAM_TEXT));
 										//echo"<TR><TD><IMG SRC=\"images/Picture.gif\"><B>".$strimagenes."</B></TD><TD></TD><TD><B>".$strsrc."</TD></TR>";
 											while($cardrow3 = mysql_fetch_array($resultc2))
 											{
-											//---añadido---mostrar imagenes
+											//---aï¿½adido---mostrar imagenes
 						
 						
 												if($cardrowisolang=='es')
@@ -505,7 +505,7 @@ $author = utf8_decode(optional_param('author', '', PARAM_TEXT));
 						
 										}
 						
-										// ---añadido---GET THE VIDEOS  
+										// ---aï¿½adido---GET THE VIDEOS  
 										$query4 = genetic_show_videos($cardrowid);
 										$resultc4 = mysql_query($query4, $link);
 										$ncards4 = mysql_num_rows($resultc4);
@@ -528,7 +528,7 @@ $author = utf8_decode(optional_param('author', '', PARAM_TEXT));
 										//echo"<TR><TD><B>".$strvideos."</B></TD><TD></TD><TD><B>".$straudio.":</TD><TD><B>".$strsrc."</TD></TR>";
 											while($cardrow4 = mysql_fetch_array($resultc4))
 											{
-												//---añadido---mostrar videos
+												//---aï¿½adido---mostrar videos
 							
 												$cardrowfile_video = stripslashes($cardrow4['filevideo']);
 												if($cardrowisolang=='es')
@@ -599,7 +599,7 @@ $author = utf8_decode(optional_param('author', '', PARAM_TEXT));
 										if($ncards4!=0){
 										//ncard4 seria el numero de archivos de audio de cada termino
 							
-										//---añadido---mostrar archivo audio
+										//---aï¿½adido---mostrar archivo audio
 							
 											$cardrowidaudio = stripslashes($cardrow4['genetic_audio_id']);
 											if($cardrowidaudio!=0){
@@ -709,7 +709,7 @@ $author = utf8_decode(optional_param('author', '', PARAM_TEXT));
 											$pdf->Cell(30,5,$strcross.':');
 										
 										while($cardrow6 = mysql_fetch_array($resultado)){
-									//---añadido---mostrar crossrelations
+									//---aï¿½adido---mostrar crossrelations
 						
 											$cardrowcross = stripslashes($cardrow6['term']);
 											$cardrowcross_link = stripslashes($cardrow6['isolang']);
@@ -733,10 +733,9 @@ $author = utf8_decode(optional_param('author', '', PARAM_TEXT));
 									$sourcerowdefinition = stripslashes($sourcerow['srcdefinition']);
 									$sourcerowcontext = stripslashes($sourcerow['srccontext']);
 									$sourcerowexpression = stripslashes($sourcerow['srcexpression']);
-									$sourcerowrv = stripslashes($sourcerow['srcrv']);
 									$sourcerownotes = stripslashes($sourcerow['srcnotes']);
 									// Empty fields?
-									if (($sourcerowterm != '') || ($sourcerowdefinition != '') || ($sourcerowcontext != '') || ($sourcerowexpression != '') || ($sourcerowrv != '') || ($sourcerownotes != '')) {
+									if (($sourcerowterm != '') || ($sourcerowdefinition != '') || ($sourcerowcontext != '') || ($sourcerowexpression != '') || ($sourcerownotes != '')) {
 								// Print the entries of the sources
 							
 							
@@ -835,9 +834,9 @@ $author = utf8_decode(optional_param('author', '', PARAM_TEXT));
 				$pdf->Ln(16);
 				// Movernos a la derecha
 				$pdf->Cell(60);
-				// Título
+				// Tï¿½tulo
 				$pdf->Cell(5,5,$strfoot,0,0);
-				// Salto de línea
+				// Salto de lï¿½nea
 				//$pdf->SetY(265);
 				$pdf->Ln(5);
 				$pdf->Cell(0,5,'Page '.$pdf->PageNo().'/'.ceil($n),0,0,'C');
@@ -859,7 +858,7 @@ $author = utf8_decode(optional_param('author', '', PARAM_TEXT));
 			
 			
 			
-			// Salto de línea
+			// Salto de lï¿½nea
 			$pdf->Ln(20);
 			
 		

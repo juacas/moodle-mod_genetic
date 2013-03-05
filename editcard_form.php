@@ -73,7 +73,8 @@ evento = function (evt) { //esta funcion nos devuelve el tipo de evento disparad
 		$type_rem_nodefine[0] = "";
 		$type_rem = array_merge($type_rem_nodefine,$type_rem);
 		echo "var optsNames='".join(',',$opts)."';";
-		echo "var optsValues='".join(',',$type_rem)."';"
+		echo "var optsValues='".join(',',$type_rem)."';";
+		echo "var strDeleteRem='".get_string('deleteremission','genetic')."';"
 ?>
 		
 		// JS function that dinamically create fields to input remissions in the form 
@@ -124,7 +125,7 @@ addCampo = function (idlang) {
 			a.id='a_'+idlang+"_"+numero;
 			img=document.createElement('img');
 			img.src="images/delete.svg";
-			img.alt="Delete remission";
+			img.alt=strDeleteRem;
 			img.id='deleteimage'+idlang+"_"+numero;
 			a.appendChild(img);
 			nDiv.appendChild(a);
@@ -228,7 +229,6 @@ rObj = function (evt) {
 	$strdefinition = get_string("definition", "genetic");
 	$strcontext = get_string("context", "genetic");
 	$strexpression = get_string("expression", "genetic");
-	$strrv = get_string("rv", "genetic");
 	$strnotes = get_string("notes", "genetic");
 	$strsources = get_string("sources", "genetic");
 	$stracronims= get_string("acronyms", "genetic");
@@ -240,6 +240,7 @@ rObj = function (evt) {
 	$strvideos=get_string("videos", "genetic");
 	$straudio=get_string("audio", "genetic");
 	$strwm=get_string("wm", "genetic");
+	$strrv = get_string("rv", "genetic");
 	
 	// Get card information
 	// Connect to the db
@@ -479,9 +480,9 @@ rObj = function (evt) {
 								
 		
 			// Term (VE)
-			echo "<TR><TD ROWSPAN=\"13\" VALIGN=\"top\"><INPUT TYPE=\"hidden\" NAME=\"isolang$idlang\" VALUE=\"".$namelang."\">";
+			echo "<TR><INPUT TYPE=\"hidden\" NAME=\"isolang$idlang\" VALUE=\"".$namelang."\">";
 			//echo "<IMG SRC=\"images/".$cardrowisolang.".png\">";
-			echo "<INPUT TYPE=\"hidden\" NAME=\"cardid$idlang\" VALUE=\"".$cardrowid."\"></TD>";
+			echo "<INPUT TYPE=\"hidden\" NAME=\"cardid$idlang\" VALUE=\"".$cardrowid."\">";
 			echo "<TD ALIGN=\"right\"><IMG SRC=\"images/".$namelang.".png\">&nbsp;&nbsp;&nbsp;<B>".$strterm."</B>&nbsp;*</TD>"; 
 			echo "<TD COLSPAN=\"2\"><INPUT TYPE=\"text\" NAME=\"termino$idlang\" SIZE=\"50\" VALUE=\"".$cardrowterm."\"></TD></TR>";
 			
@@ -550,11 +551,10 @@ rObj = function (evt) {
 				$sourcerowdefinition = stripslashes($sourcerow['srcdefinition']);
 				$sourcerowcontext = stripslashes($sourcerow['srccontext']);
 				$sourcerowexpression = stripslashes($sourcerow['srcexpression']);
-				$sourcerowrv = stripslashes($sourcerow['srcrv']);
 				$sourcerownotes = stripslashes($sourcerow['srcnotes']);
 			}
 			else {
-				$sourcerowterm = ''; $sourcerowdefinition = ''; $sourcerowcontext = ''; $sourcerowexpression = ''; $sourcerowrv = ''; $sourcerownotes = '';
+				$sourcerowterm = ''; $sourcerowdefinition = ''; $sourcerowcontext = ''; $sourcerowexpression = ''; $sourcerownotes = '';
 			}
 			
 			// Sources Language 1
@@ -566,12 +566,10 @@ rObj = function (evt) {
 
 			echo "<TR><TD>".$strexpression."&nbsp;</TD><TD><INPUT TYPE=\"text\" NAME=\"sourceexpression$idlang\" SIZE=\"63\" VALUE=\"".$sourcerowexpression."\"></TD></TR>";
 
-			echo "<TR><TD>".$strrv."&nbsp;</TD><TD><INPUT TYPE=\"text\" NAME=\"sourcerv$idlang\" SIZE=\"63\" VALUE=\"".$sourcerowrv."\"></TD></TR>";
-			
 			echo "<TR><TD>".$strnotes."&nbsp;</TD><TD><INPUT TYPE=\"text\" NAME=\"sourcenotes$idlang\" SIZE=\"63\" VALUE=\"".$sourcerownotes."\"></TD></TR>";
 			
 			//Referrals (RV)
-			echo "<TR><TD></TD><TD ALIGN=\"right\"><NOBR><B>".$strrv."</B></NOBR>&nbsp;</TD>";
+			echo "<TR><TD ALIGN=\"right\"><NOBR><B>".$strrv."</B></NOBR>&nbsp;</TD>";
 			echo "<TD COLSPAN=\"2\">";
 			
 			$queryrem = genetic_show_remissions($cardrowid); //select the remissions for a card
@@ -597,7 +595,7 @@ rObj = function (evt) {
 				echo "</SELECT>";
 
 				echo"<INPUT TYPE=\"text\" NAME=\"remission_".$idlang."_".$z."\" ID=\"remission_".$idlang."_$z\" value=\"".$cardrowrem."\" SIZE=\"40\">";
-				echo"<a id=\"a_".$idlang."_$z\" onClick=\"deleteRemission($idlang,$z);\"><IMG SRC=\"images/delete.svg\" ALT=\"Delete remission\"/></a>";
+				echo"<a id=\"a_".$idlang."_$z\" onClick=\"deleteRemission($idlang,$z);\"><IMG SRC=\"images/delete.svg\" ALT=\"".get_string('deleteremission','genetic')."\"/></a>";
 				echo"<br id=\"br_".$idlang."_$z\">";
 				$z++;
 			} // end while

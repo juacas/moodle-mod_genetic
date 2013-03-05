@@ -1,4 +1,4 @@
-<?php  // $Id: editty_form.php,v 1.0 2012/06/12 16:40:00 Ana María Lozano de la Fuente Exp $
+<?php  // $Id: editty_form.php,v 1.0 2012/06/12 16:40:00 Ana Marï¿½a Lozano de la Fuente Exp $
 /*********************************************************************************
 
 * This file is part of Genetic.
@@ -7,13 +7,13 @@
 
 * Designed and directed by the ITAST group (http://www.eduvalab.uva.es/contact)
 
-* Implemented by Ana María Lozano de la Fuente, using the previous software called Terminology, implemented by Irene Fernández Ramírez (2010)
+* Implemented by Ana Marï¿½a Lozano de la Fuente, using the previous software called Terminology, implemented by Irene Fernï¿½ndez Ramï¿½rez (2010)
 
  
 
 * @ copyright (C) 2012 ITAST group
 
-* @ author:  Ana María Lozano de la Fuente, Irene Fernández Ramírez, María Jesús Verdú Pérez, Juan Pablo de Castro Fernández, Luisa M. Regueras Santos,  Elena Verdú Pérez and María Ángeles Pérez Juárez
+* @ author:  Ana Marï¿½a Lozano de la Fuente, Irene Fernï¿½ndez Ramï¿½rez, Marï¿½a Jesï¿½s Verdï¿½ Pï¿½rez, Juan Pablo de Castro Fernï¿½ndez, Luisa M. Regueras Santos,  Elena Verdï¿½ Pï¿½rez and Marï¿½a ï¿½ngeles Pï¿½rez Juï¿½rez
 
 * @ package genetic
 
@@ -133,7 +133,7 @@
 	if ($action == "") {	
 		// Print Title
 		print_heading(get_string('addty', 'genetic'), 'center',2);
-		echo"llega".$idbe;				
+			
 		// Form to add a card type
 		print_box_start($classes='generalbox boxaligncenter boxwidthwide', '', $return=false);
 		echo "<TABLE ALIGN=\"center\">";

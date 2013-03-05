@@ -116,7 +116,6 @@
 	    $sourcedefinition[$idlanguage] = optional_param('sourcedefinition'.$idlanguage, null, PARAM_TEXT);
 	    $sourcecontext[$idlanguage] = optional_param('sourcecontext'.$idlanguage, null, PARAM_TEXT);
 	    $sourceexpression[$idlanguage] = optional_param('sourceexpression'.$idlanguage, null, PARAM_TEXT);
-	    $sourcerv[$idlanguage] = optional_param('sourcerv'.$idlanguage, null, PARAM_TEXT);
 	    $sourcenotes[$idlanguage] = optional_param('sourcenotes'.$idlanguage, null, PARAM_TEXT);
 	    $synonyms[$idlanguage] = optional_param('synonyms'.$idlanguage, 0, PARAM_INT);
 	    $video[$idlanguage] = optional_param('video'.$idlanguage, 0, PARAM_INT);
@@ -339,7 +338,6 @@
 								echo "<INPUT TYPE=\"hidden\" NAME=\"sourcedefinition$idlanguage\" VALUE=\"".$sourcedefinition[$idlanguage]."\">";
 								echo "<INPUT TYPE=\"hidden\" NAME=\"sourcecontext$idlanguage\" VALUE=\"".$sourcecontext[$idlanguage]."\">";
 								echo "<INPUT TYPE=\"hidden\" NAME=\"sourceexpression$idlanguage\" VALUE=\"".$sourceexpression[$idlanguage]."\">";
-								echo "<INPUT TYPE=\"hidden\" NAME=\"sourcerv$idlanguage\" VALUE=\"".$sourcerv[$idlanguage]."\">";
 								echo "<INPUT TYPE=\"hidden\" NAME=\"sourcenotes$idlanguage\" VALUE=\"".$sourcenotes[$idlanguage]."\">";
 								
 								$long=count($remission[$idlanguage]);
@@ -469,7 +467,7 @@
 									
 										
 										// Sources language 1
-										$query = genetic_insert_source($cardid, $sourceterm[$idlanguage], $sourcedefinition[$idlanguage], $sourcecontext[$idlanguage], $sourceexpression[$idlanguage], $sourcerv[$idlanguage], $sourcenotes[$idlanguage]);		
+										$query = genetic_insert_source($cardid, $sourceterm[$idlanguage], $sourcedefinition[$idlanguage], $sourcecontext[$idlanguage], $sourceexpression[$idlanguage], $sourcenotes[$idlanguage]);		
 										$result = mysql_query($query,$link);
 										$nok = mysql_affected_rows($link);
 									

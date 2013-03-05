@@ -1747,19 +1747,25 @@
 									$resultadoref2 = mysql_query($consultaref2, $link);
 									$numeroref2 = mysql_num_rows($resultadoref2);
 									
+									$counterrem2=0;
 									while($cardrowref2 = mysql_fetch_array($resultadoref2)){
 									
 										$cardrowrem2 = stripslashes($cardrowref2['remission']);
-									
-										echo"<TD>".$cardrowrem2."</TD></tr>";
-									
+										if($counterrem2==0){
+											echo"<TD>".$cardrowrem2."</TD></tr>";
+										}else{
+											echo"<tr><td>&nbsp;&nbsp;</td><TD>".$cardrowrem2."</TD></tr>";
+										}
+										$counterrem2++;
+										}
+										
 									
 									}
 									
 									
 									}
 									
-							}
+							
 						
 						//fin------------------------------------------------
 						// Get SOURCES of each term
@@ -1772,10 +1778,9 @@
 						$sourcerowdefinition = stripslashes($sourcerow['srcdefinition']);
 						$sourcerowcontext = stripslashes($sourcerow['srccontext']);
 						$sourcerowexpression = stripslashes($sourcerow['srcexpression']);
-						$sourcerowrv = stripslashes($sourcerow['srcrv']);
 						$sourcerownotes = stripslashes($sourcerow['srcnotes']);
 						// Empty fields?
-						if (($sourcerowterm != '') || ($sourcerowdefinition != '') || ($sourcerowcontext != '') || ($sourcerowexpression != '') || ($sourcerowrv != '') || ($sourcerownotes != '')) {
+						if (($sourcerowterm != '') || ($sourcerowdefinition != '') || ($sourcerowcontext != '') || ($sourcerowexpression != '') ||  ($sourcerownotes != '')) {
 							// Print the entries of the sources
 							echo "<tr><td colspan='4' height='10'><hr></td></tr>";
 							echo "<TR><TD colSPAN=\"4\" VALIGN=\"top\"><B>".$strsources.":</B>&nbsp;&nbsp;</td></tr>";
@@ -1783,7 +1788,6 @@
 								<TR><TD><b><i>&nbsp;&nbsp;&nbsp;&nbsp;".$strdefinition.":</b></i></td><td>".$sourcerowdefinition."</TD></NOBR></TR>
 								<TR><TD><b><i>&nbsp;&nbsp;&nbsp;&nbsp;".$strcontext.":</b></i></td><td>".$sourcerowcontext."</TD></NOBR></TR>
 								<TR><TD><b><i>&nbsp;&nbsp;&nbsp;&nbsp;".$strexpression.":</b></i></td><td>".$sourcerowexpression."</TD></NOBR></TR>
-								<TR><TD><b><i>&nbsp;&nbsp;&nbsp;&nbsp;".$strrv.":</b></i></td><td>".$sourcerowrv."</TD></NOBR></TR>
 								<TR><TD><b><i>&nbsp;&nbsp;&nbsp;&nbsp;".$strnotes.":</b></i></td><td>".$sourcerownotes."</TD></NOBR></TR>
 								</TABLE>";
 						}
@@ -2234,7 +2238,6 @@
 							<TR><TD>".$strdefinition.":&nbsp;&nbsp;".$sourcerowdefinition."</TD></TR>
 							<TR><TD>".$strcontext.":&nbsp;&nbsp;".$sourcerowcontext."</TD></TR>
 							<TR><TD>".$strexpression.":&nbsp;&nbsp;".$sourcerowexpression."</TD></TR>
-							<TR><TD>".$strrv.":&nbsp;&nbsp;".$sourcerowrv."</TD></TR>
 							<TR><TD>".$strnotes.":&nbsp;&nbsp;".$sourcerownotes."</TD></TR>
 							</TABLE>";
 					}
