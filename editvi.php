@@ -1,4 +1,4 @@
-<?php  // $Id: editty.php,v 1.0 2012/06/14 10:45:00 Ana María Lozano de la Fuente Exp $
+<?php  // $Id: editty.php,v 1.0 2012/06/14 10:45:00 Ana Marï¿½a Lozano de la Fuente Exp $
 /*********************************************************************************
 
 * This file is part of Genetic.
@@ -7,13 +7,13 @@
 
 * Designed and directed by the ITAST group (http://www.eduvalab.uva.es/contact)
 
-* Implemented by Ana María Lozano de la Fuente, using the previous software called Terminology, implemented by Irene Fernández Ramírez (2010)
+* Implemented by Ana Marï¿½a Lozano de la Fuente, using the previous software called Terminology, implemented by Irene Fernï¿½ndez Ramï¿½rez (2010)
 
  
 
 * @ copyright (C) 2012 ITAST group
 
-* @ author:  Ana María Lozano de la Fuente, Irene Fernández Ramírez, María Jesús Verdú Pérez, Juan Pablo de Castro Fernández, Luisa M. Regueras Santos,  Elena Verdú Pérez and María Ángeles Pérez Juárez
+* @ author:  Ana Marï¿½a Lozano de la Fuente, Irene Fernï¿½ndez Ramï¿½rez, Marï¿½a Jesï¿½s Verdï¿½ Pï¿½rez, Juan Pablo de Castro Fernï¿½ndez, Luisa M. Regueras Santos,  Elena Verdï¿½ Pï¿½rez and Marï¿½a ï¿½ngeles Pï¿½rez Juï¿½rez
 
 * @ package genetic
 
@@ -53,7 +53,7 @@
     include("../../config.php");
     require_once("db_functions.php");
     require_once("lib.php");
-	
+    require_once('echo_hidden_form.php');
 	
 
 
@@ -103,7 +103,57 @@
         }
     }
 	
-
+    // parameters (hidden) used to fill in the add_card form with the data the user entered previously
+    $originpage = optional_param('originpage',null, PARAM_TEXT);
+    $idheader = optional_param('idheader',0,PARAM_INT);
+    $bes = optional_param('be', 0, PARAM_INT);
+    $ty = optional_param('ty', 0, PARAM_INT);
+    $domsubdom = optional_param('domsubdom', 0, PARAM_INT);
+    $authors = optional_param('author', 0, PARAM_INT);
+    $imagen = optional_param('prevformimagen', 0, PARAM_INT);
+    
+    // parameter depending on the language
+    
+    //take the ids of the languages of the dictionary
+    $query=genetic_id_lang($genetic->id);
+    // Connect to the database
+    $link = connect_genetic($CFG->dbhost,$CFG->dbuser,$CFG->dbpass,$CFG->dbname);
+    $resultlang = mysql_query($query,$link);
+    while($langrow=mysql_fetch_array($resultlang))
+    {
+    	$idlanguage=$langrow['genetic_lang_id'];
+    	$isolang[$idlanguage] = optional_param('isolang'.$idlanguage, null, PARAM_TEXT);
+    	$term[$idlanguage] = optional_param('term'.$idlanguage, null, PARAM_TEXT);
+    	$gramcat[$idlanguage] = optional_param('gramcat'.$idlanguage, null, PARAM_TEXT);
+    	$weight_type[$idlanguage] = optional_param('weight_type'.$idlanguage, null, PARAM_TEXT);
+    	$definition[$idlanguage] = optional_param('definition'.$idlanguage, null, PARAM_TEXT);
+    	$formcontext[$idlanguage] = optional_param('context'.$idlanguage, null, PARAM_TEXT);
+    	$expression[$idlanguage] = optional_param('expression'.$idlanguage, null, PARAM_TEXT);
+    	$notes[$idlanguage] = optional_param('notes'.$idlanguage, null, PARAM_TEXT);
+    	$sourceterm[$idlanguage] = optional_param('sourceterm'.$idlanguage, null, PARAM_TEXT);
+    	$sourcedefinition[$idlanguage] = optional_param('sourcedefinition'.$idlanguage, null, PARAM_TEXT);
+    	$sourcecontext[$idlanguage] = optional_param('sourcecontext'.$idlanguage, null, PARAM_TEXT);
+    	$sourceexpression[$idlanguage] = optional_param('sourceexpression'.$idlanguage, null, PARAM_TEXT);
+    	$sourcerv[$idlanguage] = optional_param('sourcerv'.$idlanguage, null, PARAM_TEXT);
+    	$sourcenotes[$idlanguage] = optional_param('sourcenotes'.$idlanguage, null, PARAM_TEXT);
+    
+    	$numfieldsremission[$idlanguage] = optional_param('numfieldsremission'.$idlanguage,0,PARAM_INT);
+    	$j=0;
+    	for($i=1;$i<=$numfieldsremission[$idlanguage];$i++){
+    		if(optional_param('remission_'.$idlanguage.'_'.$i)!=null){
+    			$remission[$idlanguage][$j]=optional_param('remission_'.$idlanguage.'_'.$i);
+    			$rem_type[$idlanguage][$j]=optional_param('remtype_'.$idlanguage.'_'.$i);
+    			$j++;
+    		}
+    		 
+    	}
+    
+    
+    	$prevvideo[$idlanguage] = optional_param('video'.$idlanguage, 0, PARAM_INT);
+    	$audio[$idlanguage] = optional_param('audio'.$idlanguage, null, PARAM_INT);
+    }
+    // end of the hidden parameters
+    
 	// Check if current user is logged in
     require_login($course->id);
 
@@ -142,35 +192,43 @@
 	
 	// Delete
 	if ($action == "delete") {
-		// Connect to the database
-		$link = connect_genetic($CFG->dbhost,$CFG->dbuser,$CFG->dbpass,$CFG->dbname);
-		// Select the card type (id)
-		$query = genetic_delete_vi($idvi);
-		$result = mysql_query($query,$link);
-		$nok = mysql_affected_rows($link);
 		
-		$rutaEnServidor='C:\wamp\www\moodle\mod\genetic\video';
-		$rutaDestino=$rutaEnServidor.'/'.$name;
 		//echo $rutaDestino;
-		unlink($rutaDestino);
-		
-		
-		
-		// Delete ok or not?
-		if($nok == 0) {
-			$redirectmsg = get_string("deletevinok", "genetic");
-			redirect($url="viewvi.php?id={$cm->id}", $redirectmsg, $delay=-1);			
-			// Close the db    
+		$query = genetic_video_used($idvi);
+		$result =mysql_query($query, $link);
+		$nok = mysql_num_rows ($link);
+		if($nok>0){
+			$redirectmsg = "El vÃ­deo no se puede eliminar porque estÃ¡ siendo utilizado en el diccionario.";
+			redirect($url="viewvi.php?id={$cm->id}", $redirectmsg, $delay=-1);
+			// Close the db
 			mysql_close($link);
 			// Finish the page
 			print_footer($course);
+		}else{		
+		
+			
+			$rutaEnServidor=$CFG->dataroot . '/'. $COURSE->id;
+			$dir=$rutaEnServidor.'/video';
+			$rutaDestino=$dir.'/'.$name;
+			unlink($rutaDestino);
+
+			$query = genetic_delete_vi($idvi);
+			$result = mysql_query($query,$link);
+			$nok = mysql_affected_rows($link);
+				
+			// Delete ok or not?
+			if($nok == 0) {
+				$redirectmsg = get_string("deletevinok", "genetic");
+				redirect($url="viewvi.php?id={$cm->id}", $redirectmsg, $delay=-1);			
+				// Close the db    
+				mysql_close($link);
+				
+			}
+			$redirectmsg = get_string("deleteviok", "genetic")."<BR />";
+			redirect($url="viewvi.php?id={$cm->id}", $redirectmsg, $delay=-1);
+			// Close the db    
+			mysql_close($link);
 		}
-		$redirectmsg = get_string("deleteviok", "genetic")."<BR />";
-		redirect($url="viewvi.php?id={$cm->id}", $redirectmsg, $delay=-1);
-		// Close the db    
-		mysql_close($link);
-		// Finish the page
-		print_footer($course);
 	}
 	
 		
@@ -180,23 +238,18 @@
 		
 		// Check if there is any obligatory field empty   
 		if ($lang=="none")  {
-			print_box_start($classes='generalbox boxaligncenter boxwidthwide');
 			$msg = get_string("emptyfield", "genetic");
 			echo $msg;
-			print_box_end($return=false);
-			echo "<CENTER><A HREF=\"javascript:history.back(1)\">".get_string('back')."</A></CENTER>";
-		
+			echo_hidden_form($genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$imagen,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$audio,$prevvideo,$originpage);
+				
 		}
 	
 		else {
 		
-			// Connect to the database
-			$link = connect_genetic($CFG->dbhost,$CFG->dbuser,$CFG->dbpass,$CFG->dbname);
-			
 			// Add
 			if ($action == "") {
 			
-				//---añadido--- guardar video/s
+				//---aï¿½adido--- guardar video/s
 				
 					
 										//Definir si el array fue definido y no es NULL	
@@ -228,7 +281,7 @@
 														}
 														
 													
-													
+														$nocontinue=0;
 													
 													//comprobar que ese archivo no existe ya en la BD
 														$query = genetic_search_vi($nombrevideo);
@@ -245,13 +298,15 @@
 															$format = substr( $nombrevideo, -4, 4 );
 															$nombrevideo=$idvideo."".$format;
 															
+															echo get_string("insertvinok", "genetic");
+															echo ": ";
 															echo get_string("errnamevideoexists","genetic");
-															$redirectmsg = get_string("insertvinok", "genetic");
-															redirect($url="addcard_form.php?id={$cm->id}", $redirectmsg, $delay=-1);
+																													
+															echo_hidden_form($genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$imagen,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$audio,$prevvideo,$originpage);
+																
 															// Close the db
 															mysql_close($link);
-															// Finish the page
-															print_footer($course);
+															$nocontinue=1;
 															
 															//echo"".$nombrevideo;
 													
@@ -264,21 +319,19 @@
 														
 												
 													}
-													
+													if($nocontinue==0){
 													$rutaDestino=$dir.'/'.$nombrevideo;
 									
-														//compruebo si las características del archivo son las que deseo 
+														//compruebo si las caracterï¿½sticas del archivo son las que deseo 
 															if (!((strpos($tipo_video, "wav") || strpos($tipo_video, "avi")|| strpos($tipo_video, "wmv")|| strpos($tipo_video, "mp4"))&& ($tamano_archivo < 100000000) )) {
-																echo "La extensión o el tamaño de los archivos no es correcta. <br><br><table><tr><td><li>Se permiten archivos .wav o .avi o .wmv<br><li>se permiten archivos de 100 MB máximo.</td></tr></table>";
-																	$redirectmsg = get_string("insertvinok", "genetic");
-																	redirect($url="addcard_form.php?id={$cm->id}", $redirectmsg, $delay=-1);
+																echo "La extensiï¿½n o el tamaï¿½o de los archivos no es correcta. <br><br><table><tr><td><li>Se permiten archivos .wav o .avi o .wmv<br><li>se permiten archivos de 100 MB mï¿½ximo.</td></tr></table>";
+																	echo get_string("insertvinok", "genetic");
+																	echo_hidden_form($genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$imagen,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$audio,$prevvideo,$originpage);
 																	// Close the db    
 																	mysql_close($link);
-																	// Finish the page
-																	print_footer($course);
+																	
 													
-															}
-															else{ 
+															}else{ 
 																	if (move_uploaded_file($_FILES['video']['tmp_name'], $rutaDestino)){
 																		echo "El archivo ha sido cargado correctamente."; 
 															
@@ -295,33 +348,39 @@
 																	//echo"valor de insertado es:".$nok;
 																	// Insert ok or not?
 																	if($nok == 0) {
-																	$redirectmsg = get_string("insertvinok", "genetic");
-																	redirect($url="addcard_form.php?id={$cm->id}", $redirectmsg, $delay=-1);					
+																	echo get_string("insertvinok", "genetic");
+																	echo_hidden_form($genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$imagen,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$audio,$prevvideo,$originpage);
+			
 																	//Close the db    
 																	mysql_close($link);
-																	// Finish the page
-																	print_footer($course);
+																	
 																	}
 															
-																	$redirectmsg = get_string("insertviok", "genetic");
-																	redirect($url="addcard_form.php?id={$cm->id}", $redirectmsg, $delay=-1);
+																	echo get_string("insertviok", "genetic");
+																	echo_hidden_form($genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$imagen,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$audio,$prevvideo,$originpage);
 																	// Close the db    
 																	mysql_close($link);
-																	// Finish the page
-																	print_footer($course);
-															
+																
 															}
 															else{ 
-																echo "Ocurrió algún error al subir el fichero. No pudo guardarse."; 
+																echo "OcurriÃ³ algÃºn error al subir el fichero. No pudo guardarse."; 
+																echo_hidden_form($genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$imagen,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$audio,$prevvideo,$originpage);
+																// Close the db
+																mysql_close($link);
+																
 															} 
 												
 														} //cierre del else si cumple las especificaciones dadas
-													
+													}//cierre del if no continue
 													
 											
 												}  //cierre del if uploaded
 												else{
-												echo "NO SE SUBIO EL VIDEO";
+													echo "NO SE SUBIO EL VIDEO";
+													echo_hidden_form($genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$imagen,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$audio,$prevvideo,$originpage);
+													// Close the db
+													mysql_close($link);
+													
 												}
 											}
 										
@@ -331,16 +390,21 @@
 			// Edit
 			else if ($action == "edit") {
 			
-			$rutaEnServidor='C:\wamp\www\moodle\mod\genetic\video';
+			$rutaEnServidor=$CFG->dataroot . '/'. $COURSE->id;
+			$dir=$rutaEnServidor.'/video';
+			$archivoAnterior=$dir.'/'.$prename;
+			$archivoPosterior=$dir.'/'.$name;
 			
-			$archivoAnterior=$rutaEnServidor.'/'.$prename;
-			$archivoPosterior=$rutaEnServidor.'/'.$name;
+			if(file_exists($archivoPosterior)){
+				echo "No se puede modificar el nombre del fichero del vÃ­deo porque ya existe un fichero con ese nombre.";
+				$redirectmsg = get_string("updateimnok", "genetic");
+				redirect($url="viewvi.php?id={$cm->id}", $redirectmsg, $delay=-1);
+			
+			}else{
 			//echo $archivoAnterior;
 			//echo $archivoPosterior;
-			rename($archivoAnterior,$archivoPosterior);
-			
-			
-				
+				rename($archivoAnterior,$archivoPosterior);
+						
 				$query = genetic_update_vi($idvi, $name,$name2,$name_de,$name_fr,$name_en,$name3, $lang);
 				$result = mysql_query($query,$link);
 				$nok = mysql_affected_rows($link);
@@ -356,6 +420,7 @@
 				}
 				$redirectmsg = get_string("updateviok", "genetic");
 				redirect($url="viewvi.php?id={$cm->id}", $redirectmsg, $delay=-1);
+			}
 				// Close the db 
 				mysql_close($link);
 			}

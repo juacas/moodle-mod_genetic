@@ -52,7 +52,7 @@
 	// Attached files
     require_once("../../config.php");
 	require_once("db_functions.php");
-
+	
 	// Necessary parameters
     $id = optional_param('id',0,PARAM_INT);
     $t = optional_param('t',0,PARAM_INT);
@@ -61,9 +61,11 @@
     $idim = optional_param('idim',0,PARAM_INT);
     $action = optional_param('action','',PARAM_ALPHA);
         
-    // parameters (hidden) used to fill in the add_card form with the data the user entered previously
+    // parameters (hidden) used to fill in the addcard/editcard form with the data the user entered previously
     $bes = optional_param('be', 0, PARAM_INT);
     $ty = optional_param('ty', 0, PARAM_INT);
+    $originpage= optional_param('originpage',null,PARAM_TEXT);
+    $idheader= optional_param('idheader', null, PARAM_INT);
     //$domsubdom = optional_param('domsubdom', 0, PARAM_TEXT);
     $domsubdom = optional_param('domsubdom', 0, PARAM_INT);
     //$aux = explode("-", $domsubdom);
@@ -124,14 +126,14 @@
     	$relatedterms[$idlanguage] = optional_param('relatedterms'.$idlanguage, 0, PARAM_INT);
     	$audio[$idlanguage] = optional_param('audio'.$idlanguage, 0, PARAM_INT);
     	$numfieldsremission[$idlanguage] = optional_param('numfieldsremission'.$idlanguage,0,PARAM_INT);
-    	$j=1;
-    	for($i=0;$i<$numfieldsremission[$idlanguage];$i++){
-    		if(optional_param('remission_'.$idlanguage.'_'.$j)!=null){
-    			$remission[$idlanguage][$i]=optional_param('remission_'.$idlanguage.'_'.$j);
-    			$rem_type[$idlanguage][$i]=optional_param('remtype_'.$idlanguage.'_'.$j);
+    	$j=0;
+    	for($i=1;$i<=$numfieldsremission[$idlanguage];$i++){
+    		if(optional_param('remission_'.$idlanguage.'_'.$i)!=null){
+    			$remission[$idlanguage][$j]=optional_param('remission_'.$idlanguage.'_'.$i);
+    			$rem_type[$idlanguage][$j]=optional_param('remtype_'.$idlanguage.'_'.$i);
     			$j++;
     		}
-    	
+    		
     	}
     	 
    	}	 
@@ -222,7 +224,8 @@
 		}
 			
 		echo "<INPUT TYPE=\"hidden\" NAME=\"ty\" VALUE=\"".$ty."\"\>";	
-		
+		echo "<INPUT TYPE=\"hidden\" NAME=\"originpage\" VALUE=\"".$originpage."\"\>";
+		echo "<INPUT TYPE=\"hidden\" NAME=\"idheader\" VALUE=\"".$idheader."\"\>";
 		for($i=0;$i<count($domsubdom);$i++){
 			echo "<INPUT TYPE=\"hidden\" NAME=\"domsubdom[]\" VALUE=\"".$domsubdom[$i]."\"\>";
 		}
@@ -232,12 +235,12 @@
 		}
 
 		//audio is returned to the initial form as a simple array, as audio is linked to each language, an "if equal" will allow us to determine if this audio was previously selected without needing to pass lang information now
-		foreach($audio as $subarrayaudio)
-		{
-			for($i=0;$i<count($subarrayaudio);$i++){
-				echo "<INPUT TYPE=\"hidden\" NAME=\"audio[]\" VALUE=\"".$subarrayaudio[$i]."\"\>";
-			}
-		}
+		//foreach($audio as $subarrayaudio)
+		//{
+		//	for($i=0;$i<count($subarrayaudio);$i++){
+		//		echo "<INPUT TYPE=\"hidden\" NAME=\"audio[]\" VALUE=\"".$subarrayaudio[$i]."\"\>";
+		//	}
+		//}
 		
 		$resultlang = mysql_query($query,$link);
 		while($langrow=mysql_fetch_array($resultlang)){
@@ -264,7 +267,7 @@
 				echo "<INPUT TYPE=\"hidden\" NAME=\"remtype_".$idlanguage."_$j\" VALUE=\"".$rem_type[$idlanguage][$z]."\">";
 				$j++;
 			}
-			echo "<INPUT TYPE=\"hidden\" NAME=\"numfieldsremission_".$idlanguage."\" VALUE=\"".$long."\">";
+			echo "<INPUT TYPE=\"hidden\" NAME=\"numfieldsremission".$idlanguage."\" VALUE=\"".$long."\">";
 				
 			for($r=0;$r<count($audio[$idlanguage]);$r++){
 				echo "<INPUT TYPE=\"hidden\" NAME=\"audio".$idlanguage."[]\" VALUE=\"".$audio[$idlanguage][$r]."\">";
@@ -277,7 +280,11 @@
 		
 		
 		echo "<INPUT TYPE=\"button\" VALUE=\"".$str = get_string("save", "genetic")."\" NAME=\"buttonsave\" onClick=\"this.form.action='editim.php?id=$id';this.form.submit();\"/>&nbsp;&nbsp;";
-		echo "<INPUT TYPE=\"button\" VALUE=\"".$str = get_string("cancel", "genetic")."\" NAME=\"buttoncancel\" onClick=\"this.form.action='addcard_form.php?id=$id';this.form.submit();\"/>";
+		if($originpage=='edit'){
+			echo "<INPUT TYPE=\"button\" VALUE=\"".$str = get_string("cancel", "genetic")."\" NAME=\"buttoncancel\" onClick=\"this.form.action='editcard_form.php?id=$id&idheader=$idheader';this.form.submit();\"/>";
+		}else{
+			echo "<INPUT TYPE=\"button\" VALUE=\"".$str = get_string("cancel", "genetic")."\" NAME=\"buttoncancel\" onClick=\"this.form.action='addcard_form.php?id=$id';this.form.submit();\"/>";
+		}
 		echo "</TD></TR>";
 		echo "</FORM></TABLE>";
 		print_box_end($return=false);
@@ -318,7 +325,7 @@
 		echo "<TR><TD>".$strsrcimage."&nbsp;</TD><TD><INPUT TYPE=\"text\" NAME=\"name3\" SIZE=\"80\" VALUE=\"".$name3."\"></TD></TR>";
 		echo "<TR><TD COLSPAN=\"2\" ALIGN=\"center\"><BR /><BR />";
 		echo "<INPUT TYPE=\"submit\" VALUE=\"".$str = get_string("save", "genetic")."\" NAME=\"buttonsave\" />&nbsp;&nbsp;";
-		echo "<INPUT TYPE=\"button\" VALUE=\"".$str = get_string("cancel", "genetic")."\" NAME=\"buttoncancel\" onClick=\"location.href='addcard_form.php?id=$id'\"/>";
+		echo "<INPUT TYPE=\"button\" VALUE=\"".$str = get_string("cancel", "genetic")."\" NAME=\"buttoncancel\" onClick=\"location.href='viewim.php?id=$id'\"/>";
 		echo "</TD></TR>";
 		echo "</FORM></TABLE>";
 		print_box_end($return=false);

@@ -209,7 +209,7 @@
 			// Make the card search
 			$link = connect_genetic($CFG->dbhost,$CFG->dbuser,$CFG->dbpass,$CFG->dbname);
 			
-			$query = genetic_search_term($genetic->id, $term);
+			$query = genetic_search_headerbyterm($genetic->id, $term);
 			
 			
 			$result = mysql_query($query,$link);
@@ -246,23 +246,22 @@
 					// Get the cards fields
 					$cardrow = mysql_fetch_array($result);
 					// Remove '\' from the entries and allow them in variables
-					$cardrowisolang = stripslashes($cardrow['isolang']);
-					$cardrowterm = stripslashes($cardrow['term']);
+					//$cardrowisolang = stripslashes($cardrow['isolang']);
+					//$cardrowterm = stripslashes($cardrow['term']);
 					
-					$cardrowgramcat = stripslashes($cardrow['gramcat']);
-					$cardrowdefinition = stripslashes($cardrow['definition']);
-					$cardrowcontext = stripslashes($cardrow['context']);
-					$cardrowexpression = stripslashes($cardrow['expression']);
-					$cardrownotes = stripslashes($cardrow['notes']);
-					$cardrowid = stripslashes($cardrow['id']);
-					$cardrowidheader = stripslashes($cardrow['idheader']);
+					//$cardrowgramcat = stripslashes($cardrow['gramcat']);
+					//$cardrowdefinition = stripslashes($cardrow['definition']);
+					//$cardrowcontext = stripslashes($cardrow['context']);
+					//$cardrowexpression = stripslashes($cardrow['expression']);
+					//$cardrownotes = stripslashes($cardrow['notes']);
+					//$cardrowid = stripslashes($cardrow['id']);
+					$headerrowni = stripslashes($cardrow['id']);
 					
 					// Get the header
-					$queryh = genetic_choose_header($cardrowidheader);
+					$queryh = genetic_choose_header($headerrowni);
 					$resulth = mysql_query($queryh,$link);					
 					$headerrow = mysql_fetch_array($resulth);					
 					// Remove '\' from the entries and allow them in variables
-					$headerrowni = stripslashes($headerrow['id']);
 					$headerrowty = stripslashes($headerrow['ty']);
 					
 					//$headerrowsubdom = stripslashes($headerrow['subdom']);
@@ -327,7 +326,7 @@
 							// Remove '\' from the entries and allow them in variables
 							$cardrowisolang = stripslashes($cardrow['isolang']);
 							$cardrowterm = stripslashes($cardrow['term']);
-				
+							$cardrowid = $cardrow['id'];
 								if ($cardrowterm != '') {
 								echo "<TD ROWSPAN=\"13\" VALIGN=\"top\" WIDTH=\"5%\"><IMG SRC=\"images/".$cardrowisolang.".png\">
 									<B>".$strterm.":&nbsp;&nbsp;</B><a href=\"search.php?id=$id&idterm=$cardrowid&search=term_by_link\"><NOBR>".$cardrowterm."</a>&nbsp;&nbsp;<a href=\"http://eurogene.open.ac.uk/search03/$cardrowterm\" target=\"blank\"><img src=\"images/eurogene.jpg\"  width=\"40\" height=\"30\" ></a></NOBR></TD>";
@@ -2272,7 +2271,7 @@
 			// Make the search
 			
 			$link = connect_genetic($CFG->dbhost,$CFG->dbuser,$CFG->dbpass,$CFG->dbname);
-			$query = genetic_search_all($genetic->id, $generalkey);
+			$query =genetic_search_headerbyall($genetic->id, $generalkey);
 			$result = mysql_query($query,$link);
 			$n = mysql_num_rows($result);
 			
@@ -2300,26 +2299,26 @@
 					// Get the cards fields
 					$cardrow = mysql_fetch_array($result);
 					// Remove '\' from the entries and allow them in variables
-					$cardrowisolang = stripslashes($cardrow['isolang']);
-					$cardrowterm = stripslashes($cardrow['term']);
-					$cardrowgramcat = stripslashes($cardrow['gramcat']);
-					$cardrowdefinition = stripslashes($cardrow['definition']);
-					$cardrowcontext = stripslashes($cardrow['context']);
-					$cardrowexpression = stripslashes($cardrow['expression']);
-					$cardrownotes = stripslashes($cardrow['notes']);
-					$cardrowid = stripslashes($cardrow['id']);
-					$cardrowidheader = stripslashes($cardrow['idheader']);
+					//$cardrowisolang = stripslashes($cardrow['isolang']);
+					//$cardrowterm = stripslashes($cardrow['term']);
+					//$cardrowgramcat = stripslashes($cardrow['gramcat']);
+					//$cardrowdefinition = stripslashes($cardrow['definition']);
+					//$cardrowcontext = stripslashes($cardrow['context']);
+					//$cardrowexpression = stripslashes($cardrow['expression']);
+					//$cardrownotes = stripslashes($cardrow['notes']);
+					//$cardrowid = stripslashes($cardrow['id']);
+					$headerrowni = stripslashes($cardrow['id']);
 					
 					
 					
 					// Get the header
-					$queryh = genetic_choose_header($cardrowidheader);
+					$queryh = genetic_choose_header($headerrowni);
 					$resulth = mysql_query($queryh,$link);					
 					$headerrow = mysql_fetch_array($resulth);					
 					// Remove '\' from the entries and allow them in variables
-					$headerrowni = stripslashes($headerrow['id']);
+					//$headerrowni = stripslashes($headerrow['id']);
 					$headerrowty = stripslashes($headerrow['ty']);
-				
+					
 					$headerrowdate = date("j F Y", $headerrow['datecreated']);
 					
 					// Make queries for numerical fields				
@@ -2342,12 +2341,7 @@
 						$rowaux = mysql_fetch_array(mysql_query($queryaux, $link));
 						$headerrowty = stripslashes($rowaux['name']);
 					}
-					
-				
-					
-					
-					
-					
+									
 					// Author
 						$queryauthor = genetic_show_rel_author($headerrowni);
 						$resultauthor = mysql_query($queryauthor, $link);

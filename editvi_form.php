@@ -1,4 +1,4 @@
-<?php  // $Id: image_form.php,v 1.0 2012/06/12 16:40:00 Ana María Lozano de la Fuente Exp $
+<?php  // $Id: image_form.php,v 1.0 2012/06/12 16:40:00 Ana Marï¿½a Lozano de la Fuente Exp $
 /*********************************************************************************
 
 * This file is part of Genetic.
@@ -7,13 +7,13 @@
 
 * Designed and directed by the ITAST group (http://www.eduvalab.uva.es/contact)
 
-* Implemented by Ana María Lozano de la Fuente, using the previous software called Terminology, implemented by Irene Fernández Ramírez (2010)
+* Implemented by Ana Marï¿½a Lozano de la Fuente, using the previous software called Terminology, implemented by Irene Fernï¿½ndez Ramï¿½rez (2010)
 
  
 
 * @ copyright (C) 2012 ITAST group
 
-* @ author:  Ana María Lozano de la Fuente, Irene Fernández Ramírez, María Jesús Verdú Pérez, Juan Pablo de Castro Fernández, Luisa M. Regueras Santos,  Elena Verdú Pérez and María Ángeles Pérez Juárez
+* @ author:  Ana Marï¿½a Lozano de la Fuente, Irene Fernï¿½ndez Ramï¿½rez, Marï¿½a Jesï¿½s Verdï¿½ Pï¿½rez, Juan Pablo de Castro Fernï¿½ndez, Luisa M. Regueras Santos,  Elena Verdï¿½ Pï¿½rez and Marï¿½a ï¿½ngeles Pï¿½rez Juï¿½rez
 
 * @ package genetic
 
@@ -85,6 +85,60 @@
     }
 	
 
+    // parameters (hidden) used to fill in the addcard/editcard form with the data the user entered previously
+    $bes = optional_param('be', 0, PARAM_INT);
+    $ty = optional_param('ty', 0, PARAM_INT);
+    $originpage= optional_param('originpage',null,PARAM_TEXT);
+    $idheader= optional_param('idheader', null, PARAM_INT);
+    $domsubdom = optional_param('domsubdom', 0, PARAM_INT);
+    $authors = optional_param('author', 0, PARAM_INT);
+    $datecreated = optional_param('datecreated', 0, PARAM_INT);
+    $imagen = optional_param('imagen', 0, PARAM_INT);
+    
+    
+    // Connect to the database
+    $link = connect_genetic($CFG->dbhost,$CFG->dbuser,$CFG->dbpass,$CFG->dbname);
+    
+    // parameters depending on the language
+    
+    //take the ids of the languages of the dictionary
+    $query=genetic_id_lang($genetic->id);
+    $resultlang = mysql_query($query,$link);
+    while($langrow=mysql_fetch_array($resultlang)){
+    
+    	$idlanguage=$langrow['genetic_lang_id'];
+    	$isolang[$idlanguage] = optional_param('isolang'.$idlanguage, null, PARAM_TEXT);
+    	$term[$idlanguage] = optional_param('term'.$idlanguage, null, PARAM_TEXT);
+    	$gramcat[$idlanguage] = optional_param('gramcat'.$idlanguage, null, PARAM_TEXT);
+    	$weight_type[$idlanguage] = optional_param('weight_type'.$idlanguage, null, PARAM_TEXT);
+    	$definition[$idlanguage] = optional_param('definition'.$idlanguage, null, PARAM_TEXT);
+    	$formcontext[$idlanguage] = optional_param('context'.$idlanguage, null, PARAM_TEXT);
+    	$expression[$idlanguage] = optional_param('expression'.$idlanguage, null, PARAM_TEXT);
+    	$notes[$idlanguage] = optional_param('notes'.$idlanguage, null, PARAM_TEXT);
+    	$sourceterm[$idlanguage] = optional_param('sourceterm'.$idlanguage, null, PARAM_TEXT);
+    	$sourcedefinition[$idlanguage] = optional_param('sourcedefinition'.$idlanguage, null, PARAM_TEXT);
+    	$sourcecontext[$idlanguage] = optional_param('sourcecontext'.$idlanguage, null, PARAM_TEXT);
+    	$sourceexpression[$idlanguage] = optional_param('sourceexpression'.$idlanguage, null, PARAM_TEXT);
+    	$sourcerv[$idlanguage] = optional_param('sourcerv'.$idlanguage, null, PARAM_TEXT);
+    	$sourcenotes[$idlanguage] = optional_param('sourcenotes'.$idlanguage, null, PARAM_TEXT);
+    	$synonyms[$idlanguage] = optional_param('synonyms'.$idlanguage, 0, PARAM_INT);
+    	$video[$idlanguage] = optional_param('video'.$idlanguage, 0, PARAM_INT);
+    	$relatedterms[$idlanguage] = optional_param('relatedterms'.$idlanguage, 0, PARAM_INT);
+    	$audio[$idlanguage] = optional_param('audio'.$idlanguage, 0, PARAM_INT);
+    	$numfieldsremission[$idlanguage] = optional_param('numfieldsremission'.$idlanguage,0,PARAM_INT);
+    	$j=0;
+    	for($i=1;$i<=$numfieldsremission[$idlanguage];$i++){
+    		if(optional_param('remission_'.$idlanguage.'_'.$i)!=null){
+    			$remission[$idlanguage][$j]=optional_param('remission_'.$idlanguage.'_'.$i);
+    			$rem_type[$idlanguage][$j]=optional_param('remtype_'.$idlanguage.'_'.$i);
+    			$j++;
+    		}
+    
+    	}
+    
+    }
+    
+    
 	// Check if current user is logged in
     require_login($course->id);
 
@@ -170,9 +224,73 @@
 			//echo "<TD align=\"left\"><dt><a href=\"#\" onClick=\"addCampo()\">Subir otro video</a></dt></TD>";
 			echo"</div>";
 			
+			//hidden fields for the addcard form to be filled with the data the user previously entered
+			for($i=0;$i<count($bes);$i++){
+				echo "<INPUT TYPE=\"hidden\" NAME=\"be[]\" VALUE=\"".$bes[$i]."\"\>";
+			}
+			for($i=0;$i<count($authors);$i++){
+				echo "<INPUT TYPE=\"hidden\" NAME=\"author[]\" VALUE=\"".$authors[$i]."\"\>";
+			}
+			
+			echo "<INPUT TYPE=\"hidden\" NAME=\"ty\" VALUE=\"".$ty."\"\>";
+			echo "<INPUT TYPE=\"hidden\" NAME=\"originpage\" VALUE=\"".$originpage."\"\>";
+			echo "<INPUT TYPE=\"hidden\" NAME=\"idheader\" VALUE=\"".$idheader."\"\>";
+			for($i=0;$i<count($domsubdom);$i++){
+				echo "<INPUT TYPE=\"hidden\" NAME=\"domsubdom[]\" VALUE=\"".$domsubdom[$i]."\"\>";
+			}
+				
+			for($i=0;$i<count($imagen);$i++){
+				echo "<INPUT TYPE=\"hidden\" NAME=\"prevformimagen[]\" VALUE=\"".$imagen[$i]."\"\>";
+			}
+				
+			$resultlang = mysql_query($query,$link);
+			while($langrow=mysql_fetch_array($resultlang)){
+				$idlanguage=$langrow['genetic_lang_id'];
+				echo "<INPUT TYPE=\"hidden\" NAME=\"isolang$idlanguage\" VALUE=\"".$isolang[$idlanguage]."\"\>";
+				echo "<INPUT TYPE=\"hidden\" NAME=\"term$idlanguage\" value=\"".$term[$idlanguage]."\"\>";
+						echo "<INPUT TYPE=\"hidden\" NAME=\"gramcat$idlanguage\" value=\"".$gramcat[$idlanguage]."\"\>";
+								echo "<INPUT TYPE=\"hidden\" NAME=\"definition$idlanguage\" value=\"".$definition[$idlanguage]."\"\>";
+										echo "<INPUT TYPE=\"hidden\" NAME=\"context$idlanguage\" value=\"".$formcontext[$idlanguage]."\"\>";
+										echo "<INPUT TYPE=\"hidden\" NAME=\"expression$idlanguage\" value=\"".$expression[$idlanguage]."\"\>";
+										echo "<INPUT TYPE=\"hidden\" NAME=\"notes$idlanguage\" value=\"".$notes[$idlanguage]."\"\>";
+										echo "<INPUT TYPE=\"hidden\" NAME=\"weight_type$idlanguage\" value=\"".$weight_type[$idlanguage]."\"\>";
+										echo "<INPUT TYPE=\"hidden\" NAME=\"sourceterm$idlanguage\" value=\"".$sourceterm[$idlanguage]."\"\>";
+										echo "<INPUT TYPE=\"hidden\" NAME=\"sourcedefinition$idlanguage\" value=\"".$sourcedefinition[$idlanguage]."\"\>";
+										echo "<INPUT TYPE=\"hidden\" NAME=\"sourcecontext$idlanguage\" value=\"".$sourcecontext[$idlanguage]."\"\>";
+										echo "<INPUT TYPE=\"hidden\" NAME=\"sourceexpression$idlanguage\" value=\"".$sourceexpression[$idlanguage]."\"\>";
+										echo "<INPUT TYPE=\"hidden\" NAME=\"sourcerv$idlanguage\" value=\"".$sourcerv[$idlanguage]."\"\>";
+										echo "<INPUT TYPE=\"hidden\" NAME=\"sourcenotes$idlanguage\" value=\"".$sourcenotes[$idlanguage]."\"\>";
+											
+										$long=count($remission[$idlanguage]);
+										$j=1;
+										for($z=0;$z<$long;$z++){
+					echo "<INPUT TYPE=\"hidden\" NAME=\"remission_".$idlanguage."_$j\" VALUE=\"".$remission[$idlanguage][$z]."\">";
+					echo "<INPUT TYPE=\"hidden\" NAME=\"remtype_".$idlanguage."_$j\" VALUE=\"".$rem_type[$idlanguage][$z]."\">";
+					$j++;
+				}
+				echo "<INPUT TYPE=\"hidden\" NAME=\"numfieldsremission".$idlanguage."\" VALUE=\"".$long."\">";
+			
+							for($r=0;$r<count($audio[$idlanguage]);$r++){
+					echo "<INPUT TYPE=\"hidden\" NAME=\"audio".$idlanguage."[]\" VALUE=\"".$audio[$idlanguage][$r]."\">";
+			}
+				
+			for($e=0;$e<count($video[$idlanguage]);$e++){
+					echo "<INPUT TYPE=\"hidden\" NAME=\"video".$idlanguage."[]\" VALUE=\"".$video[$idlanguage][$e]."\">";
+								}
+						}
+			
+			
 		echo "<TR><TD COLSPAN=\"2\" ALIGN=\"center\"><BR /><BR />";
-		echo "<INPUT TYPE=\"submit\" VALUE=\"".$str = get_string("save", "genetic")."\" NAME=\"buttonsave\" />&nbsp;&nbsp;";
-		echo "<INPUT TYPE=\"button\" VALUE=\"".$str = get_string("cancel", "genetic")."\" NAME=\"buttoncancel\" onClick=\"location.href='addcard_form.php?id=$id'\"/>";
+		
+		echo "<INPUT TYPE=\"button\" VALUE=\"".$str = get_string("save", "genetic")."\" NAME=\"buttonsave\" onClick=\"this.form.action='editvi.php?id=$id';this.form.submit();\"/>&nbsp;&nbsp;";
+		
+		if($originpage=='edit'){
+			echo "<INPUT TYPE=\"button\" VALUE=\"".$str = get_string("cancel", "genetic")."\" NAME=\"buttoncancel\" onClick=\"this.form.action='editcard_form.php?id=$id&idheader=$idheader';this.form.submit();\"/>";
+		}else{
+			echo "<INPUT TYPE=\"button\" VALUE=\"".$str = get_string("cancel", "genetic")."\" NAME=\"buttoncancel\" onClick=\"this.form.action='addcard_form.php?id=$id';this.form.submit();\"/>";
+		}
+		
+		
 		echo "</TD></TR>";
 		echo "</FORM></TABLE>";
 		print_box_end($return=false);
@@ -184,7 +302,6 @@
 		print_heading(get_string('editvi', 'genetic'), 'center',2);
 
 		// Get the card type fields from the database
-		$link = connect_genetic($CFG->dbhost,$CFG->dbuser,$CFG->dbpass,$CFG->dbname);
 		$query = genetic_choose_vi($idvi);
 		$result = mysql_query($query,$link);
 		$row = mysql_fetch_array($result);
@@ -238,9 +355,6 @@
 	
 		// Print Title
 		print_heading(get_string('deletevi', 'genetic'), 'center',2);
-		
-		// Connect to the database
-		$link = connect_genetic($CFG->dbhost,$CFG->dbuser,$CFG->dbpass,$CFG->dbname);
 		
 		// Check if the video is being used in any genetic card.
 		$query = genetic_use_vi($idvi);

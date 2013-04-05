@@ -238,7 +238,7 @@ function genetic_select_subdomains4($nivel=0)
    
 }
 //To add a new card, choose subdomain
-function genetic_select_subdomains5($nivel=0,$headerni)
+function genetic_select_subdomains5($nivel=0,$headerni,$domselected=null)
 
 {
 	$query_rsRegistro = genetic_arbol($nivel);
@@ -264,29 +264,39 @@ function genetic_select_subdomains5($nivel=0,$headerni)
       // Mostramos todos los resultados
       do
       {
-			$g=0;
-			$queryaux = genetic_show_rel_subdomain($headerni);
-			$resultaux = mysql_query($queryaux);
+			if($domselected!=null){
+      			$isselected = 0;
+      			for($i=0;$i<count($domselected);$i++)
+      			{
+      				if($row_rsRegistro['id']==$domselected[$i])$isselected=1;
+      			}
+      			if($isselected==1){
+      				echo "<li><NOBR><INPUT TYPE=\"checkbox\" NAME=\"domsubdom[]\" VALUE=\"".$row_rsRegistro['id']."\" checked><FONT COLOR=\"#238E23\">".$row_rsRegistro['name']."</FONT></A></NOBR>";
+				}else{
+      				echo "<li><NOBR><INPUT TYPE=\"checkbox\" NAME=\"domsubdom[]\" VALUE=\"".$row_rsRegistro['id']."\"><FONT COLOR=\"#238E23\">".$row_rsRegistro['name']."</FONT></A></NOBR>";
+				}			
+			}else{      	
+      			$g=0;
+				$queryaux = genetic_show_rel_subdomain($headerni);
+				$resultaux = mysql_query($queryaux);
 			
-			while($rowaux = mysql_fetch_array($resultaux)){
+				while($rowaux = mysql_fetch_array($resultaux)){
 			
-				$preselected=$rowaux['id'];
-				if($preselected==$row_rsRegistro['id']){$g=1;}
+					$preselected=$rowaux['id'];
+					if($preselected==$row_rsRegistro['id']){$g=1;}
+				}
+			
+				if($g==1){
+					echo "<li><NOBR><INPUT TYPE=\"checkbox\" NAME=\"domsubdom[]\" VALUE=\"".$row_rsRegistro['id']."\" checked><FONT COLOR=\"#238E23\">".$row_rsRegistro['name']."</FONT></A></NOBR>";
+				}
+				else{
+					echo "<li><NOBR><INPUT TYPE=\"checkbox\" NAME=\"domsubdom[]\" VALUE=\"".$row_rsRegistro['id']."\"><FONT COLOR=\"#238E23\">".$row_rsRegistro['name']."</FONT></A></NOBR>";
+				}
 			}
-			
-			if($g==1){
-			echo "<li><NOBR><INPUT TYPE=\"checkbox\" NAME=\"domsubdom[]\" VALUE=\"".$row_rsRegistro['id']."\" checked><FONT COLOR=\"#238E23\">".$row_rsRegistro['name']."</FONT></A></NOBR>";
-			
-			}
-			else{
-			echo "<li><NOBR><INPUT TYPE=\"checkbox\" NAME=\"domsubdom[]\" VALUE=\"".$row_rsRegistro['id']."\"><FONT COLOR=\"#238E23\">".$row_rsRegistro['name']."</FONT></A></NOBR>";
-			
-			}
-		 
          // Ejecutamos la funcion dentro de si misma
          // Y le pasamos el id del registro actual
 			
-         genetic_select_subdomains5($row_rsRegistro['id'],$headerni);
+         genetic_select_subdomains5($row_rsRegistro['id'],$headerni,$domselected);
 
          echo '</li>';
       }

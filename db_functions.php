@@ -50,6 +50,7 @@
 // Connect to the database
 function connect_genetic($host, $user, $pass, $name)
 {
+
 	$link=mysql_pconnect($host,$user,$pass);		//Connect to the db server
 	if(!$link)
 	{
@@ -64,6 +65,7 @@ function connect_genetic($host, $user, $pass, $name)
 		$errdb = get_string('errordb', 'genetic');
 		error("$errdb"); 
 	}
+	
 	return $link;
 }
 
@@ -245,6 +247,15 @@ function genetic_show_images($headerrowni){
 	return $query;
 
 }
+
+//function to check if an imagen is included in a header.
+function genetic_imagen_used($idim){
+	global $CFG;
+	$query = "SELECT * FROM {$CFG->prefix}genetic_images_has_genetic_cards WHERE genetic_images_id='$idim'";
+	return $query;
+	
+}
+
 // function that gets the images for a headercard
 function genetic_get_images_header($headercardid,$imageid){
 	global $CFG;
@@ -265,6 +276,13 @@ function genetic_show_videos($cardrowid){
 
 }
 
+//function to check if a video is included in a card.
+function genetic_video_used($idvi){
+	global $CFG;
+	$query = "SELECT * FROM {$CFG->prefix}genetic_videos_has_genetic_cards WHERE genetic_videos_id='$idvi'";
+	return $query;
+
+}
 //----a�adido---
 function genetic_show_remissions($cardrowid){
 	global $CFG;
@@ -649,7 +667,7 @@ function genetic_show_vi() {
 		 ORDER BY filevideo ASC";
 	return $query;
 }
-// -----a�adido---Show all the audio files
+// -----a�adido---Show all the audio files 
 function genetic_show_au($lang) {
 	global $CFG;
 	$query = "SELECT {$CFG->prefix}genetic_audio.* 
@@ -659,12 +677,30 @@ function genetic_show_au($lang) {
 		";
 	return $query;
 }
+
+function genetic_show_au_lang($lang) {
+	global $CFG;
+	$query = "SELECT *
+	FROM {$CFG->prefix}genetic_audio 
+	WHERE lang='$lang'
+	";
+	return $query;
+}
+
 function genetic_show_audio($cardrowid) {
 	global $CFG;
 	$query = "SELECT * 
 		 FROM {$CFG->prefix}genetic_cards_has_genetic_audio
 		 WHERE {$CFG->prefix}genetic_cards_has_genetic_audio.genetic_cards_id='$cardrowid'";
 	return $query;
+}
+
+// to check if an audio is included in a card
+function genetic_audio_used($idau){
+	global $CFG;
+	$query = "SELECT * FROM {$CFG->prefix}genetic_cards_has_genetic_audio WHERE genetic_audio_id='$idau'";
+	return $query;
+
 }
 
 function genetic_is_audio_incard($cardrowid,$audioid) {
@@ -745,6 +781,31 @@ function genetic_show_be() {
 		 ORDER BY name ASC";
 	return $query;
 }
+
+// Check if a department name already exists
+function genetic_checkname_be($name) {
+	global $CFG;
+	$query = "SELECT *
+	FROM {$CFG->prefix}genetic_be
+	where name='$name'";
+	return $query;
+}
+
+function genetic_checkname_ty($name) {
+	global $CFG;
+	$query = "SELECT *
+	FROM {$CFG->prefix}genetic_ty
+	where name='$name'";
+	return $query;
+}
+function genetic_checkname_author($name,$surname){
+	global $CFG;
+	$query = "SELECT *
+	FROM {$CFG->prefix}genetic_authors
+	where name='$name' and surname='$surname'";
+	return $query;
+}
+
 // Show all the synonyms
 function genetic_show_syn() {
 	global $CFG;
@@ -994,6 +1055,18 @@ function genetic_search_term($idgenetic, $term) {
 		 AND term LIKE '%$term%'";
 	return $query;
 }
+
+// Search idheader by term in cards
+function genetic_search_headerbyterm($idgenetic, $term) {
+	global $CFG;
+	$query = "select distinct {$CFG->prefix}genetic_headercards.id
+		 from {$CFG->prefix}genetic_cards, {$CFG->prefix}genetic_headercards 
+		 where {$CFG->prefix}genetic_headercards.id={$CFG->prefix}genetic_cards.idheader
+		 and {$CFG->prefix}genetic_headercards.id_genetic='$idgenetic'
+		 and {$CFG->prefix}genetic_cards.term like '%$term%'";
+	return $query;
+}
+
 // Search card by term
 function genetic_search_term_exactly($idgenetic, $term) {
 	global $CFG;
@@ -1141,6 +1214,20 @@ function genetic_search_all($idgenetic, $generalkey) {
 	return $query;
 }
 
+// Search card by a general "key", returns the idheader of that card
+function genetic_search_headerbyall($idgenetic, $generalkey) {
+	global $CFG;
+	$query = "SELECT distinct {$CFG->prefix}genetic_headercards.id
+	FROM {$CFG->prefix}genetic_cards, {$CFG->prefix}genetic_headercards
+	WHERE {$CFG->prefix}genetic_headercards.id={$CFG->prefix}genetic_cards.idheader and
+	({$CFG->prefix}genetic_cards.term LIKE '%$generalkey%'
+	OR {$CFG->prefix}genetic_cards.definition LIKE '%$generalkey%'
+	OR {$CFG->prefix}genetic_cards.context LIKE '%$generalkey%'
+	OR {$CFG->prefix}genetic_cards.expression LIKE '%$generalkey%'
+	OR {$CFG->prefix}genetic_cards.notes LIKE '%$generalkey%')
+	AND {$CFG->prefix}genetic_headercards.id_genetic='$idgenetic'";
+	return $query;
+}
 
 // Search an using department (be) to avoid delete the entry
 function genetic_use_be($beid) {
@@ -1721,6 +1808,7 @@ function genetic_delete_image($headerni) {
  		 WHERE genetic_headercards_id = '$headerni'";
 	return $query;
 }
+
 // Delete videos
 function genetic_delete_video($cardid) {
 	global $CFG;
@@ -1892,12 +1980,30 @@ function genetic_delete_vi($idvi) {
  		 WHERE id = '$idvi'";
 	return $query;
 }
+
+
 // Delete a audio file
 function genetic_delete_audio($idcard) {
 	global $CFG;
 	$query = "DELETE
 		 FROM {$CFG->prefix}genetic_cards_has_genetic_audio
  		 WHERE genetic_cards_id = '$idcard'";
+	return $query;
+}
+// Delete all relations of an audio with cards
+function genetic_remove_audiocards($idaudio){
+	global $CFG;
+	$query = "DELETE
+	FROM {$CFG->prefix}genetic_cards_has_genetic_audio
+	WHERE genetic_audio_id = '$idaudio'";
+	return $query;
+}
+// Delete the audio data
+function genetic_remove_audio($idaudio){
+	global $CFG;
+	$query = "DELETE
+	FROM {$CFG->prefix}genetic_audio
+	WHERE id = '$idaudio'";
 	return $query;
 }
 // ----a�adido---arbol

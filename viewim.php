@@ -1,4 +1,4 @@
-<?php  // $Id: viewty.php,v 1.0 2012/06/26 19:40:00 Ana María Lozano de  la Fuente Exp $
+<?php  // $Id: viewty.php,v 1.0 2012/06/26 19:40:00 Ana Marï¿½a Lozano de  la Fuente Exp $
 /*********************************************************************************
 
 * This file is part of Genetic.
@@ -7,13 +7,13 @@
 
 * Designed and directed by the ITAST group (http://www.eduvalab.uva.es/contact)
 
-* Implemented by Ana María Lozano de la Fuente, using the previous software called Terminology, implemented by Irene Fernández Ramírez (2010)
+* Implemented by Ana Marï¿½a Lozano de la Fuente, using the previous software called Terminology, implemented by Irene Fernï¿½ndez Ramï¿½rez (2010)
 
  
 
 * @ copyright (C) 2012 ITAST group
 
-* @ author:  Ana María Lozano de la Fuente, Irene Fernández Ramírez, María Jesús Verdú Pérez, Juan Pablo de Castro Fernández, Luisa M. Regueras Santos,  Elena Verdú Pérez and María Ángeles Pérez Juárez
+* @ author:  Ana Marï¿½a Lozano de la Fuente, Irene Fernï¿½ndez Ramï¿½rez, Marï¿½a Jesï¿½s Verdï¿½ Pï¿½rez, Juan Pablo de Castro Fernï¿½ndez, Luisa M. Regueras Santos,  Elena Verdï¿½ Pï¿½rez and Marï¿½a ï¿½ngeles Pï¿½rez Juï¿½rez
 
 * @ package genetic
 
@@ -138,6 +138,7 @@
 	echo "<NOBR><TD>&nbsp;&nbsp;<a href=\"viewim.php?id=$id&order=ALPHABETIC&language=es\" target='_self'><img src=\"images/es.png\"'></a></TD>&nbsp;&nbsp;</NOBR>";
 	echo "<NOBR><TD>&nbsp;&nbsp;<a href=\"viewim.php?id=$id&order=ALPHABETIC&language=fr\" target='_self'><img src=\"images/fr.png\"'></a></TD>&nbsp;&nbsp;</NOBR>";
 	echo "<NOBR><TD>&nbsp;&nbsp;<a href=\"viewim.php?id=$id&order=ALPHABETIC&language=de\" target='_self'><img src=\"images/de.png\"'></a></TD>&nbsp;&nbsp;</NOBR>";
+	
 	echo"<BR>";
 	echo"<BR>";
 	//Show a table with all images
@@ -157,7 +158,7 @@
 		else if($language=='de'){$name2 = $row['titleimage_de'];} 
 		else if($language=='fr'){$name2 = $row['titleimage_fr'];} 
 		else {$name2 = $row['titleimage_en'];} 
-		//si no hay descripción se muestra el mensaje pertinente
+		//si no hay descripciï¿½n se muestra el mensaje pertinente
 		if($name2==''){
 		$name2=get_string("nodescrlang", "genetic");
 		}
@@ -165,9 +166,10 @@
 		$name3=$row['srcimage'];
 		//$name3 = stripslashes($name);
 		//echo $name;
-		$rutaEnServidor='\moodle\mod\genetic\imagen';
-		$rutaDestino=$rutaEnServidor.'/'.$name;
 		
+		$rutaEnServidor=$CFG->wwwroot . '/file.php/' . $COURSE->id;
+		$rutaDestino=$rutaEnServidor.'/imagen/'.$name;
+			
 		$enlaceim="<A HREF=".$rutaDestino." target=\"blank\" >".$name."</A>";
 		
 		
@@ -189,16 +191,16 @@
     echo "<BR />";
 
 	// Check if the user has permission in this activity to add card types
-	if (has_capability('mod/genetic:manageentries', $context)) {
+	//if (has_capability('mod/genetic:manageentries', $context)) {
 		// Form to add a Card type
-		echo "<TABLE WIDTH=\"100%\">";
-		echo "<FORM NAME=\"addimform\" METHOD=\"post\" ACTION=\"editim_form.php?id=$id\" ENCTYPE=\"multipart/form-data\">";
-		echo "<TR><TD ALIGN=\"center\"><BR /><BR />";
-		echo "<INPUT TYPE=\"submit\" VALUE=\"".$str = get_string("buttonaddim", "genetic")."\" NAME=\"buttonadd\" />&nbsp;&nbsp;";
-		//echo "<INPUT TYPE=\"button\" VALUE=\"".$str = get_string("cancel", "genetic")."\" NAME=\"buttoncancel\" onClick=\"location.href='view.php?id=$id'\"/>";
-		echo "</TD></TR>";
-		echo "</FORM></TABLE>";
-	}
+	//	echo "<TABLE WIDTH=\"100%\">";
+	//	echo "<FORM NAME=\"addimform\" METHOD=\"post\" ACTION=\"editim_form.php?id=$id\" ENCTYPE=\"multipart/form-data\">";
+	//	echo "<TR><TD ALIGN=\"center\"><BR /><BR />";
+	//	echo "<INPUT TYPE=\"submit\" VALUE=\"".$str = get_string("buttonaddim", "genetic")."\" NAME=\"buttonadd\" />&nbsp;&nbsp;";
+	//	//echo "<INPUT TYPE=\"button\" VALUE=\"".$str = get_string("cancel", "genetic")."\" NAME=\"buttoncancel\" onClick=\"location.href='view.php?id=$id'\"/>";
+	//	echo "</TD></TR>";
+	//	echo "</FORM></TABLE>";
+	//}
 	
 	// Finish the page
 	include('banner_foot.html');

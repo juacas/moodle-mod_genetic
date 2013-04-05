@@ -1,4 +1,4 @@
-<?php  // $Id: viewvi.php,v 1.0 2012/06/26 19:40:00 Ana María Lozano de la Fuente Exp $
+<?php  // $Id: viewvi.php,v 1.0 2012/06/26 19:40:00 Ana Marï¿½a Lozano de la Fuente Exp $
 /*********************************************************************************
 
 * This file is part of Genetic.
@@ -7,13 +7,13 @@
 
 * Designed and directed by the ITAST group (http://www.eduvalab.uva.es/contact)
 
-* Implemented by Ana María Lozano de la Fuente, using the previous software called Terminology, implemented by Irene Fernández Ramírez (2010)
+* Implemented by Ana Marï¿½a Lozano de la Fuente, using the previous software called Terminology, implemented by Irene Fernï¿½ndez Ramï¿½rez (2010)
 
  
 
 * @ copyright (C) 2012 ITAST group
 
-* @ author:  Ana María Lozano de la Fuente, Irene Fernández Ramírez, María Jesús Verdú Pérez, Juan Pablo de Castro Fernández, Luisa M. Regueras Santos,  Elena Verdú Pérez and María Ángeles Pérez Juárez
+* @ author:  Ana Marï¿½a Lozano de la Fuente, Irene Fernï¿½ndez Ramï¿½rez, Marï¿½a Jesï¿½s Verdï¿½ Pï¿½rez, Juan Pablo de Castro Fernï¿½ndez, Luisa M. Regueras Santos,  Elena Verdï¿½ Pï¿½rez and Marï¿½a ï¿½ngeles Pï¿½rez Juï¿½rez
 
 * @ package genetic
 
@@ -168,11 +168,10 @@
 		
 		//$name3 = stripslashes($name);
 		//echo $name;
-		$rutaEnServidor='\moodle\mod\genetic\video';
-		$rutaDestino=$rutaEnServidor.'/'.$name;
+		$rutaEnServidor=$CFG->wwwroot . '/file.php/' . $COURSE->id;
+		$rutaDestino=$rutaEnServidor.'/video/'.$name;
 		
 		$enlacevi="<A HREF=".$rutaDestino." target=\"blank\" >".$name."</A>";
-		
 		
 		$action = "<A HREF=\"editvi_form.php?id={$cm->id}&idvi=$idvi&action=edit\"><IMG SRC=\"images/edit.gif\" tittle=\"".$striconedit."\" ALT=\"".$striconedit."\"></A>&nbsp;
 				   <A HREF=\"editvi_form.php?id={$cm->id}&idvi=$idvi&action=delete\"><IMG SRC=\"images/delete.gif\" tittle=\"".$stricondelete."\" ALT=\"".$stricondelete."\"></A>";
@@ -191,16 +190,16 @@
     echo "<BR />";
 
 	// Check if the user has permission in this activity to add card types
-	if (has_capability('mod/genetic:manageentries', $context)) {
+	//if (has_capability('mod/genetic:manageentries', $context)) {
 		// Form to add a Card type
-		echo "<TABLE WIDTH=\"100%\">";
-		echo "<FORM NAME=\"addviform\" METHOD=\"post\" ACTION=\"editvi_form.php?id=$id\" ENCTYPE=\"multipart/form-data\">";
-		echo "<TR><TD ALIGN=\"center\"><BR /><BR />";
-		echo "<INPUT TYPE=\"submit\" VALUE=\"".$str = get_string("buttonaddvi", "genetic")."\" NAME=\"buttonadd\" />&nbsp;&nbsp;";
+	//	echo "<TABLE WIDTH=\"100%\">";
+	//	echo "<FORM NAME=\"addviform\" METHOD=\"post\" ACTION=\"editvi_form.php?id=$id\" ENCTYPE=\"multipart/form-data\">";
+	//	echo "<TR><TD ALIGN=\"center\"><BR /><BR />";
+	//	echo "<INPUT TYPE=\"submit\" VALUE=\"".$str = get_string("buttonaddvi", "genetic")."\" NAME=\"buttonadd\" />&nbsp;&nbsp;";
 		//echo "<INPUT TYPE=\"button\" VALUE=\"".$str = get_string("cancel", "genetic")."\" NAME=\"buttoncancel\" onClick=\"location.href='view.php?id=$id'\"/>";
-		echo "</TD></TR>";
-		echo "</FORM></TABLE>";
-	}
+	//	echo "</TD></TR>";
+	//	echo "</FORM></TABLE>";
+	//}
 	
 	// Finish the page
 	include('banner_foot.html');

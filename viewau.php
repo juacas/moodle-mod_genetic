@@ -7,13 +7,13 @@
 
 * Designed and directed by the ITAST group (http://www.eduvalab.uva.es/contact)
 
-* Implemented by Ana María Lozano de la Fuente, using the previous software called Terminology, implemented by Irene Fernández Ramírez (2010)
+* Implemented by Ana Marï¿½a Lozano de la Fuente, using the previous software called Terminology, implemented by Irene Fernï¿½ndez Ramï¿½rez (2010)
 
  
 
 * @ copyright (C) 2012 ITAST group
 
-* @ author:  Ana María Lozano de la Fuente, Irene Fernández Ramírez, María Jesús Verdú Pérez, Juan Pablo de Castro Fernández, Luisa M. Regueras Santos,  Elena Verdú Pérez and María Ángeles Pérez Juárez
+* @ author:  Ana Marï¿½a Lozano de la Fuente, Irene Fernï¿½ndez Ramï¿½rez, Marï¿½a Jesï¿½s Verdï¿½ Pï¿½rez, Juan Pablo de Castro Fernï¿½ndez, Luisa M. Regueras Santos,  Elena Verdï¿½ Pï¿½rez and Marï¿½a ï¿½ngeles Pï¿½rez Juï¿½rez
 
 * @ package genetic
 
@@ -131,7 +131,6 @@
 	
 	// Print the main part of the page	
 	
-	echo "<TR><TD ALIGN=\"left\"><NOBR><B>&nbsp;&nbsp;&nbsp;&nbsp;<IMG SRC=\"images/de.png\"> ".$strde."</B></NOBR>&nbsp;</TD></TR>";
 	//Show a table with departments
 	$table->head  = array ($strname,$strsrc, $straction);
 	$table->align = array ("LEFT", "CENTER", "RIGHT");
@@ -139,7 +138,47 @@
 	// Connect to the db
 	$link = connect_genetic($CFG->dbhost,$CFG->dbuser,$CFG->dbpass,$CFG->dbname);
 	// Get the audio fields
-	$lang="de";
+	
+	$querylang=genetic_id_lang($genetic->id);
+	$resultlang = mysql_query($querylang,$link);
+	while ($langrow = mysql_fetch_array($resultlang)){
+		$idlang=$langrow['genetic_lang_id'];
+		$queryisolang=genetic_get_isolang($idlang);
+		$resultisolang = mysql_query($queryisolang,$link);
+		$resultisolangrow=mysql_fetch_array($resultisolang);
+		$lang=$resultisolangrow['language'];
+		$query = genetic_show_au_lang($lang);
+		$result = mysql_query($query,$link);
+		$nok = mysql_affected_rows($link);
+			
+		if($nok==0){
+			echo "<NOBR><B>&nbsp;&nbsp;&nbsp;&nbsp;<IMG SRC=\"images/".$lang.".png\"> ".$lang."</B></NOBR>&nbsp;&nbsp;&nbsp;&nbsp;";
+			echo get_string('noaudiofound','genetic');
+			echo "<BR />";
+			echo "<BR />";
+				
+		}else{
+			echo "<TR><TD ALIGN=\"left\"><NOBR><B>&nbsp;&nbsp;&nbsp;&nbsp;<IMG SRC=\"images/".$lang.".png\"> ".$lang."</B></NOBR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD></TR>";
+				
+			while ($row = mysql_fetch_array($result)) {
+				$idau = $row['id'];
+				$name = $row['fileaudio'];
+				$sourceau = $row['srcaudio'];
+				//$action = "<A HREF=\"editau_form.php?id={$cm->id}&idau=$idau&name=$name&action=edit\"><IMG SRC=\"images/edit.gif\" tittle=\"".$striconedit."\" ALT=\"".$striconedit."\"></A>&nbsp;
+				//<A HREF=\"editau_form.php?id={$cm->id}&idau=$idau&action=delete\"><IMG SRC=\"images/delete.gif\" tittle=\"".$stricondelete."\" ALT=\"".$stricondelete."\"></A>";
+				$action = "<A HREF=\"editau_form.php?id={$cm->id}&idau=$idau&name=$name&action=edit\"><IMG SRC=\"images/edit.gif\" tittle=\"".$striconedit."\" ALT=\"".$striconedit."\"></A>&nbsp;				<A HREF=\"editau_form.php?id={$cm->id}&idau=$idau&name=$name&action=delete\"><IMG SRC=\"images/delete.gif\" tittle=\"".$stricondelete."\" ALT=\"".$stricondelete."\"></A>&nbsp;";
+				$linedata = array ($name,$sourceau,$action);
+				$table->data[] = $linedata;
+				}
+				echo "<BR />";
+				print_table($table);
+				echo "<BR />";
+				echo "<BR />";
+					
+		}
+		}
+	
+	/*
 	$query = genetic_show_au($lang);
 	$result = mysql_query($query,$link);
 	$nok = mysql_affected_rows($link);	
@@ -169,7 +208,7 @@
 	
 	//RESTO DE LOS IDIOMAS
 	
-	//ESPAÑOL
+	//ESPAï¿½OL
 	echo "<TR><TD ALIGN=\"left\"><NOBR><B>&nbsp;&nbsp;&nbsp;&nbsp;<IMG SRC=\"images/es.png\"> ".$stres."</B></NOBR>&nbsp;</TD></TR>";
 	
 	$table2->head  = array ($strname, $strsrc, $straction);
@@ -275,9 +314,9 @@
     print_table($table4);
     echo "<BR />";
     echo "<BR />";
-	
+	*/
 	// Check if the user has permission in this activity to add audio
-	if (has_capability('mod/genetic:manageentries', $context)) {
+	/*if (has_capability('mod/genetic:manageentries', $context)) {
 		// Form to add audio
 		echo "<TABLE WIDTH=\"100%\">";
 		echo "<FORM NAME=\"addauform\" METHOD=\"post\" ACTION=\"editau_form.php?id=$id\" ENCTYPE=\"multipart/form-data\">";
@@ -286,9 +325,11 @@
 		//echo "<INPUT TYPE=\"button\" VALUE=\"".$str = get_string("cancel", "genetic")."\" NAME=\"buttoncancel\" onClick=\"location.href='view.php?id=$id'\"/>";
 		echo "</TD></TR>";
 		echo "</FORM></TABLE>";
-	}
+	}*/
 	
 	// Finish the page
+	// Close the db
+	mysql_close($link);
 	include('banner_foot.html');
     print_footer($course);
 

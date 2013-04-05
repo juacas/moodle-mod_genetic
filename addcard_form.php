@@ -334,6 +334,8 @@ rObj = function (evt) {
 		
 		echo "<TABLE ALIGN=\"center\">";
 		
+		    // to distinguis the origin page in add imagen forms, etc.
+		    echo "<INPUT TYPE=\"hidden\" NAME=\"originpage\" VALUE=\"add\"></TD></TR>";
 			// BE - Department
 			echo "<TR><TD ALIGN=\"right\" WIDTH=\"20%\"><B>".$strbe."</B>&nbsp;*</TD>";
 			echo "<TD><SELECT MULTIPLE id=\"be\" NAME=\"be[]\" onchange=\"document.getElementById('idbe').value = this.value;\">";
@@ -352,9 +354,15 @@ rObj = function (evt) {
 						echo "<OPTION VALUE=\"".$idbe."\">".$namebe."</OPTION>";
 					}
 				}
-			echo "</SELECT>
-				  &nbsp;&nbsp;<A href=\"editbe_form.php?id=$id&idbe=document.getElementById('divfech').innerHTML\"><IMG SRC=\"images/Add.gif\" ALT=\"add department\"/></A></TD></TR>";
-				  
+			echo "</SELECT>	&nbsp;&nbsp;";
+			
+				//  &nbsp;&nbsp;<A href=\"editbe_form.php?id=$id&idbe=document.getElementById('divfech').innerHTML\"><IMG SRC=\"images/Add.gif\" ALT=\"add department\"/></A></TD></TR>";
+		//echo"	&nbsp;&nbsp;<A href=\"editbe_form.php?id=$id&idbe=document.getElementById('divfech').innerHTML\"><IMG SRC=\"images/Add.gif\" ALT=\"add department\"/></A></TD></TR>";
+			
+			
+			echo"<input type=\"image\" src=\"images/Add.gif\" ALT=\"add department\" name=\"adddepartament\" value=\"Add Department\" onclick=\"this.form.action='editbe_form.php?id=$id';this.form.submit();\"></TD></TR>";
+			
+			
 			//echo"<div id=\"divfech\"></div>";	 
 			//echo"<div id=\"un_div\"><input type=\"hidden\" id=\"i\" value=\"4\" /></div>";
 			
@@ -375,16 +383,22 @@ rObj = function (evt) {
 						echo "<OPTION VALUE=\"".$idty."\">".$namety;
 					}
 				}
-			echo "</SELECT>
-				  &nbsp;&nbsp;<A href=\"editty_form.php?id=$id\" ><IMG SRC=\"images/Add.gif\" ALT=\"add card type\"/></A></TD></TR>";
-			
+			echo "</SELECT>&nbsp;&nbsp;";
+			//<A href=\"editty_form.php?id=$id\" ><IMG SRC=\"images/Add.gif\" ALT=\"add card type\"/></A></TD></TR>";
+			echo"<input type=\"image\" src=\"images/Add.gif\" ALT=\"add project\" name=\"addproject\" value=\"Add Project\" onclick=\"this.form.action='editty_form.php?id=$id';this.form.submit();\"></TD></TR>";
+				
 			//  Subdomain
 			echo "<TR><TD ALIGN=\"right\"><B>".$strsubdom."</B>&nbsp;*</TD>";
 			//echo "<TABLE align=\"center\">";
 			echo "<TD>";
 			genetic_select_subdomains3($nivel=0,$prevdomsubdom);
 			echo"</TD>";
-			echo "<TD align=\"left\">&nbsp;&nbsp;<A href=\"editdom_form.php?id=$id&cat=subdomain\"><IMG SRC=\"images/Add.gif\" ALT=\"add subdomain\"/></A></TD></TR>";
+			echo "<TD align=\"left\">&nbsp;&nbsp;";
+			
+			echo"<input type=\"image\" src=\"images/Add.gif\" ALT=\"add domain\" name=\"adddomain\" value=\"Add Domain\" onclick=\"this.form.action='editdom_form.php?id=$id&cat=subdomain';this.form.submit();\"></TD></TR>";
+				
+				
+			//<A href=\"editdom_form.php?id=$id&cat=subdomain\"><IMG SRC=\"images/Add.gif\" ALT=\"add subdomain\"/></A></TD></TR>";
 			//echo"</TABLE>";
 			
 			
@@ -408,9 +422,10 @@ rObj = function (evt) {
 					}
 					
 				}
-			echo "</SELECT>
-				  &nbsp;&nbsp;<A href=\"editauthor_form.php?id=$id\"><IMG SRC=\"images/Add.gif\" ALT=\"add author\"/></A></TD></TR>";
-				  
+			echo "</SELECT>&nbsp;&nbsp;";
+			//<A href=\"editauthor_form.php?id=$id\"><IMG SRC=\"images/Add.gif\" ALT=\"add author\"/></A></TD></TR>";
+			echo"<input type=\"image\" src=\"images/Add.gif\" ALT=\"add author\" name=\"addauthor\" value=\"Add Author\" onclick=\"this.form.action='editauthor_form.php?id=$id';this.form.submit();\"></TD></TR>";
+						
 			// Date created
 			$datecreated = 0 + time();
 			echo "<TR><TD><INPUT TYPE=\"hidden\" NAME=\"datecreated\" VALUE=\"".$datecreated."\"></TD></TR>";
@@ -435,6 +450,7 @@ rObj = function (evt) {
 			echo "<TD><SELECT MULTIPLE NAME=\"imagen[]\" >";
 				$query = genetic_show_im();
 				$result = mysql_query($query,$link);
+				$noimagen=1;
 				while ($row = mysql_fetch_array($result)) {					
 					$idimg = $row['id'];
 					$nameimg = $row['fileimage'];
@@ -442,13 +458,21 @@ rObj = function (evt) {
 					//$srcimg= $row['srcimage']; 
 					$isselected=0;
 					for($i=0;$i<count($previmagen);$i++){
-						if($idimg==$previmagen[$i])$isselected=1;
+						if($idimg==$previmagen[$i]){
+							$isselected=1;
+							$noimagen=0;
+						}
 					}
 					if($isselected==1){
 						echo "<OPTION VALUE=\"".$idimg."\" selected>".$nameimg."</OPTION>";
 					}else{
 						echo "<OPTION VALUE=\"".$idimg."\">".$nameimg."</OPTION>";
 					}
+				}
+				if($noimagen){
+					echo "<OPTION SELECTED VALUE=\"0\">".$str = get_string("nodefined", "genetic");
+				}else{
+					echo "<OPTION VALUE=\"0\">".$str = get_string("nodefined", "genetic");
 				}
 		echo "</SELECT>";
 		echo "		  &nbsp;&nbsp;";
@@ -500,7 +524,7 @@ rObj = function (evt) {
 			$namelang=$row2['language'];	
 			
 			//Take the parameters than come from other forms depending on the language(editim_form,etc.) as previously they were enterered by the user
-			$term = optional_param('term'.$idlang, null, PARAM_TEXT);
+			$prevterm = optional_param('term'.$idlang, null, PARAM_TEXT);
 			$prevgramcat = optional_param('gramcat'.$idlang, null, PARAM_TEXT);
 			$prevdefinition = optional_param('definition'.$idlang, null, PARAM_TEXT);
 			$prevcontext = optional_param('context'.$idlang, null, PARAM_TEXT);
@@ -512,9 +536,8 @@ rObj = function (evt) {
 			$prevsourcecontext = optional_param('sourcecontext'.$idlang, null, PARAM_TEXT);
 			$prevsourceexpression = optional_param('sourceexpression'.$idlang, null, PARAM_TEXT);
 			$prevsourcenotes = optional_param('sourcenotes'.$idlang, null, PARAM_TEXT);
-			$prevrem_type = optional_param('rem_type'.$idlang, null, PARAM_TEXT);
 			
-			$prevnumfieldsremission[$idlang] = optional_param('numfieldsremission'.$idlang,0,PARAM_INT);
+			$prevnumfieldsremission[$idlang] = optional_param('numfieldsremission'.$idlang,-1,PARAM_INT);
 			$z=0;
     		for($i=1;$i<=$prevnumfieldsremission[$idlang];$i++){
     			if(optional_param('remission_'.$idlang.'_'.$i)!=null){
@@ -523,15 +546,10 @@ rObj = function (evt) {
     				$z++;
     			}
     		
-    	}
-			 
-			
-			
-			$prevremission = optional_param('remission'.$idlang, null, PARAM_TEXT);
-			
-			
-			$prevaudio = optional_param('audio'.$idlang, null, PARAM_INT);
-			$prevvideo = optional_param('video'.$idlang, null, PARAM_INT);
+    		}
+						
+			$prevaudio[$idlang] = optional_param('audio'.$idlang, null, PARAM_INT);
+			$prevvideo[$idlang] = optional_param('video'.$idlang, null, PARAM_INT);
 				
 		
 		
@@ -542,7 +560,11 @@ rObj = function (evt) {
 			echo "<IMG SRC=\"images/".$namelang.".png\">&nbsp;".$namelang."&nbsp;</td></tr>";
 			echo "<tr><td ALIGN=\"right\"><B>".$strterm."</B>&nbsp;*</TD>";
 			//evp a lo mejor conviene hacer una comprobaci�n if $term!=null
-			echo "<TD><INPUT TYPE=\"text\" NAME=\"term$idlang\" value=\"".$term."\" SIZE=\"50\"></TD></TR>";
+			if($prevterm!=null){
+				echo "<TD><INPUT TYPE=\"text\" NAME=\"term$idlang\" value=\"".$prevterm."\" SIZE=\"50\"></TD></TR>";
+			}else{
+				echo "<TD><INPUT TYPE=\"text\" NAME=\"term$idlang\" SIZE=\"50\"></TD></TR>";
+			}
 			
 			// Gramatic category
 			echo "<TR><TD ALIGN=\"right\"><B>".$strgramcat."</B>&nbsp;*</TD>";
@@ -613,32 +635,54 @@ rObj = function (evt) {
 						
 			echo "<fieldset><legend>$strrv</legend>";
 			echo "<div id=\"remissions$idlang\">";
-			echo "<SELECT ID=\"remtype_".$idlang."_1\" NAME=\"remtype_".$idlang."_1\" id=\"selector\">";
-
-			echo "<OPTION VALUE=\"\">".$str = get_string("nodefined", "genetic");
+			
+			
+			if($prevnumfieldsremission[$idlang]!=-1){
+				$z=1;
+				$type_rem = genetic_array_type_rem();
+				for($i=0;$i<$prevnumfieldsremission[$idlang];$i++){
+					echo "<SELECT ID=\"remtype_".$idlang."_".$z."\" NAME=\"remtype_".$idlang."_$z\" id=\"selector\">";
+					for ($k=0; $k<count($type_rem); $k++) {
+						if($type_rem[$k]==$prevrem_type[$idlang][$i]){
+							echo "<OPTION VALUE=\"".$type_rem[$k]."\" selected>".$str = get_string($type_rem[$k], "genetic");}
+						else{
+							echo "<OPTION VALUE=\"".$type_rem[$k]."\">".$str = get_string($type_rem[$k], "genetic");
+						}
+					}
+					echo "</SELECT>";
+					echo"<INPUT TYPE=\"text\" NAME=\"remission_".$idlang."_".$z."\" ID=\"remission_".$idlang."_$z\" value=\"".$prevremission[$idlang][$i]."\" SIZE=\"40\">";
+					echo"<a id=\"a_".$idlang."_$z\" onClick=\"deleteRemission($idlang,$z);\"><IMG SRC=\"images/delete.svg\" ALT=\"".get_string('deleteremission','genetic')."\"/></a>";
+					echo"<br id=\"br_".$idlang."_$z\">";
+					$z++;
+				} // end for
+				echo "</div>";
+				echo "</fieldset>";
+				echo "<a onClick=\"addCampo($idlang);\"><IMG SRC=\"images/Add.gif\" ALT=\"add remission\"/></a></TD></TR>";
+				echo "<INPUT TYPE=\"hidden\" NAME=\"numfieldsremission$idlang\" ID=\"numfieldsremission$idlang\" VALUE=\"$prevnumfieldsremission[$idlang]\">";
+			}else{
+			
+			///echo "<OPTION VALUE=\"\">".$str = get_string("nodefined", "genetic");
+				echo "<SELECT ID=\"remtype_".$idlang."_1\" NAME=\"remtype_".$idlang."_1\" id=\"selector\">";
 				$type_rem = genetic_array_type_rem();
 				for ($k=0; $k<count($type_rem); $k++) {
-					if($type_rem[$k]==$prevrem_type[$idlang]){
-						echo "<OPTION VALUE=\"".$type_rem[$k]."\" selected>".$str = get_string($type_rem[$k], "genetic");}
-					else{
 						echo "<OPTION VALUE=\"".$type_rem[$k]."\">".$str = get_string($type_rem[$k], "genetic");
 					}
-				}
 				
-			echo "</SELECT>";
+				
+				echo "</SELECT>";
 
 			//$strtyperem=implode(',',$type_rem);
-			echo"<INPUT TYPE=\"text\" NAME=\"remission_".$idlang."_1\" ID=\"remission_".$idlang."_1\" value=\"".$prevremission[$idlang]."\" SIZE=\"40\">";
-			echo"<a id=\"a_".$idlang."_1\" onClick=\"deleteRemission($idlang,1);\"><IMG SRC=\"images/delete.svg\" ALT=\"".get_string('deleteremission','genetic')."\"/></a>";
-			echo "</div>";
-			echo "</fieldset></td></tr>";
-			echo "<tr><td></td><td align=\"left\"><a onClick=\"addCampo($idlang);\"><IMG SRC=\"images/Add.gif\" ALT=\"add remission\"/></a></TD></TR>";
+				echo"<INPUT TYPE=\"text\" NAME=\"remission_".$idlang."_1\" ID=\"remission_".$idlang."_1\" SIZE=\"40\">";
+				echo"<a id=\"a_".$idlang."_1\" onClick=\"deleteRemission($idlang,1);\"><IMG SRC=\"images/delete.svg\" ALT=\"".get_string('deleteremission','genetic')."\"/></a>";
+				echo "</div>";
+				echo "</fieldset></td></tr>";
+				echo "<tr><td></td><td align=\"left\"><a onClick=\"addCampo($idlang);\"><IMG SRC=\"images/Add.gif\" ALT=\"add remission\"/></a></TD></TR>";
 			//echo "<a  onClick=\"addCampo($idlang,'$strtyperem');\"><IMG SRC=\"images/Add.gif\" ALT=\"add remission\"/></a></TD></TR>";
 				
 	//		echo"<INPUT TYPE=\"text\" NAME=\"remission$idlang\" value=\"".$prevremission."\" SIZE=\"40\"> <a href=\"#\" onClick=\"addCampo($idlang)\"><IMG SRC=\"images/Add.gif\" ALT=\"add remission\"/></a></div></TD></TR>";
-			echo "<INPUT TYPE=\"hidden\" NAME=\"numfieldsremission$idlang\" ID=\"numfieldsremission$idlang\" VALUE=\"1\">";
+				echo "<INPUT TYPE=\"hidden\" NAME=\"numfieldsremission$idlang\" ID=\"numfieldsremission$idlang\" VALUE=\"1\">";
 			
-			
+			}
 			
 			echo "<TR><TD COLSPAN=\"2\"><BR /></TD></TR>";
 			
@@ -651,29 +695,36 @@ rObj = function (evt) {
 			echo "<TD><SELECT MULTIPLE NAME=\"audio".$idlang."[]\" >";
 				$query = genetic_show_audio_files($namelang);
 				$result = mysql_query($query,$link);
-				$nonselected=1;
-				while ($row = mysql_fetch_array($result)) {					
-					$idaudio = $row['id'];
-					$nameaudio = $row['fileaudio'];
-					$isselected = 0;
-					for($k=0;$k<count($prevaudio);$k++){
-						if($idaudio==$prevaudio[$k])$isselected=1;
+				
+				$noaudio=true;
+				if($prevaudio[$idlang]!=null){
+					while ($row = mysql_fetch_array($result)) {  //row for all audios of the language
+						$selected=false;
+						for($i=0;$i<count($prevaudio[$idlang]);$i++){
+							if($row['id']==$prevaudio[$idlang][$i]){
+								$selected=true;
+								$noaudio=false;
+							}
+						}
+						if($selected){echo "<OPTION SELECTED VALUE=\"".$row['id']."\">".$row['fileaudio'];
+						}else{	echo "<OPTION  VALUE=\"".$row['id']."\">".$row['fileaudio'];}
 					}
-					if($isselected==1){
-						echo "<OPTION VALUE=\"".$idaudio."\" selected>".$nameaudio."</OPTION>";
-						$nonselected=0;
-					}else{
-						echo "<OPTION VALUE=\"".$idaudio."\">".$nameaudio."</OPTION>";
-					}
-				}
-				if($nonselected==0){
-					echo "<OPTION VALUE=\"default\">".$str = get_string("nodefined", "genetic");
+					//evp if no file of audio is found, leave the values empty
 				}else{
-					echo "<OPTION SELECTED VALUE=\"default\">".$str = get_string("nodefined", "genetic");
+					while ($row = mysql_fetch_array($result)) {					
+						echo "<OPTION VALUE=\"".$row['id']."\">".$row['fileaudio']."</OPTION>";
+					}
 				}
-			echo "</SELECT>
-				  &nbsp;&nbsp;<A href=\"editau_form.php?id=$id\"><IMG SRC=\"images/Add.gif\" ALT=\"add audio file\"/></A></TD></TR>";
-		
+				
+				if($noaudio){
+					echo "<OPTION SELECTED VALUE=\"default\">".$str = get_string("nodefined", "genetic");
+				}else{
+					echo "<OPTION VALUE=\"default\">".$str = get_string("nodefined", "genetic");
+				}
+				echo "</SELECT>&nbsp;&nbsp;";
+				//<A href=\"editau_form.php?id=$id\"><IMG SRC=\"images/Add.gif\" ALT=\"add audio file\"/></A></TD></TR>";
+				echo"<input type=\"image\" src=\"images/Add.gif\" ALT=\"add audio\" name=\"addaudio\" value=\"Add audio\" onclick=\"this.form.action='editau_form.php?id=$id';this.form.submit();\"\>";
+				
 		
 			//----a�adido---subir los videos en el lenguaje 1
 			
@@ -681,31 +732,44 @@ rObj = function (evt) {
 			
 			
 			echo "<TD><SELECT MULTIPLE NAME=\"video".$idlang."[]\" >";
+				
 				$query = genetic_show_vi();
 				$result = mysql_query($query,$link);
-				$nonselected=1;
-				while ($row = mysql_fetch_array($result)) {					
-					$idvid = $row['id'];
-					$namevid = $row['filevideo'];
-					$isselected=0;
-					for($k=0;$k<count($prevvideo);$k++){
-						if($idvid==$prevvideo[$k])$isselected=1;
-					}
-					if($isselected==1){
-						echo "<OPTION selected VALUE=\"".$idvid."\">".$namevid."</OPTION>";
-						$nonselected=0;
-					}else{
-						echo "<OPTION VALUE=\"".$idvid."\">".$namevid."</OPTION>";
+				$novideo=true;
+				
+				if($prevvideo[$idlang]!=null){
+					while ($row = mysql_fetch_array($result)) {
+						$selected=false;
+						for($i=0;$i<count($prevvideo[$idlang]);$i++)
+						{
+							if($row['id']==$prevvideo[$idlang][$i]){
+							$selected=true;
+							$novideo=false;
+							}
+						}
+						if($selected==true){
+							echo "<OPTION SELECTED VALUE=\"".$row['id']."\">".$row['filevideo'];
+						}else{
+							echo "<OPTION  VALUE=\"".$row['id']."\">".$row['filevideo'];
+						}
+						}
+				}else{
+					while ($row = mysql_fetch_array($result)) {					
+						echo "<OPTION VALUE=\"".$row['id']."\">".$row['filevideo']."</OPTION>";
 					} 
 				}
-				if($nonselected==0){
-					echo "<OPTION VALUE=\"0\">".$str = get_string("nodefined", "genetic");
-				}else{
+				
+				
+				if($novideo){
 					echo "<OPTION SELECTED VALUE=\"0\">".$str = get_string("nodefined", "genetic");
+				}else{
+					echo "<OPTION VALUE=\"0\">".$str = get_string("nodefined", "genetic");
 				}
-			echo "</SELECT>
-				  &nbsp;&nbsp;<A href=\"editvi_form.php?id=$id\"><IMG SRC=\"images/Add.gif\" ALT=\"add video\"/></A></TD></TR>";
-			
+				
+				echo "</SELECT>&nbsp;&nbsp;";
+				//<A href=\"editvi_form.php?id=$id\"><IMG SRC=\"images/Add.gif\" ALT=\"add video\"/></A></TD></TR>";
+				echo"<input type=\"image\" src=\"images/Add.gif\" ALT=\"add video\" name=\"addvideo\" value=\"Add video\" onclick=\"this.form.action='editvi_form.php?id=$id';this.form.submit();\"\>";
+					
 			echo "<TR><TD COLSPAN=\"2\"><BR /></TD></TR>";
 			
 			//echo "<TR><TD COLSPAN=\"20\"><BR /></TD></TR>";

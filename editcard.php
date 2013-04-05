@@ -109,7 +109,7 @@
 		// Arrays with data for each language of the dictionary, some may be empty if user does not introduce information for a language
 		$isolang[$idlanguage] = optional_param('isolang'.$idlanguage, '', PARAM_TEXT);
 		$cardid[$idlanguage] = optional_param('cardid'.$idlanguage, 0, PARAM_INT);
-		$term[$idlanguage] = optional_param('termino'.$idlanguage, '', PARAM_TEXT);
+		$term[$idlanguage] = optional_param('term'.$idlanguage, '', PARAM_TEXT);
 		$gramcat[$idlanguage] = optional_param('gramcat'.$idlanguage, null, PARAM_TEXT);
 		$weight_type[$idlanguage] = optional_param('weight_type'.$idlanguage, null, PARAM_TEXT);
 		$definition[$idlanguage] = optional_param('definition'.$idlanguage, '', PARAM_TEXT);
@@ -134,7 +134,7 @@
 				$rem_type[$idlanguage][$j]=optional_param('remtype_'.$idlanguage.'_'.$i);
 				$j++;
 			}
-		
+			
 		}
 
 	}
@@ -282,7 +282,7 @@
 												while($langrow=mysql_fetch_array($resultlang)){
 												$idlanguage=$langrow['genetic_lang_id'];
 	
-												echo "<INPUT TYPE=\"hidden\" NAME=\"termino$idlanguage\" VALUE=\"".$term[$idlanguage]."\">";
+												echo "<INPUT TYPE=\"hidden\" NAME=\"term$idlanguage\" VALUE=\"".$term[$idlanguage]."\">";
 												echo "<INPUT TYPE=\"hidden\" NAME=\"isolang$idlanguage\" VALUE=\"".$isolang[$idlanguage]."\">";
 												echo "<INPUT TYPE=\"hidden\" NAME=\"definition$idlanguage\" VALUE=\"".$definition[$idlanguage]."\">";
 												echo "<INPUT TYPE=\"hidden\" NAME=\"gramcat$idlanguage\" VALUE=\"".$gramcat[$idlanguage]."\">";

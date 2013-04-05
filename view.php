@@ -1,4 +1,4 @@
-<?php  // $Id: view.php,v 1.0 2012/06/27 17:20:00 Ana María Lozano Exp $ 
+<?php  // $Id: view.php,v 1.0 2012/06/27 17:20:00 Ana Marï¿½a Lozano Exp $ 
 /*********************************************************************************
 
 * This file is part of Genetic.
@@ -7,13 +7,13 @@
 
 * Designed and directed by the ITAST group (http://www.eduvalab.uva.es/contact)
 
-* Implemented by Ana María Lozano de la Fuente, using the previous software called Terminology, implemented by Irene Fernández Ramírez (2010)
+* Implemented by Ana Marï¿½a Lozano de la Fuente, using the previous software called Terminology, implemented by Irene Fernï¿½ndez Ramï¿½rez (2010)
 
  
 
 * @ copyright (C) 2012 ITAST group
 
-* @ author:  Ana María Lozano de la Fuente, Irene Fernández Ramírez, María Jesús Verdú Pérez, Juan Pablo de Castro Fernández, Luisa M. Regueras Santos,  Elena Verdú Pérez and María Ángeles Pérez Juárez
+* @ author:  Ana Marï¿½a Lozano de la Fuente, Irene Fernï¿½ndez Ramï¿½rez, Marï¿½a Jesï¿½s Verdï¿½ Pï¿½rez, Juan Pablo de Castro Fernï¿½ndez, Luisa M. Regueras Santos,  Elena Verdï¿½ Pï¿½rez and Marï¿½a ï¿½ngeles Pï¿½rez Juï¿½rez
 
 * @ package genetic
 
@@ -139,7 +139,7 @@
 	$strnotes = get_string("notes", "genetic");
 	$strsources = get_string("sources", "genetic");
 	$strnosources = get_string("nosources", "genetic");
-	// añadido:
+	// aï¿½adido:
 	$strlang = get_string("lang", "genetic");
 	$strimagenes=get_string("imagenes", "genetic");
 	//$strdatemod=get_string("datemodified", "genetic");
@@ -194,10 +194,7 @@
 			print_box(format_text($genetic->description, FORMAT_MOODLE), 'generalbox', 'description');
 		}
 
-// 
-	
-		
-	// Print the main part of the page
+// Print the main part of the page
 				
 		// GENERAL SEARCH BOX
 		//Check if there is any card or it is empty
@@ -226,7 +223,7 @@
 		
 
 		// NAVIGATION BAR
-		// Print the date navigation bar   ---añadido el orden alfabetico----
+		// Print the date navigation bar   ---aï¿½adido el orden alfabetico----
 		
         echo "<div class=\"dateexplain\">";
         echo "$strdateexplain";
@@ -320,7 +317,7 @@
 				else if ($order == 'DESC') {	
 					$headerrow = mysql_fetch_array($resultorder);	
 				}
-				// Order ALPHABETIC  ----añadido---
+				// Order ALPHABETIC  ----aï¿½adido---
 				else if ($order == 'ALPHABETIC') {
 					$headerrow = mysql_fetch_array($resultorder);	
 				}
@@ -334,7 +331,7 @@
 				$headerrowni = stripslashes($headerrow['id']);
 				$headerrowty = stripslashes($headerrow['ty']);
 				$headerrowdate = date("j F Y", $headerrow['datecreated']);
-				//---Añadido----
+				//---Aï¿½adido----
 				
 				
 				// Make queries for numerical fields				
@@ -382,7 +379,7 @@
 				//NEW CODE ONLY SHOW THE TERMS:
 				
 				
-				// Get the cards in 3 languages si order es ASC o DESC y en sólo 1 si order es ALPHABETIC
+				// Get the cards in 3 languages si order es ASC o DESC y en sï¿½lo 1 si order es ALPHABETIC
 				if(($order=='ASC')||($order=='DESC'))
 				{
 				$query = genetic_show_cards($headerrowni);
