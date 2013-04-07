@@ -412,12 +412,12 @@ rObj = function (evt) {
 					$resultaux = mysql_query($queryaux,$link);
 					while ($rowaux = mysql_fetch_array($resultaux)) {
 					if ($rowaux['id'] == $row['id']) {
-						echo "<OPTION SELECTED VALUE=\"".$rowaux['id']."\">".$rowaux['name'];
+						echo "<OPTION SELECTED VALUE=\"".$rowaux['id']."\">".$rowaux['name']." ".$rowaux['surname'];
 						$flagprint = 1;
 						}
 					}
 					if ($flagprint !=1) {
-						echo "<OPTION VALUE=\"".$row['id']."\">".$row['name'];
+						echo "<OPTION VALUE=\"".$row['id']."\">".$row['name']." ".$row['surname'];
 					}
 				}	
 			}

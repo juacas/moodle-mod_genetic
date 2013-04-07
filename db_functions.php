@@ -764,6 +764,13 @@ function genetic_show_rel_author($ni) {
 	return $query;
 }
 
+// function to show if an author is included in a card
+function genetic_is_author_used($idauthor){
+	global $CFG;
+	$query = "SELECT * FROM {$CFG->prefix}genetic_rel_headerauthor where idauthor='$idauthor'";
+	return query;
+}
+
 // Show author from relation header-author
 function genetic_show_rel_subdomain($ni) {
 	global $CFG;
@@ -798,6 +805,7 @@ function genetic_checkname_ty($name) {
 	where name='$name'";
 	return $query;
 }
+// to check if the name of the author already exists 
 function genetic_checkname_author($name,$surname){
 	global $CFG;
 	$query = "SELECT *
@@ -972,6 +980,30 @@ function genetic_exist_author($author) {
 	return $query;
 }
 
+function genetic_exist_author2($nameauthor,$surnameauthor) {
+	global $CFG;
+	$query = "SELECT *
+	FROM {$CFG->prefix}genetic_authors
+	WHERE name LIKE '%$nameauthor%'
+	AND surname LIKE '%$surnameauthor%'";
+	return $query;
+}
+
+function genetic_exist_nameauthor($nameauthor){
+	global $CFG;
+	$query = "SELECT *
+	FROM {$CFG->prefix}genetic_authors
+	WHERE name LIKE '%$nameauthor%'";
+	return $query;
+}
+
+function genetic_exist_surnameauthor($surnameauthor){
+	global $CFG;
+	$query = "SELECT *
+	FROM {$CFG->prefix}genetic_authors
+	WHERE surname LIKE '%$surnameauthor%'";
+	return $query;
+}
 // Search header from its ty
 function genetic_search_header($idgenetic,$idty) {
 	global $CFG;
@@ -1280,8 +1312,8 @@ function genetic_use_dom($domid) {
 function genetic_use_subdom($domid) {
 	global $CFG;
 	$query = "SELECT * 
-		 FROM {$CFG->prefix}genetic_headercards
-		 WHERE subdom = '$domid'";
+		 FROM {$CFG->prefix}genetic_headercards_has_genetic_subdomains
+		 WHERE genetic_subdomains_id = '$domid'";
 	return $query;
 }
 

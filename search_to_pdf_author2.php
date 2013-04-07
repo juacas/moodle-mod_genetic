@@ -8,7 +8,8 @@ require_once("selectsubdomainspdf.php");
 
 // Get the form variables
 $id = optional_param('id',0,PARAM_INT);
-$author = utf8_decode(optional_param('author', '', PARAM_TEXT));
+$nameauthor = utf8_decode(optional_param('nameauthor', '', PARAM_TEXT));
+$surnameauthor = utf8_decode(optional_param('surnameauthor', '', PARAM_TEXT));
 
  if ($id) {
         if (! $cm = get_record("course_modules", "id", $id)) {
@@ -74,7 +75,17 @@ $author = utf8_decode(optional_param('author', '', PARAM_TEXT));
 			//Conect to de DB	
 			
 			$link = connect_genetic($CFG->dbhost,$CFG->dbuser,$CFG->dbpass,$CFG->dbname);
-			$queryauthor = genetic_exist_author($author);
+			$empty = genetic_field_not_selected_null($nameauthor);
+			$empty2 = genetic_field_not_selected_null($surnameauthor);
+			if(($empty==0)&&($empty2==0)){
+				$queryauthor = genetic_exist_author2($nameauthor,$surnameauthor);
+			}else if($empty==0){
+				$queryauthor = genetic_exist_nameauthor($nameauthor);
+			}else{
+				$queryauthor = genetic_exist_surnameauthor($surnameauthor);
+			}
+			
+			//$queryauthor = genetic_exist_author($author);
 			$resultauthor = mysql_query($queryauthor,$link);
 			$nauthor = mysql_num_rows($resultauthor);
 			//importar la clase // crea un nuevo pdf
@@ -163,8 +174,10 @@ $author = utf8_decode(optional_param('author', '', PARAM_TEXT));
 					$pdf->Cell(40,5,$strsearchword.': ');
 					//$pdf->Cell(35);
 					$pdf->SetFont('Arial','',8);
-					$pdf->Cell(40,5,$author);
-					
+					$pdf->Cell(40,5,$nameauthor);
+					$pdf->SetFont('Arial','',8);
+					$pdf->Cell(40,5,$surnameauthor);
+						
 					
 					$pdf->Ln();
 					$pdf->SetFont('Arial','B',8);

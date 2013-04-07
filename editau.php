@@ -334,7 +334,7 @@
 													
 																			//compruebo si las caracter�sticas del archivo son las que deseo 
 																				if (!(( strpos($tipo_audio, "wav") || strpos($tipo_audio, "mp3") || strpos($tipo_audio, "mpeg")) && ($tamano_archivo < 10000000))) {
-																					echo "La extensión o el tamaño de los archivos no es correcta. <br><br><table><tr><td><li>Se permiten archivos .wav o .mp3<br><li>se permiten archivos de 100 MB m�ximo.</td></tr></table>";
+																					echo "La extensión o el tamaño de los archivos no es correcta. <br><br><table><tr><td><li>Se permiten archivos .wav o .mp3<br><li>se permiten archivos de 100 MB máximo.</td></tr></table>";
 																					echo get_string("insertaudionok", "genetic");
 																					echo_hidden_form($genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$imagen,$isolang,$prevterm,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$prevaudio,$video,$originpage);
 																					// Close the db    

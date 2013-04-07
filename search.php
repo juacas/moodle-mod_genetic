@@ -72,7 +72,8 @@
 	$term = optional_param('term', '', PARAM_TEXT);
 	$idterm = optional_param('idterm', '', PARAM_INT);
 	$idheader= optional_param('idheader', '', PARAM_TEXT);
-	$author = optional_param('author', '', PARAM_TEXT);
+	$nameauthor = optional_param('nameauthor', '', PARAM_TEXT);
+	$surnameauthor = optional_param('surnameauthor', '', PARAM_TEXT);
 	$dom = optional_param('belongto',0,PARAM_INT);
 	$idty = optional_param('proyect',0,PARAM_INT);
 	$lang = optional_param('lang', '', PARAM_TEXT);
@@ -633,8 +634,9 @@
 	 else if ($searchtype == "author") {
 	 
 		// Check if there is any obligatory field empty
-		$empty = genetic_field_not_selected_null($author);
-		if ($empty == 1)  {
+		$empty = genetic_field_not_selected_null($nameauthor);
+		$empty2 = genetic_field_not_selected_null($surnameauthor);
+		if (($empty == 1) && ($empty2 == 1))  {
 			print_box_start($classes='generalbox boxaligncenter boxwidthwide');
 			$msg = get_string("emptyfield", "genetic");
 			echo $msg;
@@ -645,7 +647,14 @@
 			
 			// Search if any author exists with that name in bbdd
 			$link = connect_genetic($CFG->dbhost,$CFG->dbuser,$CFG->dbpass,$CFG->dbname);
-			$queryauthor = genetic_exist_author($author);
+			if(($empty==0)&&($empty2==0)){
+				$queryauthor = genetic_exist_author2($nameauthor,$surnameauthor);
+			}else if($empty==0){
+				$queryauthor = genetic_exist_nameauthor($nameauthor);
+			}else{
+				$queryauthor = genetic_exist_surnameauthor($surnameauthor);
+			}
+			
 			$resultauthor = mysql_query($queryauthor,$link);
 			$nauthor = mysql_num_rows($resultauthor);
 			
@@ -663,13 +672,11 @@
 				//print_footer($course);
 			}
 			else {
+				$relationauthorheaderfound=0;
 				// Search in the genetic cards by author id
-				for ($i=0; $i<$nauthor; $i++) {
+				while ($row = mysql_fetch_array($resultauthor)){
 				
-					$row = mysql_fetch_array($resultauthor);
 					$auid = $row['id'];
-					
-					
 					
 					// Search relation author-header
 					$query = genetic_search_author($auid);					
@@ -677,27 +684,17 @@
 					$n = mysql_num_rows($result);
 					
 					
+					
 					// There are results?
-					if($n == 0) {
-						print_box_start($classes='generalbox boxaligncenter boxwidthwide');
-						$msg = get_string("noresultauthor", "genetic");
-						echo $msg;
-						print_box_end($return=false);
-						echo "<CENTER><A HREF=\"javascript:history.back(1)\">".get_string('back')."</A></CENTER>";				
-						// Close the db    
-						mysql_close($link);
-						
-					}
+					if($n > 0)  {
 					
-					else {
-					
-					
+						$relationauthorheaderfound=1;
 					//Button for new searches
 									
 									echo "<TABLE ALIGN=\"center\"><FORM NAME=\"newsearchform\" METHOD=\"post\" ACTION=\"search_form.php?id=$id\" ENCTYPE=\"multipart/form-data\">";	
 									echo "<TR><TD><INPUT TYPE=\"submit\" VALUE=\"".$str = get_string("newsearch", "genetic")."\" NAME=\"buttonsearch\" /></TD></TR>";
 									echo "</FORM>";
-									echo "<FORM NAME=\"pdfsearch\" METHOD=\"post\" ACTION=\"search_to_pdf_author2.php?id=$id&author=$author\" ENCTYPE=\"multipart/form-data\">";	
+									echo "<FORM NAME=\"pdfsearch\" METHOD=\"post\" ACTION=\"search_to_pdf_author2.php?id=$id&nameauthor=$nameauthor&surnameauthor=$surnameauthor\" ENCTYPE=\"multipart/form-data\">";	
 									echo "<TR><TD><INPUT TYPE=\"submit\" VALUE=\"".$str = get_string("searchtopdf", "genetic")."\" NAME=\"buttonpdfsearch\" /></TD></TR>";
 									echo "</FORM></TABLE>";
 									
@@ -798,7 +795,7 @@
 									
 									
 				
-								}
+											}
 				
 						}
 						echo "</TABLE><HR />";
@@ -861,6 +858,15 @@
 									print_box_end($return=false);
 								}
 							}
+						} //end search header cards (because there are authors)
+						if($relationauthorheaderfound==0){
+							print_box_start($classes='generalbox boxaligncenter boxwidthwide');
+							$msg = get_string("noresultauthor", "genetic");
+							echo $msg;
+							print_box_end($return=false);
+							echo "<CENTER><A HREF=\"javascript:history.back(1)\">".get_string('back')."</A></CENTER>";
+							// Close the db
+							mysql_close($link);
 						}
 						// Close the db    
 						mysql_close($link);

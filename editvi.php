@@ -324,7 +324,7 @@
 									
 														//compruebo si las caracter�sticas del archivo son las que deseo 
 															if (!((strpos($tipo_video, "wav") || strpos($tipo_video, "avi")|| strpos($tipo_video, "wmv")|| strpos($tipo_video, "mp4"))&& ($tamano_archivo < 100000000) )) {
-																echo "La extensi�n o el tama�o de los archivos no es correcta. <br><br><table><tr><td><li>Se permiten archivos .wav o .avi o .wmv<br><li>se permiten archivos de 100 MB m�ximo.</td></tr></table>";
+																echo  get_string('errorvideoextension','genetic');
 																	echo get_string("insertvinok", "genetic");
 																	echo_hidden_form($genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$imagen,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$audio,$prevvideo,$originpage);
 																	// Close the db    

@@ -366,8 +366,9 @@
 			
 			// Check if the subdomain is being used in any genetic card.
 			$query = genetic_use_subdom($iddom);
-			$result = mysql_query($query, $link);
-			if(!$result)
+			$resultprev = mysql_query($query, $link);
+			$result = mysql_num_rows ($link);
+			if($result==0)
 			{
 			
 				//comprobar que en ese subdominio no hay dentro otros subdominios

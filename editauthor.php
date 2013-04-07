@@ -187,24 +187,26 @@
 	// Delete
 	if ($action == "delete") {
 		$link = connect_genetic($CFG->dbhost,$CFG->dbuser,$CFG->dbpass,$CFG->dbname);
-
-		$query = genetic_delete_author($idauthor);
-		$result = mysql_query($query,$link);
-		$nok = mysql_affected_rows($link);
-
-		// Delete ok or not?
-		if($nok == 0) {
-			$redirectmsg = get_string("deleteaunok", "genetic");
+		
+		$query= genetic_is_author_used($idauthor);
+		$result =mysql_query($query, $link);
+		$nok = mysql_num_rows ($link);
+		if($nok>0){
+			$redirectmsg = get_string("deleteauthorused", "genetic");
 			redirect($url="viewauthor.php?id={$cm->id}", $redirectmsg, $delay=-1);
-			
-			// Close the db    
-			mysql_close($link);
-			// Finish the page
-			print_footer($course);
-		}
-		$redirectmsg = get_string("deleteauok", "genetic")."<BR />";
-		redirect($url="viewauthor.php?id={$cm->id}", $redirectmsg, $delay=-1);
-		// Close the db    
+		}else{
+			$query = genetic_delete_author($idauthor);
+			$result = mysql_query($query,$link);
+			$nok = mysql_affected_rows($link);
+	
+			// Delete ok or not?
+			if($nok == 0) {
+				$redirectmsg = get_string("deleteaunok", "genetic");
+				redirect($url="viewauthor.php?id={$cm->id}", $redirectmsg, $delay=-1);
+			}
+			$redirectmsg = get_string("deleteauok", "genetic")."<BR />";
+			redirect($url="viewauthor.php?id={$cm->id}", $redirectmsg, $delay=-1);
+		}// Close the db    
 		mysql_close($link);
 		// Finish the page
 		print_footer($course);
@@ -224,87 +226,90 @@
 		}	
 		else {
 			
-			// Check if that name already exists in the database
-			$query=genetic_checkname_author($name,$surname);
-			$result=mysql_query($query,$link);
-			$nameexist = mysql_affected_rows($link);
-			if($nameexist==0){
-			
 			// Add
 			if ($action == "") {
-				$query =genetic_insert_author($type, $name, $surname);
-				$result = mysql_query($query,$link);
-				$nok = mysql_affected_rows($link);
-				
-				if($origen=="add_author"){
-					// Insert ok or not?
-					if($nok == 0) {
-					$redirectmsg = get_string("insertaunok", "genetic");
-					redirect($url="viewauthor.php?id={$cm->id}", $redirectmsg, $delay=-1);
+				// Check if that name already exists in the database
+				$query=genetic_checkname_author($name,$surname);
+				$result=mysql_query($query,$link);
+				$nameexist = mysql_affected_rows($link);
+				if($nameexist==0){
+					$query =genetic_insert_author($type, $name, $surname);
+					$result = mysql_query($query,$link);
+					$nok = mysql_affected_rows($link);
 					
-					// Close the db    
-					mysql_close($link);
-					// Finish the page
-					print_footer($course);
+					if($origen=="add_author"){
+						// Insert ok or not?
+						if($nok == 0) {
+						$redirectmsg = get_string("insertaunok", "genetic");
+						redirect($url="viewauthor.php?id={$cm->id}", $redirectmsg, $delay=-1);
+						}else{
+						$redirectmsg = get_string("insertauok", "genetic");
+						redirect($url="viewauthor.php?id={$cm->id}", $redirectmsg, $delay=-1);
+						}
 					}
-				
-				$redirectmsg = get_string("insertauok", "genetic");
-				redirect($url="viewauthor.php?id={$cm->id}", $redirectmsg, $delay=-1);
-				}
-				else if($origen==""){
-				
-					if($nok == 0) {
-					echo get_string("insertaunok", "genetic");
-					echo_hidden_form($genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$imagen,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$audio,$video,$originpage);
-					//echo "<CENTER><A HREF=\"javascript:history.back(2)?id={$cm->id}\">".get_string("insertaunok", "genetic")."</A></CENTER>";
-					// Close the db    
-					mysql_close($link);
-					// Finish the page
-					print_footer($course);
+					else{
+					
+						if($nok == 0) {
+						echo get_string("insertaunok", "genetic");
+						echo_hidden_form($genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$imagen,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$audio,$video,$originpage);
+						//echo "<CENTER><A HREF=\"javascript:history.back(2)?id={$cm->id}\">".get_string("insertaunok", "genetic")."</A></CENTER>";
+						}else{
+						echo get_string("insertauok", "genetic");
+						echo_hidden_form($genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$imagen,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$audio,$video,$originpage);
+						}
 					}
-				echo get_string("insertauok", "genetic");
-				echo_hidden_form($genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$imagen,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$audio,$video,$originpage);
+					
+				}else{  // if the name already exists shows an error message
+					if(($origen=="add_author")||($action == "edit")){
+						$redirectmsg = get_string("nameexists", "genetic");
+						redirect($url="viewauthor.php?id={$cm->id}", $redirectmsg, $delay=-1);
+					}else{
+						echo get_string("nameexists", "genetic");
+						echo_hidden_form($genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$imagen,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$audio,$video,$originpage);
+					}
 				}
-				// Close the db    
+				// Close the db
 				mysql_close($link);
 				// Finish the page
 				print_footer($course);
 			}
 			// Edit
 			else if ($action == "edit") {
-			
 				
-				$query = genetic_update_author($idauthor, $type, $name,$surname);
-				$result = mysql_query($query,$link);
-				$nok = mysql_affected_rows($link);
-				// Update ok or not?
-				if($nok == 0) {
-					$redirectmsg = get_string("updateaunok", "genetic");
-					redirect($url="viewauthor.php?id={$cm->id}", $redirectmsg, $delay=-1);
-					
-					// Close the db    
-					mysql_close($link);
-					// Finish the page
-					print_footer($course);
+				$query=genetic_checkname_author($name,$surname);
+				$result=mysql_query($query,$link);
+				$nameexist = mysql_affected_rows($link);
+				$nocontinue=0;
+				if($nameexist>0){
+					$rowauthor = mysql_fetch_array($result);
+					if($rowauthor['id']==$idauthor){
+						$nocontinue=0;
+					}else{
+						$nocontinue=1;
+					}
 				}
-
-				$redirectmsg = get_string("updateauok", "genetic");
-				redirect($url="viewauthor.php?id={$cm->id}", $redirectmsg, $delay=-1);
+				if($nocontinue==0){
+					$query = genetic_update_author($idauthor, $type, $name,$surname);
+					$result = mysql_query($query,$link);
+					$nok = mysql_affected_rows($link);
+					// Update ok or not?
+					if($nok == 0) {
+						$redirectmsg = get_string("updateaunok", "genetic");
+						redirect($url="viewauthor.php?id={$cm->id}", $redirectmsg, $delay=-1);
+					}else{
+						$redirectmsg = get_string("updateauok", "genetic");
+						redirect($url="viewauthor.php?id={$cm->id}", $redirectmsg, $delay=-1);
+					}
+				}else{
+					$redirectmsg = get_string("nameexists", "genetic");
+					redirect($url="viewauthor.php?id={$cm->id}", $redirectmsg, $delay=-1);
+				}
 				// Close the db 
 				mysql_close($link);
+				// Finish the page
+				print_footer($course);
 			}
-		}else{
-			if(($origen=="add_author")||($action == "edit")){
-				$redirectmsg = get_string("nameexists", "genetic");
-				redirect($url="viewauthor.php?id={$cm->id}", $redirectmsg, $delay=-1);
-				// Close the db
-				mysql_close($link);
-			}else{
-				echo get_string("nameexists", "genetic");
-				echo_hidden_form($genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$imagen,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$audio,$video,$originpage);
-				mysql_close($link);
-			}
-		}
+		
 		}
 		
 		// Finish the page

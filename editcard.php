@@ -212,18 +212,21 @@
 				}
 			
 		//checks if no terms have been added in any language
+			$nocontinue=0;
 			if($allfieldsempty==$numlang){
 				print_box_start($classes='generalbox boxaligncenter boxwidthwide');
 				$msg = get_string("notermsed", "genetic");
 				echo $msg;
 				print_box_end($return=false);
 				echo "<CENTER><A HREF=\"javascript:history.back(1)\">".get_string('back')."</A></CENTER>";
+				$nocontinue=1;
 			}else if (($empty2)>0) {
 				print_box_start($classes='generalbox boxaligncenter boxwidthwide');
 				$msg = get_string("emptyfieldlanguage", "genetic");
 				echo $msg;
 				print_box_end($return=false);
 				echo "<CENTER><A HREF=\"javascript:history.back(1)\">".get_string('back')."</A></CENTER>";
+				$nocontinue=1;
 			}else {	
 				$n2=0;
 				$resultlang = mysql_query($query,$link);
@@ -252,7 +255,7 @@
 		echo "<FORM NAME=\"card\" METHOD=\"post\" ACTION=\"editcard.php?id={$cm->id}&confirm=1\" ENCTYPE=\"multipart/form-data\">";
 		echo "<TR><TD ALIGN=\"right\"><font color=\"red\"><B>".$msg2."</font></TD>";
 							echo "<INPUT TYPE=\"hidden\" NAME=\"confirm\" VALUE=\"1\">";
-				
+							echo "<INPUT TYPE=\"hidden\" NAME=\"ni\" VALUE=\"$ni\">";
 										//Send again the parameters received
 										for($j=0;$j<count($bes);$j++){
 										echo "<INPUT TYPE=\"hidden\" NAME=\"be[]\" VALUE=\"".$bes[$j]."\">";
@@ -349,7 +352,7 @@
 			else {
 				
 		
-		
+			if($nocontinue==0){
 			// Connect to the database
 			$link = connect_genetic($CFG->dbhost,$CFG->dbuser,$CFG->dbpass,$CFG->dbname);
 			
@@ -509,7 +512,7 @@
 
 			$redirectmsg = get_string("updateok", "genetic");
 			redirect($url="view.php?id={$cm->id}", $redirectmsg, $delay=-1);
-			
+			}
 			// Close the db    
 			mysql_close($link);
 		}
