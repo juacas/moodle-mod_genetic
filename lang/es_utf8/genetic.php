@@ -118,6 +118,7 @@ $string['deleteau'] = 'Borrar Audio';
 $string['deleteausure'] = ' Está seguro de borrar el audio ?';
 $string['deleteauused'] = 'No se puede borrar el autor. La entrada está siendo usada por una ficha terminológica.';
 $string['deleteauthor'] = 'Borrar autor/a';
+$string['deleteauthorused'] = "El autor no se puede eliminar porque está siendo utilizado en el diccionario.";
 $string['deleteaunok'] = 'Error al borrar autor/a';
 $string['deleteauok'] = 'Autor/a borrado correctamente';
 $string['deleteauthorsure'] = ' Está seguro de borrar el/la autor/a ?';
@@ -210,6 +211,7 @@ $string['emptysearchtype'] = 'Debe seleccionar un criterio de búsqueda y rellen
 //---a�adido---
 $string['en'] = 'Inglés ';
 $string['errordb'] = 'Se ha producido un error al seleccionar la base de datos correspondiente a la actividad. Vuelva a intentarlo.';
+$string['errorvideoextension'] = "La extensión o el tamaño de los archivos no es correcta. <br><br><table><tr><td><li>Se permiten archivos .wav o .avi o .wmv<br><li>se permiten archivos de 100 MB máximo.</td></tr></table>";
 $string['es'] = 'Castellano ';
 $string['expression'] = 'Fraseología';
 $string['errextensionimage']="La extensión o el tamaño de los archivos no es correcta. <br><br><table><tr><td><li>Se permiten archivos .gif o .jpg<br><li>se permiten archivos de 100 MB m�ximo.</td></tr></table>";
@@ -283,7 +285,7 @@ $string['noresultterm'] = 'No se han encontrado término(s) que coincidan';
 $string['nosources'] = 'No se han encontrado fuentes para el término';
 $string['nosrcimage'] = 'No se han encontrado fuentes para la imagen';
 $string['nosrcvideo'] = 'No se han encontrado fuentes para el video';
-$string['notermsadded'] = 'No se han a�adido t�rminos en ning�n idioma';
+$string['notermsadded'] = 'No se han añadido términos en ningún idioma';
 $string['notes'] = 'Notas';
 $string['nummatch'] = 'Número de coincidencias';
 //----a�adido---
