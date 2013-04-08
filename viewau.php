@@ -150,16 +150,17 @@
 		$query = genetic_show_au_lang($lang);
 		$result = mysql_query($query,$link);
 		$nok = mysql_affected_rows($link);
+		echo "<NOBR><B>&nbsp;&nbsp;&nbsp;&nbsp;<IMG SRC=\"images/".$lang.".png\"> ".$lang."</B></NOBR>&nbsp;&nbsp;&nbsp;&nbsp;";
 			
 		if($nok==0){
-			echo "<NOBR><B>&nbsp;&nbsp;&nbsp;&nbsp;<IMG SRC=\"images/".$lang.".png\"> ".$lang."</B></NOBR>&nbsp;&nbsp;&nbsp;&nbsp;";
+			//echo "<NOBR><B>&nbsp;&nbsp;&nbsp;&nbsp;<IMG SRC=\"images/".$lang.".png\"> ".$lang."</B></NOBR>&nbsp;&nbsp;&nbsp;&nbsp;";
 			echo get_string('noaudiofound','genetic');
 			echo "<BR />";
 			echo "<BR />";
 				
 		}else{
-			echo "<TR><TD ALIGN=\"left\"><NOBR><B>&nbsp;&nbsp;&nbsp;&nbsp;<IMG SRC=\"images/".$lang.".png\"> ".$lang."</B></NOBR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD></TR>";
-				
+			//echo "<TR><TD ALIGN=\"left\"><NOBR><B>&nbsp;&nbsp;&nbsp;&nbsp;<IMG SRC=\"images/".$lang.".png\"> ".$lang."</B></NOBR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD></TR>";
+			$anaudioexists=false;
 			while ($row = mysql_fetch_array($result)) {
 				$idau = $row['id'];
 				$name = $row['fileaudio'];
@@ -167,11 +168,20 @@
 				//$action = "<A HREF=\"editau_form.php?id={$cm->id}&idau=$idau&name=$name&action=edit\"><IMG SRC=\"images/edit.gif\" tittle=\"".$striconedit."\" ALT=\"".$striconedit."\"></A>&nbsp;
 				//<A HREF=\"editau_form.php?id={$cm->id}&idau=$idau&action=delete\"><IMG SRC=\"images/delete.gif\" tittle=\"".$stricondelete."\" ALT=\"".$stricondelete."\"></A>";
 				$action = "<A HREF=\"editau_form.php?id={$cm->id}&idau=$idau&name=$name&action=edit\"><IMG SRC=\"images/edit.gif\" tittle=\"".$striconedit."\" ALT=\"".$striconedit."\"></A>&nbsp;				<A HREF=\"editau_form.php?id={$cm->id}&idau=$idau&name=$name&action=delete\"><IMG SRC=\"images/delete.gif\" tittle=\"".$stricondelete."\" ALT=\"".$stricondelete."\"></A>&nbsp;";
-				$linedata = array ($name,$sourceau,$action);
-				$table->data[] = $linedata;
+				$pathaudio=$CFG->dataroot.'/'.$COURSE->id.'/audio/'.$name;
+				if(file_exists($pathaudio))
+					{	
+						$linedata = array ($name,$sourceau,$action);
+						$table->data[] = $linedata;
+						$anaudioexists=true;
+					}				
 				}
-				echo "<BR />";
-				print_table($table);
+			//	echo "<BR />";
+				if($anaudioexists==true){
+					print_table($table);
+				}else{
+					echo get_string('noaudiofound','genetic');
+				}
 				echo "<BR />";
 				echo "<BR />";
 					

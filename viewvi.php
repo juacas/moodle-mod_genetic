@@ -176,9 +176,11 @@
 		$action = "<A HREF=\"editvi_form.php?id={$cm->id}&idvi=$idvi&action=edit\"><IMG SRC=\"images/edit.gif\" tittle=\"".$striconedit."\" ALT=\"".$striconedit."\"></A>&nbsp;
 				   <A HREF=\"editvi_form.php?id={$cm->id}&idvi=$idvi&action=delete\"><IMG SRC=\"images/delete.gif\" tittle=\"".$stricondelete."\" ALT=\"".$stricondelete."\"></A>";
 		
-		
-		$linedata = array ($enlacevi,$name4,$name2,$name3,$action);
-        $table->data[] = $linedata;
+		$pathvideo=$CFG->dataroot.'/'.$COURSE->id.'/video/'.$name;
+		if(file_exists($pathvideo)){
+			$linedata = array ($enlacevi,$name4,$name2,$name3,$action);
+	        $table->data[] = $linedata;
+		}
 	}
 	
 	// Close the db

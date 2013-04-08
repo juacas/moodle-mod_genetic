@@ -240,7 +240,7 @@
 		if ($lang=="none")  {
 			$msg = get_string("emptyfield", "genetic");
 			echo $msg;
-			echo_hidden_form($genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$imagen,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$audio,$prevvideo,$originpage);
+			echo_hidden_form($cm->id, $genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$imagen,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$audio,$prevvideo,$originpage);
 				
 		}
 	
@@ -267,8 +267,13 @@
 													$rutaTemporal=$_FILES['video']['tmp_name'];
 													//$rutaEnServidor='C:\wamp\www\moodle\files';
 													$rutaEnServidor=$CFG->dataroot . '/'. $COURSE->id;
-													//check if the directory vidoe exist if not create one
 													
+													//check if course folder exists
+													if(!file_exists($rutaEnServidor)){
+														umask(0000);
+														mkdir($rutaEnServidor,$CFG->directorypermissions);
+													}
+														
 													//-------------------------------------------
 														//check if video folder exist
 											
@@ -302,7 +307,7 @@
 															echo ": ";
 															echo get_string("errnamevideoexists","genetic");
 																													
-															echo_hidden_form($genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$imagen,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$audio,$prevvideo,$originpage);
+															echo_hidden_form($cm->id,$genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$imagen,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$audio,$prevvideo,$originpage);
 																
 															// Close the db
 															mysql_close($link);
@@ -326,7 +331,7 @@
 															if (!((strpos($tipo_video, "wav") || strpos($tipo_video, "avi")|| strpos($tipo_video, "wmv")|| strpos($tipo_video, "mp4"))&& ($tamano_archivo < 100000000) )) {
 																echo  get_string('errorvideoextension','genetic');
 																	echo get_string("insertvinok", "genetic");
-																	echo_hidden_form($genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$imagen,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$audio,$prevvideo,$originpage);
+																	echo_hidden_form($cm->id,$genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$imagen,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$audio,$prevvideo,$originpage);
 																	// Close the db    
 																	mysql_close($link);
 																	
@@ -349,7 +354,7 @@
 																	// Insert ok or not?
 																	if($nok == 0) {
 																	echo get_string("insertvinok", "genetic");
-																	echo_hidden_form($genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$imagen,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$audio,$prevvideo,$originpage);
+																	echo_hidden_form($cm->id,$genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$imagen,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$audio,$prevvideo,$originpage);
 			
 																	//Close the db    
 																	mysql_close($link);
@@ -357,14 +362,14 @@
 																	}
 															
 																	echo get_string("insertviok", "genetic");
-																	echo_hidden_form($genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$imagen,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$audio,$prevvideo,$originpage);
+																	echo_hidden_form($cm->id,$genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$imagen,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$audio,$prevvideo,$originpage);
 																	// Close the db    
 																	mysql_close($link);
 																
 															}
 															else{ 
 																echo "Ocurrió algún error al subir el fichero. No pudo guardarse."; 
-																echo_hidden_form($genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$imagen,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$audio,$prevvideo,$originpage);
+																echo_hidden_form($cm->id,$genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$imagen,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$audio,$prevvideo,$originpage);
 																// Close the db
 																mysql_close($link);
 																
@@ -377,7 +382,7 @@
 												}  //cierre del if uploaded
 												else{
 													echo "NO SE SUBIO EL VIDEO";
-													echo_hidden_form($genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$imagen,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$audio,$prevvideo,$originpage);
+													echo_hidden_form($cm->id,$genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$imagen,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$audio,$prevvideo,$originpage);
 													// Close the db
 													mysql_close($link);
 													
@@ -401,6 +406,15 @@
 				redirect($url="viewvi.php?id={$cm->id}", $redirectmsg, $delay=-1);
 			
 			}else{
+				$query = genetic_search_vi($name);
+				$result = mysql_query($query,$link);
+				$nok2 = mysql_affected_rows($link);
+				if($nok2!=0){
+					echo "No se puede modificar el nombre del fichero del vídeo porque ya existe un fichero con ese nombre.";
+					$redirectmsg = get_string("updateimnok", "genetic");
+					redirect($url="viewvi.php?id={$cm->id}", $redirectmsg, $delay=-1);
+					
+				}else{
 			//echo $archivoAnterior;
 			//echo $archivoPosterior;
 				rename($archivoAnterior,$archivoPosterior);
@@ -420,6 +434,7 @@
 				}
 				$redirectmsg = get_string("updateviok", "genetic");
 				redirect($url="viewvi.php?id={$cm->id}", $redirectmsg, $delay=-1);
+			}
 			}
 				// Close the db 
 				mysql_close($link);

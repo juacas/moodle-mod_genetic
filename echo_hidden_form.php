@@ -4,7 +4,7 @@ require_once("../../config.php");
 //require_once("db_functions.php");
 //require_once("lib.php");
 
-function echo_hidden_form($id,$idheader,$bes,$authors,$ty,$domsubdom,$prevformimagen,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$audio,$video,$originpage)
+function echo_hidden_form($cmid,$id,$idheader,$bes,$authors,$ty,$domsubdom,$prevformimagen,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$audio,$video,$originpage)
 {
 	global $CFG;
 																	
@@ -72,9 +72,9 @@ function echo_hidden_form($id,$idheader,$bes,$authors,$ty,$domsubdom,$prevformim
 		
 	}
 	if($originpage=='edit'){
-		echo "<INPUT TYPE=\"button\" VALUE=\"".$str = get_string("continue", "genetic")."\" NAME=\"buttoncontinue\" onClick=\"this.form.action='editcard_form.php?id=$id&idheader=$idheader';this.form.submit();\"/>";
+		echo "<INPUT TYPE=\"button\" VALUE=\"".$str = get_string("continue", "genetic")."\" NAME=\"buttoncontinue\" onClick=\"this.form.action='editcard_form.php?id=$cmid&idheader=$idheader';this.form.submit();\"/>";
 	}else{
-		echo "<INPUT TYPE=\"button\" VALUE=\"".$str = get_string("continue", "genetic")."\" NAME=\"buttoncontinue\" onClick=\"this.form.action='addcard_form.php?id=$id';this.form.submit();\"/>";
+		echo "<INPUT TYPE=\"button\" VALUE=\"".$str = get_string("continue", "genetic")."\" NAME=\"buttoncontinue\" onClick=\"this.form.action='addcard_form.php?id=$cmid';this.form.submit();\"/>";
 	}
 	echo "</FORM>";
 }

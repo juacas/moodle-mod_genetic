@@ -454,19 +454,21 @@ rObj = function (evt) {
 				while ($row = mysql_fetch_array($result)) {					
 					$idimg = $row['id'];
 					$nameimg = $row['fileimage'];
-					$titleimg= $row['titleimage_de']; //evp s�lo alem�n??
-					//$srcimg= $row['srcimage']; 
-					$isselected=0;
-					for($i=0;$i<count($previmagen);$i++){
-						if($idimg==$previmagen[$i]){
-							$isselected=1;
-							$noimagen=0;
+					$pathimage=$CFG->dataroot.'/'.$COURSE->id.'/imagen/'.$nameimg;
+					if(file_exists($pathimage)){
+						//$srcimg= $row['srcimage']; 
+						$isselected=0;
+						for($i=0;$i<count($previmagen);$i++){
+							if($idimg==$previmagen[$i]){
+								$isselected=1;
+								$noimagen=0;
+							}
 						}
-					}
-					if($isselected==1){
-						echo "<OPTION VALUE=\"".$idimg."\" selected>".$nameimg."</OPTION>";
-					}else{
-						echo "<OPTION VALUE=\"".$idimg."\">".$nameimg."</OPTION>";
+						if($isselected==1){
+							echo "<OPTION VALUE=\"".$idimg."\" selected>".$nameimg."</OPTION>";
+						}else{
+							echo "<OPTION VALUE=\"".$idimg."\">".$nameimg."</OPTION>";
+						}
 					}
 				}
 				if($noimagen){
@@ -699,20 +701,31 @@ rObj = function (evt) {
 				$noaudio=true;
 				if($prevaudio[$idlang]!=null){
 					while ($row = mysql_fetch_array($result)) {  //row for all audios of the language
-						$selected=false;
-						for($i=0;$i<count($prevaudio[$idlang]);$i++){
-							if($row['id']==$prevaudio[$idlang][$i]){
-								$selected=true;
-								$noaudio=false;
+						
+						$pathaudio=$CFG->dataroot.'/'.$COURSE->id.'/audio/'.$row['fileaudio'];
+						if(file_exists($pathaudio)){
+
+
+							$selected=false;
+							for($i=0;$i<count($prevaudio[$idlang]);$i++){
+								if($row['id']==$prevaudio[$idlang][$i]){
+									$selected=true;
+									$noaudio=false;
+								}
 							}
+							if($selected){echo "<OPTION SELECTED VALUE=\"".$row['id']."\">".$row['fileaudio'];
+							}else{	echo "<OPTION  VALUE=\"".$row['id']."\">".$row['fileaudio'];}
+							
 						}
-						if($selected){echo "<OPTION SELECTED VALUE=\"".$row['id']."\">".$row['fileaudio'];
-						}else{	echo "<OPTION  VALUE=\"".$row['id']."\">".$row['fileaudio'];}
 					}
 					//evp if no file of audio is found, leave the values empty
+				
 				}else{
-					while ($row = mysql_fetch_array($result)) {					
-						echo "<OPTION VALUE=\"".$row['id']."\">".$row['fileaudio']."</OPTION>";
+					while ($row = mysql_fetch_array($result)) {	
+						$pathaudio=$CFG->dataroot.'/'.$COURSE->id.'/audio/'.$row['fileaudio'];
+						if(file_exists($pathaudio)){				
+							echo "<OPTION VALUE=\"".$row['id']."\">".$row['fileaudio']."</OPTION>";
+						}
 					}
 				}
 				
@@ -739,23 +752,29 @@ rObj = function (evt) {
 				
 				if($prevvideo[$idlang]!=null){
 					while ($row = mysql_fetch_array($result)) {
-						$selected=false;
-						for($i=0;$i<count($prevvideo[$idlang]);$i++)
+						$pathvideo=$CFG->dataroot.'/'.$COURSE->id.'/video/'.$row['filevideo'];
+						if(file_exists($pathvideo))
 						{
-							if($row['id']==$prevvideo[$idlang][$i]){
-							$selected=true;
-							$novideo=false;
+							$selected=false;
+							for($i=0;$i<count($prevvideo[$idlang]);$i++)
+							{
+								if($row['id']==$prevvideo[$idlang][$i]){
+								$selected=true;
+								$novideo=false;
+								}
 							}
-						}
-						if($selected==true){
-							echo "<OPTION SELECTED VALUE=\"".$row['id']."\">".$row['filevideo'];
-						}else{
-							echo "<OPTION  VALUE=\"".$row['id']."\">".$row['filevideo'];
+							if($selected==true){
+								echo "<OPTION SELECTED VALUE=\"".$row['id']."\">".$row['filevideo'];
+							}else{
+								echo "<OPTION  VALUE=\"".$row['id']."\">".$row['filevideo'];
+							}
 						}
 						}
 				}else{
-					while ($row = mysql_fetch_array($result)) {					
-						echo "<OPTION VALUE=\"".$row['id']."\">".$row['filevideo']."</OPTION>";
+					while ($row = mysql_fetch_array($result)) {		
+							$pathvideo=$CFG->dataroot.'/'.$COURSE->id.'/video/'.$row['filevideo'];
+							if(file_exists($pathvideo))
+								echo "<OPTION VALUE=\"".$row['id']."\">".$row['filevideo']."</OPTION>";
 					} 
 				}
 				

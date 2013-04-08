@@ -277,6 +277,13 @@
 														//$rutaEnServidor='C:\wamp\www\moodle\files';
 														$rutaEnServidor=$CFG->dataroot . '/'. $COURSE->id;
 														//-------------------------------------------
+														
+														// create the folder of the course if it does not exist
+														if(!file_exists($rutaEnServidor)){
+															umask(0000);
+															mkdir($rutaEnServidor,$CFG->directorypermissions);
+														}
+														
 														//check if audio folder exist
 											
 														$dir=$rutaEnServidor.'/audio';
@@ -291,7 +298,7 @@
 														if(file_exists($rutaDestino)){
 															echo "No se ha podido crear el fichero de audio porque existe un fichero con el mismo nombre<br /><br />";
 															echo get_string("insertaudionok", "genetic");
-															echo_hidden_form($genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$imagen,$isolang,$prevterm,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$prevaudio,$video,$originpage);
+															echo_hidden_form($cm->id,$genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$imagen,$isolang,$prevterm,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$prevaudio,$video,$originpage);
 															// Close the db
 															mysql_close($link);
 															// Finish the page
@@ -308,14 +315,20 @@
 														
 																		if($nok2!=0){
 																		
-																		
-																		$query =genetic_show_lastaudio(); 
-																		$result = mysql_query($query,$link);
-																		$nok2 = mysql_affected_rows($link);
-																		$row = mysql_fetch_array($result);
-																		$idaudio = $row['id'];
-																		$format = substr( $nombreAudio, -4, 4 );
-																		$nombreAudio=$idaudio."".$format;
+																			echo "No se ha podido crear el fichero de audio porque existe un fichero con el mismo nombre<br /><br />";
+																			echo get_string("insertaudionok", "genetic");
+																			echo_hidden_form($cm->id,$genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$imagen,$isolang,$prevterm,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$prevaudio,$video,$originpage);
+																			// Close the db
+																			mysql_close($link);
+																			// Finish the page
+																			print_footer($course);
+																		//$query =genetic_show_lastaudio(); 
+																		//$result = mysql_query($query,$link);
+																		//$nok2 = mysql_affected_rows($link);
+																		//$row = mysql_fetch_array($result);
+																		//$idaudio = $row['id'];
+																		//$format = substr( $nombreAudio, -4, 4 );
+																		//$nombreAudio=$idaudio."".$format;
 																		//echo"".$nombreAudio;
 													
 																			//$redirectmsg = get_string("insertauexist", "genetic");
@@ -326,7 +339,7 @@
 																			//print_footer($course);
 														
 												
-																		}
+																		}else{
 																		
 													
 																		
@@ -336,7 +349,7 @@
 																				if (!(( strpos($tipo_audio, "wav") || strpos($tipo_audio, "mp3") || strpos($tipo_audio, "mpeg")) && ($tamano_archivo < 10000000))) {
 																					echo "La extensión o el tamaño de los archivos no es correcta. <br><br><table><tr><td><li>Se permiten archivos .wav o .mp3<br><li>se permiten archivos de 100 MB máximo.</td></tr></table>";
 																					echo get_string("insertaudionok", "genetic");
-																					echo_hidden_form($genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$imagen,$isolang,$prevterm,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$prevaudio,$video,$originpage);
+																					echo_hidden_form($cm->id,$genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$imagen,$isolang,$prevterm,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$prevaudio,$video,$originpage);
 																					// Close the db    
 																					mysql_close($link);
 																					// Finish the page
@@ -359,7 +372,7 @@
 																					// Insert ok or not?
 																					if($nok == 0) {
 																					echo get_string("insertaudionok", "genetic");
-																					echo_hidden_form($genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$imagen,$isolang,$prevterm,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$prevaudio,$video,$originpage);
+																					echo_hidden_form($cm->id,$genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$imagen,$isolang,$prevterm,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$prevaudio,$video,$originpage);
 						
 																					// Close the db    
 																					mysql_close($link);
@@ -368,7 +381,7 @@
 																					}else{
 																					//echo $nok;
 																					echo get_string("insertaudiook", "genetic");
-																					echo_hidden_form($genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$imagen,$isolang,$prevterm,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$prevaudio,$video,$originpage);
+																					echo_hidden_form($cm->id,$genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$imagen,$isolang,$prevterm,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$prevaudio,$video,$originpage);
 																					// Close the db    
 																					mysql_close($link);
 																					// Finish the page
@@ -376,8 +389,8 @@
 																					}
 																					}
 																					else{ 
-																						echo "Ocurri� alg�n error al subir el fichero. No pudo guardarse."; 
-																						echo_hidden_form($genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$imagen,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$audio,$prevvideo,$originpage);
+																						echo "Ocurrió algún error al subir el fichero. No pudo guardarse."; 
+																						echo_hidden_form($cm->id,$genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$imagen,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$audio,$prevvideo,$originpage);
 																						
 																					} 
 												
@@ -385,8 +398,8 @@
 													
 																		
 														
+														} //close the if nok
 														}
-										
 											}
 					}					
 				
@@ -417,15 +430,28 @@
 			if(file_exists($archivoPosterior)){
 				echo "No se ha podido modificar el nombre del fichero de audio porque existe un fichero con el mismo nombre<br /><br />";
 				echo get_string("insertaudionok", "genetic");
-				echo_hidden_form($genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$imagen,$isolang,$prevterm,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$prevaudio,$video,$originpage);
+				redirect($url="viewau.php?id={$cm->id}", $redirectmsg, $delay=-1);			
 				// Close the db
 				mysql_close($link);
 				// Finish the page
 				print_footer($course);
 					
 			}else{
-				rename($archivoAnterior,$archivoPosterior);
-			
+				
+				$query = genetic_search_au($name);
+				$result = mysql_query($query,$link);
+				$nok2 = mysql_affected_rows($link);
+				if($nok2!=0){
+					echo "No se ha podido modificar el nombre del fichero de audio porque existe un fichero con el mismo nombre<br /><br />";
+					echo get_string("insertaudionok", "genetic");
+					redirect($url="viewau.php?id={$cm->id}", $redirectmsg, $delay=-1);			
+					// Close the db
+					mysql_close($link);
+					// Finish the page
+					print_footer($course);
+				}else{
+					rename($archivoAnterior,$archivoPosterior);
+				
 								$query = genetic_update_au($idau,$name,$name3,$lang);
 								$result = mysql_query($query,$link);
 								$nok = mysql_affected_rows($link);
@@ -446,7 +472,7 @@
 						// Close the db 
 						mysql_close($link);
 				}		
-			
+			}
 			}
 		
 		}//finish del add or edit

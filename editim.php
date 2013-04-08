@@ -294,15 +294,18 @@
 														//$rutaEnServidor='../../files';
 														$rutaEnServidor=$CFG->dataroot . '/'. $COURSE->id;
 																										
-														//check if imagen folder exist
-														
+														//check if course folder exists
+														if(!file_exists($rutaEnServidor)){
+															umask(0000);
+															mkdir($rutaEnServidor,$CFG->directorypermissions);
+														}
+														// check if imagen folder exists
 														$dir=$rutaEnServidor.'/imagen';
 														if (file_exists($dir)) {
 															//echo "El directorio existe";
 														} else {
 															//echo "El directorio no existe";
 															umask(0000);
-
 															mkdir($dir,$CFG->directorypermissions);
 															
 														}
@@ -329,7 +332,7 @@
 															//redirect($url="addcard_form.php?id={$cm->id}", $redirectmsg, $delay=-1);
 															// Close the db
 															mysql_close($link);
-															echo_hidden_form($genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$prevformimagen,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$audio,$video,$originpage);
+															echo_hidden_form($cm->id,$genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$prevformimagen,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$audio,$video,$originpage);
 																
 															// Finish the page
 															print_footer($course);
@@ -348,7 +351,7 @@
 																	mysql_close($link);
 																	$redirectmsg = get_string("insertimnok", "genetic");
 																	//redirect($url="addcard_form.php?id={$cm->id}", $redirectmsg, $delay=-1); 
-																	echo_hidden_form($genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$prevformimagen,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$audio,$video,$originpage);
+																	echo_hidden_form($cm->id,$genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$prevformimagen,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$audio,$video,$originpage);
 																	// Close the db    
 																	// Finish the page
 																	print_footer($course);
@@ -382,7 +385,7 @@
 																		//redirect($url="addcard_form.php?id={$cm->id}", $redirectmsg, $delay=-1);					
 																		// Close the db    
 																		mysql_close($link);
-																		echo_hidden_form($genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$prevformimagen,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$audio,$video,$originpage);
+																		echo_hidden_form($cm->id,$genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$prevformimagen,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$audio,$video,$originpage);
 																		
 																		// Finish the page
 																		print_footer($course);
@@ -398,7 +401,7 @@
 																	//print_heading($redirectmsg, 'center',2);
 																	//redirect($url="addcard_form.php?id={$cm->id}", $redirectmsg, $delay=-1);
 																	
-																	echo_hidden_form($genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$prevformimagen,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$audio,$video,$originpage);
+																	echo_hidden_form($cm->id,$genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$prevformimagen,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$audio,$video,$originpage);
 																	
 																	
 																	// Finish the page
@@ -408,8 +411,8 @@
 																else{ //else move_uploaded file
 																		
 																	if($no_continue==0){
-																	echo "Ocurri� alg�n error al subir el fichero. No pudo guardarse."; 
-																	echo_hidden_form($genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$prevformimagen,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$audio,$video,$originpage);
+																	echo "Ocurrió algún error al subir el fichero. No pudo guardarse."; 
+																	echo_hidden_form($cm->id,$genetic->id,$idheader,$bes,$authors,$ty,$domsubdom,$prevformimagen,$isolang,$term,$gramcat,$definition,$formcontext,$expression,$notes,$weight_type,$sourceterm,$sourcedefinition,$sourcecontext,$sourceexpression,$sourcerv,$sourcenotes,$numfieldsremission,$rem_type,$remission,$audio,$video,$originpage);
 																																	
 																	// Finish the page
 																	print_footer($course);
@@ -449,6 +452,18 @@
 			}else{
 			//echo $archivoAnterior;
 			//echo $archivoPosterior;
+				$query = genetic_search_im($name);
+				$result = mysql_query($query,$link);
+				$nok2 = mysql_affected_rows($link);			
+				if($nok2!=0){
+					echo "No se puede modificar el nombre del fichero de la imagen porque ya existe un fichero con ese nombre.";
+					$redirectmsg = get_string("updateimnok", "genetic");
+					redirect($url="viewim.php?id={$cm->id}", $redirectmsg, $delay=-1);
+					// Close the db
+					mysql_close($link);
+					// Finish the page
+					print_footer($course);
+				}else{
 				rename($archivoAnterior,$archivoPosterior);
 			
 				$query = genetic_update_im($idim, $name,$name_es,$name_de,$name_fr,$name_en,$name3);
@@ -468,6 +483,7 @@
 				redirect($url="viewim.php?id={$cm->id}", $redirectmsg, $delay=-1);
 				// Close the db 
 				mysql_close($link);
+				}
 			}
 		}
 			

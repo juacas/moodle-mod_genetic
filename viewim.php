@@ -153,6 +153,7 @@
 	while ($row = mysql_fetch_array($result)) {
 		$idim = $row['id'];
 		$name = $row['fileimage'];
+		
 		if($language=='es'){$name2 = $row['titleimage_es'];}
 		else if($language=='en'){$name2 = $row['titleimage_en'];} 
 		else if($language=='de'){$name2 = $row['titleimage_de'];} 
@@ -177,9 +178,11 @@
 				   <A HREF=\"editim_form.php?id={$cm->id}&idim=$idim&action=delete\"><IMG SRC=\"images/delete.gif\" tittle=\"".$stricondelete."\" ALT=\"".$stricondelete."\"></A>";
 		
 // EN VEZ DE NAME2 SERIA PRUEBA EN LA SIGUIENTE LINEA	
-		
-		$linedata = array ($enlaceim,$name2,$name3,$action);
-        $table->data[] = $linedata;
+		$pathimagen=$CFG->dataroot.'/'.$COURSE->id.'/imagen/'.$name;
+		if(file_exists($pathimagen)){
+			$linedata = array ($enlaceim,$name2,$name3,$action);
+	        $table->data[] = $linedata;
+		}
 	}
 	
 	// Close the db

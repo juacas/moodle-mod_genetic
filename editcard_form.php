@@ -449,29 +449,36 @@ rObj = function (evt) {
 			while ($row = mysql_fetch_array($result)) {
 				$idimg = $row['id'];
 				$nameimg = $row['fileimage'];
-				if($previmagen!=null){
-					$isselected=0;
-					for($i=0;$i<count($previmagen);$i++){
-						if($idimg==$previmagen[$i])
-							{$isselected=1;
+				
+				$idimg = $row['id'];
+				$nameimg = $row['fileimage'];
+				$pathimage=$CFG->dataroot.'/'.$COURSE->id.'/imagen/'.$nameimg;
+				
+				if(file_exists($pathimage)){
+					if($previmagen!=null){
+						$isselected=0;
+						for($i=0;$i<count($previmagen);$i++){
+							if($idimg==$previmagen[$i])
+								{$isselected=1;
+								$noimagen=0;
+								}
+						}
+						if($isselected==1){
+							echo "<OPTION VALUE=\"".$idimg."\" selected>".$nameimg."</OPTION>";
+						}else{
+							echo "<OPTION VALUE=\"".$idimg."\">".$nameimg."</OPTION>";
+						}	
+					}else{
+					$queryaux = genetic_get_images_header($headerni,$idimg);
+					$resultaux = mysql_query($queryaux,$link);
+				    if(mysql_fetch_array($resultaux)) {
+							echo "<OPTION SELECTED VALUE=\"".$idimg."\">".$nameimg;
 							$noimagen=0;
+							}else{
+							echo "<OPTION VALUE=\"".$idimg."\">".$nameimg;
 							}
 					}
-					if($isselected==1){
-						echo "<OPTION VALUE=\"".$idimg."\" selected>".$nameimg."</OPTION>";
-					}else{
-						echo "<OPTION VALUE=\"".$idimg."\">".$nameimg."</OPTION>";
-					}	
-				}else{
-				$queryaux = genetic_get_images_header($headerni,$idimg);
-				$resultaux = mysql_query($queryaux,$link);
-			    if(mysql_fetch_array($resultaux)) {
-						echo "<OPTION SELECTED VALUE=\"".$idimg."\">".$nameimg;
-						$noimagen=0;
-						}else{
-						echo "<OPTION VALUE=\"".$idimg."\">".$nameimg;
-						}
-					}
+				}
 			}
 			if($noimagen){
 				echo "<OPTION SELECTED VALUE=\"0\">".$str = get_string("nodefined", "genetic");
@@ -811,27 +818,33 @@ rObj = function (evt) {
 				$noaudio= true;
 				if($prevaudio[$idlang]!=null){
 					while ($row = mysql_fetch_array($result)) {  //row for all audios of the language
-						$selected=false;
-						for($i=0;$i<count($prevaudio[$idlang]);$i++){
-							if($row['id']==$prevaudio[$idlang][$i]){
-								$selected=true;
-								$noaudio=false;
-							} 
+						$pathaudio=$CFG->dataroot.'/'.$COURSE->id.'/audio/'.$row['fileaudio'];
+						if(file_exists($pathaudio)){
+							$selected=false;
+							for($i=0;$i<count($prevaudio[$idlang]);$i++){
+								if($row['id']==$prevaudio[$idlang][$i]){
+									$selected=true;
+									$noaudio=false;
+								} 
+							}
+							if($selected){echo "<OPTION SELECTED VALUE=\"".$row['id']."\">".$row['fileaudio'];
+							}else{	echo "<OPTION  VALUE=\"".$row['id']."\">".$row['fileaudio'];}
 						}
-						if($selected){echo "<OPTION SELECTED VALUE=\"".$row['id']."\">".$row['fileaudio'];
-						}else{	echo "<OPTION  VALUE=\"".$row['id']."\">".$row['fileaudio'];}
 					}
 					//evp if no file of audio is found, leave the values empty
 				}else{
 					while ($row = mysql_fetch_array($result)) {  //row for all audios of the language
-					$queryaux = genetic_is_audio_incard($cardrowid,$row['id']);
-					$resultaux = mysql_query($queryaux,$link);
+						$pathaudio=$CFG->dataroot.'/'.$COURSE->id.'/audio/'.$row['fileaudio'];
+						if(file_exists($pathaudio)){
+							$queryaux = genetic_is_audio_incard($cardrowid,$row['id']);
+							$resultaux = mysql_query($queryaux,$link);
 		
-					if($rowaux = mysql_fetch_array($resultaux)) { //rowaux for the audios of that card
-						echo "<OPTION SELECTED VALUE=\"".$row['id']."\">".$row['fileaudio'];
-						$noaudio=false;
-					}else{
-						echo "<OPTION  VALUE=\"".$row['id']."\">".$row['fileaudio'];
+							if($rowaux = mysql_fetch_array($resultaux)) { //rowaux for the audios of that card
+								echo "<OPTION SELECTED VALUE=\"".$row['id']."\">".$row['fileaudio'];
+								$noaudio=false;
+							}else{
+								echo "<OPTION  VALUE=\"".$row['id']."\">".$row['fileaudio'];
+							}
 						}
 					}
 				}
@@ -858,29 +871,35 @@ rObj = function (evt) {
 			$novideo = true;
 			if($prevvideo[$idlang]!=null){
 				while ($row = mysql_fetch_array($result)) {
-					$selected=false;
-					for($i=0;$i<count($prevvideo[$idlang]);$i++)
-					{	
-						if($row['id']==$prevvideo[$idlang][$i]){
-						$selected=true;
-						$novideo=false;
+					$pathvideo=$CFG->dataroot.'/'.$COURSE->id.'/video/'.$row['filevideo'];
+					if(file_exists($pathvideo)){
+						$selected=false;
+						for($i=0;$i<count($prevvideo[$idlang]);$i++)
+						{	
+							if($row['id']==$prevvideo[$idlang][$i]){
+							$selected=true;
+							$novideo=false;
+							}
+						}	
+						if($selected==true){
+							echo "<OPTION SELECTED VALUE=\"".$row['id']."\">".$row['filevideo'];
+						}else{
+							echo "<OPTION  VALUE=\"".$row['id']."\">".$row['filevideo'];
 						}
-					}	
-					if($selected==true){
-						echo "<OPTION SELECTED VALUE=\"".$row['id']."\">".$row['filevideo'];
-					}else{
-						echo "<OPTION  VALUE=\"".$row['id']."\">".$row['filevideo'];
 					}
 				}	
  			}else{
 				while ($row = mysql_fetch_array($result)) {
-					$queryaux = genetic_is_video_incard($cardrowid,$row['id']);
-					$resultaux = mysql_query($queryaux,$link);
-					if($rowaux = mysql_fetch_array($resultaux)) { //rowaux for the audios of that card
-						echo "<OPTION SELECTED VALUE=\"".$row['id']."\">".$row['filevideo'];
-						$novideo=false;
-					}else{
-						echo "<OPTION  VALUE=\"".$row['id']."\">".$row['filevideo'];
+					$pathvideo=$CFG->dataroot.'/'.$COURSE->id.'/video/'.$row['filevideo'];
+					if(file_exists($pathvideo)){
+						$queryaux = genetic_is_video_incard($cardrowid,$row['id']);
+						$resultaux = mysql_query($queryaux,$link);
+						if($rowaux = mysql_fetch_array($resultaux)) { //rowaux for the audios of that card
+							echo "<OPTION SELECTED VALUE=\"".$row['id']."\">".$row['filevideo'];
+							$novideo=false;
+						}else{
+							echo "<OPTION  VALUE=\"".$row['id']."\">".$row['filevideo'];
+						}
 					}
 				}
 				//evp if no file of video is found, leave the values empty
