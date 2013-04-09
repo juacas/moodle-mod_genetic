@@ -233,7 +233,7 @@
 				echo "<TR><TD><INPUT TYPE=\"submit\" VALUE=\"".$str = get_string("newsearch", "genetic")."\" NAME=\"buttonsearch\" /></TD>";
 				echo "</FORM>";
 				echo "<FORM NAME=\"pdfsearch\" METHOD=\"post\" ACTION=\"search_to_pdf2.php?id=$id&term=$term\" ENCTYPE=\"multipart/form-data\">";	
-				echo "<TR><TD><INPUT TYPE=\"submit\" VALUE=\"".$str = get_string("searchtopdf", "genetic")."\" NAME=\"buttonpdfsearch\" /></TD></TR>";
+			//	echo "<TR><TD><INPUT TYPE=\"submit\" VALUE=\"".$str = get_string("searchtopdf", "genetic")."\" NAME=\"buttonpdfsearch\" /></TD></TR>";//
 				echo "</FORM></TABLE >";
 				//button to PDF search
 				
@@ -452,7 +452,7 @@
 				echo "<TR><TD><INPUT TYPE=\"submit\" VALUE=\"".$str = get_string("newsearch", "genetic")."\" NAME=\"buttonsearch\" /></TD>";
 				echo "</FORM>";
 				echo "<FORM NAME=\"pdfsearch\" METHOD=\"post\" ACTION=\"search_to_pdf_proy.php?id=$id&proyect=$idty\" ENCTYPE=\"multipart/form-data\">";	
-				echo "<TR><TD><INPUT TYPE=\"submit\" VALUE=\"".$str = get_string("searchtopdf", "genetic")."\" NAME=\"buttonpdfsearch\" /></TD></TR>";
+				//echo "<TR><TD><INPUT TYPE=\"submit\" VALUE=\"".$str = get_string("searchtopdf", "genetic")."\" NAME=\"buttonpdfsearch\" /></TD></TR>";
 				echo "</FORM></TABLE >";
 				//button to PDF search
 				
@@ -473,7 +473,7 @@
 					//$headerrowsubdom = stripslashes($headerrow['subdom']);
 					$headerrowdate = date("j F Y", $headerrow['datecreated']);
 					
-					$resultc=genetic_search_proyect($idgenetic, $headerrowni);
+					$resultc=genetic_search_proyect($genetic->id, $headerrowni);
 					$cardrow = mysql_fetch_array($resultc);
 					// Remove '\' from the entries and allow them in variables
 					$cardrowisolang = stripslashes($cardrow['isolang']);
@@ -695,7 +695,7 @@
 									echo "<TR><TD><INPUT TYPE=\"submit\" VALUE=\"".$str = get_string("newsearch", "genetic")."\" NAME=\"buttonsearch\" /></TD></TR>";
 									echo "</FORM>";
 									echo "<FORM NAME=\"pdfsearch\" METHOD=\"post\" ACTION=\"search_to_pdf_author2.php?id=$id&nameauthor=$nameauthor&surnameauthor=$surnameauthor\" ENCTYPE=\"multipart/form-data\">";	
-									echo "<TR><TD><INPUT TYPE=\"submit\" VALUE=\"".$str = get_string("searchtopdf", "genetic")."\" NAME=\"buttonpdfsearch\" /></TD></TR>";
+									//echo "<TR><TD><INPUT TYPE=\"submit\" VALUE=\"".$str = get_string("searchtopdf", "genetic")."\" NAME=\"buttonpdfsearch\" /></TD></TR>";
 									echo "</FORM></TABLE>";
 									
 						
@@ -916,7 +916,7 @@
 													echo "<TR><TD><INPUT TYPE=\"submit\" VALUE=\"".$str = get_string("newsearch", "genetic")."\" NAME=\"buttonsearch\" /></TD></TR>";
 													echo "</FORM>";
 													echo "<FORM NAME=\"pdfsearch\" METHOD=\"post\" ACTION=\"search_to_pdf_subdom2.php?id=$id&dom=$dom\" ENCTYPE=\"multipart/form-data\">";	
-													echo "<TR><TD><INPUT TYPE=\"submit\" VALUE=\"".$str = get_string("searchtopdf", "genetic")."\" NAME=\"buttonpdfsearch\" /></TD></TR>";
+													//echo "<TR><TD><INPUT TYPE=\"submit\" VALUE=\"".$str = get_string("searchtopdf", "genetic")."\" NAME=\"buttonpdfsearch\" /></TD></TR>";
 													echo "</FORM></TABLE>";
 				
 					// CALL A RECURSIVE FUNCTION FOR THE MULTIPLE SUBDOMAINS (SONS)
@@ -971,7 +971,7 @@
 				echo "<TR><TD><INPUT TYPE=\"submit\" VALUE=\"".$str = get_string("newsearch", "genetic")."\" NAME=\"buttonsearch\" /></TD></TR>";
 				echo "</FORM>";
 				echo "<FORM NAME=\"pdfsearch\" METHOD=\"post\" ACTION=\"search_to_pdf_lang2.php?id=$id&lang=$lang\" ENCTYPE=\"multipart/form-data\">";	
-				echo "<TR><TD><INPUT TYPE=\"submit\" VALUE=\"".$str = get_string("searchtopdf", "genetic")."\" NAME=\"buttonpdfsearch\" /></TD></TR>";
+				//echo "<TR><TD><INPUT TYPE=\"submit\" VALUE=\"".$str = get_string("searchtopdf", "genetic")."\" NAME=\"buttonpdfsearch\" /></TD></TR>";
 				echo "</FORM></TABLE>";
 
 				for ($i=0; $i<$n; $i++) {
@@ -1164,7 +1164,7 @@
 				echo "<TR><TD><INPUT TYPE=\"submit\" VALUE=\"".$str = get_string("newsearch", "genetic")."\" NAME=\"buttonsearch\" /></TD></TR>";
 				echo "</FORM>";
 				echo "<FORM NAME=\"pdfsearch\" METHOD=\"post\" ACTION=\"search_to_pdf_gramcat.php?id=$id&gramcategory=$gramcat\" ENCTYPE=\"multipart/form-data\">";	
-				echo "<TR><TD><INPUT TYPE=\"submit\" VALUE=\"".$str = get_string("searchtopdf", "genetic")."\" NAME=\"buttonpdfsearch\" /></TD></TR>";
+				//echo "<TR><TD><INPUT TYPE=\"submit\" VALUE=\"".$str = get_string("searchtopdf", "genetic")."\" NAME=\"buttonpdfsearch\" /></TD></TR>";
 				echo "</FORM></TABLE>";
 
 				for ($i=0; $i<$n; $i++) {
