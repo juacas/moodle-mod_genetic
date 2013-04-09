@@ -1,5 +1,5 @@
 
-<?php  // $Id: genetic.php,v 1.0 2012/11/13 18:11:00 Ana María Lozano de la Fuente Exp $
+<?php  // $Id: genetic.php,v 1.0 2012/11/13 18:11:00 Ana Marï¿½a Lozano de la Fuente Exp $
 /*********************************************************************************
 
 * This file is part of Genetic.
@@ -8,13 +8,13 @@
 
 * Designed and directed by the ITAST group (http://www.eduvalab.uva.es/contact)
 
-* Implemented by Ana María Lozano de la Fuente, using the previous software called Terminology, implemented by Irene Fernández Ramírez (2010)
+* Implemented by Ana Marï¿½a Lozano de la Fuente, using the previous software called Terminology, implemented by Irene Fernï¿½ndez Ramï¿½rez (2010)
 
  
 
 * @ copyright (C) 2012 ITAST group
 
-* @ author:  Ana María Lozano de la Fuente, Irene Fernández Ramírez, María Jesús Verdú Pérez, Juan Pablo de Castro Fernández, Luisa M. Regueras Santos,  Elena Verdú Pérez and María Ángeles Pérez Juárez
+* @ author:  Ana Marï¿½a Lozano de la Fuente, Irene Fernï¿½ndez Ramï¿½rez, Marï¿½a Jesï¿½s Verdï¿½ Pï¿½rez, Juan Pablo de Castro Fernï¿½ndez, Luisa M. Regueras Santos,  Elena Verdï¿½ Pï¿½rez and Marï¿½a ï¿½ngeles Pï¿½rez Juï¿½rez
 
 * @ package genetic
 
@@ -49,11 +49,11 @@
 *********************************************************************************/
 
 //header('Content-Type: text/html; charset=iso-8859-1');
-//---añadido---
+//---aï¿½adido---
 $string['abreviaturas'] = 'abbreviations :';
 $string['accept'] = 'Accept';
 $string['action'] = 'Action';
-//---añadido---
+//---aï¿½adido---
 $string['acronyms'] = 'Acronyms :';
 $string['advaudio'] = 'The audio filename must follow this pattern: file_name.extension';
 $string['addaudio'] = 'Add audio';
@@ -62,7 +62,7 @@ $string['addbe'] = 'Add new institution';
 $string['addcard'] = 'Add card';
 $string['addcardf'] = 'Add new terminological card';
 $string['adddom'] = 'Add new domain';
-//---añadido---
+//---aï¿½adido---
 $string['addim'] = 'Add new image';
 $string['addlang'] = 'Add new language';
 $string['addvi'] = 'Add new video';
@@ -102,13 +102,13 @@ $string['chooselang'] = 'choose language:';
 $string['commonheaderdata'] = 'Data common to the languages of the terminological tab';
 $string['context'] = 'Context';
 $string['criteria'] = 'Criteria';
-//---añadido---
+//---aï¿½adido---
 $string['crossrelatedterms'] = 'Crossrelated terms';
 $string['datecreated'] = 'Creation / modification date';
 $string['indexuse'] = ' Use this index to sort the cards according to date of creation/update or alphabetically choosing the language:';
 $string['datemodified'] = 'Date of update';
 $string['date'] = 'Date :';
-//---añadido---
+//---aï¿½adido---
 $string['de'] = 'German :';
 $string['definition'] = 'Definition';
 $string['delete'] = 'Delete';
@@ -206,7 +206,7 @@ $string['expression'] = 'expression';
 $string['errextensionimage']="The extension or the size of the file is not correct. <br><br><table><tr><td><li>Extensions allowed: .gif o .jpg<br><li>The maximum allowed size is 100 MB.</td></tr></table>";
 $string['errnameimageexists'] = 'The name of the file exists.<br><br><table><tr><td><li>It is not allowed to upload two files with the same name in the same course.</td></tr></table>';
 $string['fileuploadcorrect']='The file has been uploaded correctly.';
-$string['footsentences'] = 'With the collaboration of the Ministry of Education of the "Junta de Castilla y León"';
+$string['footsentences'] = 'With the collaboration of the Ministry of Education of the Junta de Castilla y LeÃ³n';
 $string['fr'] = 'French :';
 $string['genetic'] = 'Genetic';
 $string['gramcat'] = 'Gramatical category';
@@ -243,7 +243,7 @@ $string['insertsynused'] = 'Error failure. Synonym already exists in this langua
 $string['inserttynok'] = ' Error failure when trying to insert the proyect';
 $string['inserttyok'] = 'Proyect successfully inserted';
 $string['labelspecial'] = 'Shows the card whose term do not begin with a letter';
-//---añadido---
+//---aï¿½adido---
 $string['lang'] = 'Language';
 $string['langdicexist'] = 'already exists in the diccionary';
 $string['languagecarddata'] = 'Particulars of each language of a terminological card';
@@ -274,7 +274,7 @@ $string['nosrcimage'] = 'No Sources were  found for this image';
 $string['nosrcvideo'] = 'No Sources were  found for this video';
 $string['notes'] = 'Notes';
 $string['nummatch'] = 'Number of matches';
-//----añadido---
+//----aï¿½adido---
 $string['pieimagen'] = 'Image description';
 $string['pieimagen_fr'] = 'Image description(fr)';
 $string['pieimagen_en'] = 'Image description(en)';
@@ -284,7 +284,7 @@ $string['pievideo_fr'] = 'Video description(fr)';
 $string['pievideo_en'] = 'Video description(en)';
 $string['pievideo_de'] = 'Video description(de)';
 $string['reference'] = 'Remissions';
-//---añadido---
+//---aï¿½adido---
 $string['relatedterms'] = 'Related terms';
 $string['reliabilitycode'] = 'Reliability code';
 $string['requiredfields'] = '(*) Required fields. Not necessary fill all the languages terms';
@@ -405,7 +405,7 @@ $string['newmodulename'] = 'newmodule Name';
 
 
 $string['newmodule'] = 'newmodule';
-$string['wm'] = 'EVP FALTA TRADUCCIÓN';
+$string['wm'] = 'EVP FALTA TRADUCCIï¿½N';
 
 
 ?>

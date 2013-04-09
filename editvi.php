@@ -217,7 +217,7 @@
 			$nok = mysql_affected_rows($link);
 				
 			// Delete ok or not?
-			if($nok == 0) {
+			if($nok == -1) {
 				$redirectmsg = get_string("deletevinok", "genetic");
 				redirect($url="viewvi.php?id={$cm->id}", $redirectmsg, $delay=-1);			
 				// Close the db    

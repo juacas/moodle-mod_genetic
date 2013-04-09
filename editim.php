@@ -221,7 +221,7 @@
 				$result = mysql_query($query,$link);
 				$nok = mysql_affected_rows($link);
 				// Delete ok or not?
-				if($nok == 0) {
+				if($nok == -1) {
 					$redirectmsg = get_string("deleteimnok", "genetic");
 					redirect($url="viewim.php?id={$cm->id}", $redirectmsg, $delay=-1);			
 					// Close the db    

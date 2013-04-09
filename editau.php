@@ -222,7 +222,7 @@
 				$nok2 = mysql_affected_rows($link);
 				
 				// Delete ok or not?
-				if($nok == 0) {
+				if($nok2 == -1) {
 						$redirectmsg = get_string("deleteaunok", "genetic");
 						redirect($url="viewau.php?id={$cm->id}", $redirectmsg, $delay=-1);			
 						// Close the db    
@@ -230,7 +230,7 @@
 						// Finish the page
 						print_footer($course);
 					}
-					$redirectmsg = get_string("deleteauok", "genetic")."<BR />";
+					$redirectmsg = get_string("deleteaudiook", "genetic")."<BR />";
 					redirect($url="viewau.php?id={$cm->id}", $redirectmsg, $delay=-1);
 				}
 			}
