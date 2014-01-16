@@ -331,7 +331,11 @@ function genetic_field_which_null ($array, $narray) {
 	// Make an array with this categories
 	if($namelang=='de'){
 	  $gramcat = array ("f", "m", "n", "adj", "adv", "vtr", "vintr"); // German includes also neutral 
-	} else{		
+	} elseif($namelang=='es'){
+		$gramcat = array ("f", "m", "s", "adj", "adv", "vtr", "vintr");//Español añadida la s
+	}elseif($namelang=='en'){
+		$gramcat = array ("s", "adj", "adv", "vtr", "vintr");//Español añadida la s y eliminadas f y m
+	}else{		
 	$gramcat = array ("f", "m", "adj", "adv", "vtr", "vintr");
 	}
 	
