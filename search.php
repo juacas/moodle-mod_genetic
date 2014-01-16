@@ -1477,13 +1477,15 @@
 					
 					if ($cardrowterm != '') {
 						echo "<BR /><br/><br/><TABLE  ALIGN=\"center\" STYLE=\"table-layout:fixed\" WIDTH=\"80%\">
-							
-							<Tr><td colSPAN=\"4\" VALIGN=\"top\" WIDTH=\"5%\"><IMG SRC=\"images/".$cardrowisolang.".png\">&nbsp;&nbsp;&nbsp;&nbsp;</TD>
-								<tr><TD WIDTH=\"27%\"><B>".$strterm.":</B>&nbsp;&nbsp;</TD>
-								<TD>".$cardrowterm."</a><a href=\"http://eurogene.open.ac.uk/search03/$cardrowterm\" target=\"blank\"><img src=\"images/eurogene.jpg\"  width=\"40\" height=\"30\"></a></TD></TR>
-							<TR><TD><B>".$strgramcat.":</B>&nbsp;&nbsp;</TD><TD>".$cardrowgramcat."</TD></TR>";
+							<tr><TD width='190px' ></TD><TD width='80%' ></TD><TD width='20%' ></TD><TD width='80%' ></TD></TR>
+							<Tr><td colspan='4' ><IMG SRC=\"images/".$cardrowisolang.".png\"></TD>
+								<tr style='border-bottom:#bbb 1px solid;'>
+								<TD><B>".$strterm.":</B>&nbsp;&nbsp;</TD>
+								<TD  colspan='3' >".$cardrowterm."</a><a href=\"http://eurogene.open.ac.uk/search03/$cardrowterm\" target=\"blank\"><img src=\"images/eurogene.jpg\"  width=\"40\" height=\"30\"></a></TD></TR>
+								<TR style='border-bottom:#bbb 1px solid;'>
+								<TD><B>".$strgramcat.":</B>&nbsp;&nbsp;</TD><TD colspan='3'>".$cardrowgramcat."</TD></TR>";
 							//Definition
-							echo"<TR><TD><B>".$strdefinition.":</B>&nbsp;&nbsp;</TD>";
+							echo"<TR style='border-bottom:#bbb 1px solid;'><TD ><B>".$strdefinition.":</B>&nbsp;&nbsp;</TD>";
 							
 						 //-----------------Replace crossrelations in definition-------------------
 						  
@@ -1506,17 +1508,19 @@
 									//Replace crossrelations in definition
 						
 									$cardrowcross333 = stripslashes($cardrow33['term']);
+									$patron="/^gen$/";
+									if(!preg_match($patron,$cardrowcross333)){
 									$cardrowcrossid = stripslashes($cardrow33['idheader']);
 									//take cardrowcross and replace; return the new string
 									$replace=str_replace($cardrowcross333,"<a href=\"search.php?id=$id&idheader=$cardrowcrossid&search=fullcard_by_link\"><NOBR>".$cardrowcross333."</NOBR></a>",$replace);
-									
+									}
 								
 								}
 							
 						
 						
 							
-							echo "<TD>" .$replace."</TD>";
+							echo "<TD style='border-bottom:#bbb 1px solid;'  colspan='3'>" .$replace."</TD>";
 						}
 						
 						
@@ -1528,12 +1532,12 @@
 						echo"<TD>".$cardrowdefinition."</TD></TR>";
 						}
 						
-						echo"<TR><TD><B>".$strcontext.":</B>&nbsp;&nbsp;</TD><TD>".$cardrowcontext."</TD></TR>
-							<TR><TD><B>".$strexpression.":</B>&nbsp;&nbsp;</TD><TD>".$cardrowexpression."</TD></TR>
-							<TR><TD><B>".$strnotes.":</B>&nbsp;&nbsp;</TD><TD>".$cardrownotes."</TD></TR>";
+						echo"<TR style='border-bottom:#bbb 1px solid;'><TD><B>".$strcontext.":</B>&nbsp;&nbsp;</TD><TD colspan='3'>".$cardrowcontext."</TD></TR>
+							<TR style='border-bottom:#bbb 1px solid;'><TD><B>".$strexpression.":</B>&nbsp;&nbsp;</TD><TD colspan='3'>".$cardrowexpression."</TD></TR>
+							<TR style='border-bottom:#bbb 1px solid;'><TD><B>".$strnotes.":</B>&nbsp;&nbsp;</TD><TD colspan='3'>".$cardrownotes."</TD></TR>";
 							
 							if($cardrowweight!=""){
-							echo"<TR><TD><NOBR><B>".$strwm.":</B>&nbsp;&nbsp;</TD><TD>".get_string($cardrowweight,"genetic")."</NOBR></TD></TR>";
+							echo"<TR ><TD><NOBR><B>".$strwm.":</B>&nbsp;&nbsp;</TD><TD  colspan='3'>".get_string($cardrowweight,"genetic")."</NOBR></TD></TR>";
 							}
 							echo "<BR>";
 						
@@ -1590,7 +1594,7 @@
 						$rutaDestino=$Servidor.'/file.php/'.$COURSE->id.'/imagen/'.$cardrowfile_image;
 						
 							if($cardrowtitle_image!=''){
-							echo "<TR><TD><TR><TD><img src=".$rutaDestino." width=\"100\" height=\"90\" ></TD><TD>".$cardrowtitle_image."</TD>";		
+							echo "<TR ><TD><TR><TD><img src=".$rutaDestino." width=\"100\" height=\"90\" ></TD><TD>".$cardrowtitle_image."</TD>";		
 							
 							echo"<BR>";
 							}
@@ -1599,7 +1603,7 @@
 							
 							}
 							
-						echo"<TD><nobr>".$cardrowsrc_image."</nobr></TD></TR>";
+						echo"<TD  colspan='2'>".$cardrowsrc_image."</TD></TR>";
 						
 						}
 					
@@ -1757,9 +1761,9 @@
 									
 										$cardrowrem2 = stripslashes($cardrowref2['remission']);
 										if($counterrem2==0){
-											echo"<TD>".$cardrowrem2."</TD></tr>";
+											echo"<TD  colspan='3'>".$cardrowrem2."</TD></tr>";
 										}else{
-											echo"<tr><td>&nbsp;&nbsp;</td><TD>".$cardrowrem2."</TD></tr>";
+											echo"<tr><td  colspan='3'>&nbsp;&nbsp;</td><TD>".$cardrowrem2."</TD></tr>";
 										}
 										$counterrem2++;
 										}
@@ -1787,17 +1791,17 @@
 						// Empty fields?
 						if (($sourcerowterm != '') || ($sourcerowdefinition != '') || ($sourcerowcontext != '') || ($sourcerowexpression != '') ||  ($sourcerownotes != '')) {
 							// Print the entries of the sources
-							echo "<tr><td colspan='4' height='10'><hr></td></tr>";
-							echo "<TR><TD colSPAN=\"4\" VALIGN=\"top\"><B>".$strsources.":</B>&nbsp;&nbsp;</td></tr>";
-							echo "<tr><TD><b><i>&nbsp;&nbsp;&nbsp;&nbsp;".$strterm.":</b></i></td><td>".$sourcerowterm."</TD></TR>
-								<TR><TD><b><i>&nbsp;&nbsp;&nbsp;&nbsp;".$strdefinition.":</b></i></td><td>".$sourcerowdefinition."</TD></NOBR></TR>
-								<TR><TD><b><i>&nbsp;&nbsp;&nbsp;&nbsp;".$strcontext.":</b></i></td><td>".$sourcerowcontext."</TD></NOBR></TR>
-								<TR><TD><b><i>&nbsp;&nbsp;&nbsp;&nbsp;".$strexpression.":</b></i></td><td>".$sourcerowexpression."</TD></NOBR></TR>
-								<TR><TD><b><i>&nbsp;&nbsp;&nbsp;&nbsp;".$strnotes.":</b></i></td><td>".$sourcerownotes."</TD></NOBR></TR>
+							echo "<tr ><td colspan='4' height='10'><hr></td></tr>";
+							echo "<TR style='border-bottom:#bbb 1px solid;'><TD colSPAN=\"4\" VALIGN=\"top\"><B>".$strsources.":</B>&nbsp;&nbsp;</td></tr>";
+							echo "<tr style='border-bottom:#bbb 1px solid;'><TD><b><i>&nbsp;&nbsp;&nbsp;&nbsp;".$strterm.":</b></i></td><td colspan='3'>".$sourcerowterm."</TD></TR>
+								<TR style='border-bottom:#bbb 1px solid;'><TD><b><i>&nbsp;&nbsp;&nbsp;&nbsp;".$strdefinition.":</b></i></td><td colspan='3'>".$sourcerowdefinition."</TD></NOBR></TR>
+								<TR style='border-bottom:#bbb 1px solid;'><TD><b><i>&nbsp;&nbsp;&nbsp;&nbsp;".$strcontext.":</b></i></td><td colspan='3'>".$sourcerowcontext."</TD></NOBR></TR>
+								<TR style='border-bottom:#bbb 1px solid;'><TD><b><i>&nbsp;&nbsp;&nbsp;&nbsp;".$strexpression.":</b></i></td><td colspan='3'>".$sourcerowexpression."</TD></NOBR></TR>
+								<TR style='border-bottom:#bbb 1px solid;'><TD><b><i>&nbsp;&nbsp;&nbsp;&nbsp;".$strnotes.":</b></i></td><td colspan='3'>".$sourcerownotes."</TD></NOBR></TR>
 								</TABLE>";
 						}
 						else {
-							echo "<tr><td colspan='4' height='10'><hr></td></tr>";
+							echo "<tr><td colspan='2' height='10'><hr></td></tr>";
 							echo "<TR><TD><B>".$strsources."</B></TD><TD><NOBR><i>".$strnosources."</i></NOBR></TD></TR>
 								</TABLE>";
 						}
@@ -1996,10 +2000,11 @@
 									//Replace crossrelations in definition
 						
 									$cardrowcross333 = stripslashes($cardrow33['term']);
-									$cardrowcrossid = stripslashes($cardrow33['idheader']);
-									//take cardrowcross and replace; return the new string
-									$replace=str_replace($cardrowcross333,"<a href=\"search.php?id=$id&idheader=$cardrowcrossid&search=fullcard_by_link\"><NOBR>".$cardrowcross333."</NOBR></a>",$replace);
-									
+									if($cardrowcross333!="gen" && $cardrowcross333!="gene" && $cardrowcross333!="gÃ¨ne" && $cardrowcross333!="gène"){
+										$cardrowcrossid = stripslashes($cardrow33['idheader']);
+										//take cardrowcross and replace; return the new string
+										$replace=str_replace($cardrowcross333,"<a href=\"search.php?id=$id&idheader=$cardrowcrossid&search=fullcard_by_link\"><NOBR>".$cardrowcross333."</NOBR></a>",$replace);
+									}
 								
 								}
 							
