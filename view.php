@@ -433,7 +433,7 @@
 				// Print header
 				echo "<BR /><BR />";
 				//print_box_start($classes='generalbox boxaligncenter boxwidthwide', '', $return=false);
-				echo "<TABLE ALIGN=\"center\">";				
+				echo "<TABLE ALIGN=\"center\" width='80%'>";				
 				// Department - BE
 				echo "<TR><TD><B>".$strbe."</B>&nbsp;&nbsp;</TD><TD>".$headerbe."</TD></TR>";
 				// Card type - TY
