@@ -46,10 +46,14 @@ function xmldb_genetic_upgrade($oldversion=0) {
 ///   http://docs.moodle.org/en/Development:XMLDB_Documentation
 /// and to play with the XMLDB Editor (in the admin menu) and its
 /// PHP generation posibilities.
-/*
-/// First example, some fields were added to the module on 20070400
-    if ($result && $oldversion < 2009081000) {
 
+/// First example, some fields were added to the module on 20070400
+    if ($result && $oldversion < 20014012106) {
+	execute_sql("ALTER TABLE `mdl_genetic_cards` MODIFY definition text");
+        execute_sql("ALTER TABLE `mdl_genetic_cards` MODIFY context text");
+        execute_sql("ALTER TABLE `mdl_genetic_remission` MODIFY remission text");
+
+}/*
     /// Define field course to be added to newmodule
         $table = new XMLDBTable('newmodule');
         $field = new XMLDBField('course');
