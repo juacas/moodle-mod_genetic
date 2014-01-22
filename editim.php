@@ -441,8 +441,9 @@
 			$archivoAnterior=$dir.'/'.$prename;
 			$archivoPosterior=$dir.'/'.$name;
 
-			if(file_exists($archivoPosterior)){
-				echo "No se puede modificar el nombre del fichero de la imagen porque ya existe un fichero con ese nombre.";
+			/* 
+			if(!file_exists($archivoPosterior)){
+				echo "No se puede modificar el nombre del fichero de la imagen porque ya existe un fichero con ese nombre1";
 				$redirectmsg = get_string("updateimnok", "genetic");
 				redirect($url="viewim.php?id={$cm->id}", $redirectmsg, $delay=-1);
 				// Close the db
@@ -454,9 +455,9 @@
 			//echo $archivoPosterior;
 				$query = genetic_search_im($name);
 				$result = mysql_query($query,$link);
-				$nok2 = mysql_affected_rows($link);			
-				if($nok2!=0){
-					echo "No se puede modificar el nombre del fichero de la imagen porque ya existe un fichero con ese nombre.";
+				$nok2 = mysql_affected_rows($link);
+				if($nok2==0){
+					echo "No se puede modificar el nombre del fichero de la imagen porque ya existe un fichero con ese nombre2";
 					$redirectmsg = get_string("updateimnok", "genetic");
 					redirect($url="viewim.php?id={$cm->id}", $redirectmsg, $delay=-1);
 					// Close the db
@@ -464,8 +465,8 @@
 					// Finish the page
 					print_footer($course);
 				}else{
-				rename($archivoAnterior,$archivoPosterior);
-			
+				rename($archivoAnterior,$archivoPosterior);*/
+			if(file_exists($archivoPosterior)){
 				$query = genetic_update_im($idim, $name,$name_es,$name_de,$name_fr,$name_en,$name3);
 				$result = mysql_query($query,$link);
 				$nok = mysql_affected_rows($link);
@@ -484,8 +485,11 @@
 				// Close the db 
 				mysql_close($link);
 				}
+			}else{
+				echo "No se puede modificar el nombre del fichero de la imagen porque no existe un fichero con ese nombre";
 			}
-		}
+			/*}
+		}*/
 			
 		// Finish the page
 		include('banner_foot.html');

@@ -317,7 +317,7 @@
 		echo "<FORM NAME=\"editimform\" METHOD=\"post\" ACTION=\"editim.php?id=$id&action=edit\" ENCTYPE=\"multipart/form-data\">";
 		echo "<INPUT TYPE=\"hidden\" NAME=\"idim\" VALUE=\"".$idim."\">";
 		echo "<INPUT TYPE=\"hidden\" NAME=\"prename\" VALUE=\"".$prename."\">";
-		echo "<TR><TD>".$strmodimage."&nbsp;</TD><TD><INPUT TYPE=\"text\" NAME=\"name\" SIZE=\"80\" VALUE=\"".$name."\"></TD></TR>";
+		echo "<TR><TD>".$strmodimage."&nbsp;</TD><TD><INPUT TYPE=\"text\" NAME=\"name\" readonly SIZE=\"80\" VALUE=\"".$name."\"></TD></TR>";
 		echo "<TR><TD>".$strpieimagen."&nbsp;</TD><TD><INPUT TYPE=\"text\" NAME=\"name_es\" SIZE=\"80\" VALUE=\"".$name_es."\"></TD></TR>";
 		echo "<TR><TD>".$strpieimagen_de."&nbsp;</TD><TD><INPUT TYPE=\"text\" NAME=\"name_de\" SIZE=\"80\" VALUE=\"".$name_de."\"></TD></TR>";
 		echo "<TR><TD>".$strpieimagen_fr."&nbsp;</TD><TD><INPUT TYPE=\"text\" NAME=\"name_fr\" SIZE=\"80\" VALUE=\"".$name_fr."\"></TD></TR>";
