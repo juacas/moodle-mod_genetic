@@ -1744,13 +1744,13 @@
 						  $numeroref = mysql_num_rows($resultadoref);
 						  if($numeroref!=0){
 								echo"<tr><td colspan='4' height='10'><hr></td></tr><TR>";
-						  		echo"<TR><TD colspan='4'><B>".$strrem.":</B></TD></TR>";	
+						  		echo"<TR  style='border-bottom:#bbb 1px solid;'><TD colspan='4'><B>".$strrem.":</B></TD></TR>";	
 								while($cardrowref = mysql_fetch_array($resultadoref)){
 									//---a�adido---mostrar crossrelations
 						
 									$cardrowref = stripslashes($cardrowref['rem_type']);
 									
-									echo"<TR><NOBR><TD><B><i>&nbsp;&nbsp;&nbsp;&nbsp;".get_string($cardrowref,"genetic").":</B></i></TD></NOBR>";
+									echo"<TR style='border-bottom:#bbb 1px solid;'><NOBR><TD VALIGN='top'><B><i>&nbsp;&nbsp;&nbsp;&nbsp;".get_string($cardrowref,"genetic").":</B></i></TD></NOBR>";
 									
 									$consultaref2 = genetic_show_remissions_name($cardrowref,$cardrowid);
 									$resultadoref2 = mysql_query($consultaref2, $link);
@@ -1763,7 +1763,7 @@
 										if($counterrem2==0){
 											echo"<TD  colspan='3'>".$cardrowrem2."</TD></tr>";
 										}else{
-											echo"<tr><td  colspan='3'>&nbsp;&nbsp;</td><TD>".$cardrowrem2."</TD></tr>";
+											echo"<tr ><td  colspan='3'>&nbsp;&nbsp;</td><TD>".$cardrowrem2."</TD></tr>";
 										}
 										$counterrem2++;
 										}
@@ -2228,7 +2228,7 @@
 									
 										$cardrowrem2 = stripslashes($cardrowref2['remission']);
 									
-										echo"<TR><TD>".$cardrowrem2."</TD></TR>";
+										echo"<TR ><TD >".$cardrowrem2."</TD></TR>";
 									
 									
 									}

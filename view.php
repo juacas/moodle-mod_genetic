@@ -256,7 +256,7 @@
 					$result = mysql_query($query,$link);
 					$n = mysql_num_rows($result);
 					if($n!=0){
-					echo "<NOBR><TD>&nbsp;&nbsp;<a href=\"view.php?id=$id&order=ALPHABETIC&language=".$isolang[$i]."\" target='_self'><img src=\"images/".$isolang[$i].".png\"'></a></TD>&nbsp;&nbsp;</NOBR>";	
+					echo "<p><TD>&nbsp;&nbsp;<a href=\"view.php?id=$id&order=ALPHABETIC&language=".$isolang[$i]."\" target='_self'><img src=\"images/".$isolang[$i].".png\"'></a></TD>&nbsp;&nbsp;</p>";	
 					$s=1;
 					}
 					
@@ -264,7 +264,7 @@
 			
 			if($s==0){
 					echo "<BR>";
-					echo "<TR><NOBR><TD ALIGN=\"center\">&nbsp;&nbsp;<IMG SRC=\"images/Info.gif\"> ".$strnolang."</TD></NOBR></TR>";
+					echo "<TR><p><TD ALIGN=\"center\">&nbsp;&nbsp;<IMG SRC=\"images/Info.gif\"> ".$strnolang."</TD></p></TR>";
 					}
 		
 			
@@ -289,9 +289,9 @@
 					$resultorder = mysql_query($query,$link);
 		}
 		echo "<BR>";
-		echo "<BR>";
-		echo "<BR>";
-		// Printing the card entries			
+		/*echo "<BR>";
+		echo "<BR>";*/
+		// Printing the card entries
 		// If there are no cards
 		if ($nhcards == 0) {
 			print_box('<div style="text-align:center">' . get_string("noentries","genetic") . '</div>',"center","95%");
@@ -416,7 +416,7 @@
 				
 						if ($cardrowterm != '') {
 								echo "<TD ROWSPAN=\"13\" VALIGN=\"top\" WIDTH=\"5%\"><IMG SRC=\"images/".$cardrowisolang.".png\">
-									<B>".$strterm.":&nbsp;&nbsp;</B><a href=\"search.php?id=$id&idterm=$cardrowtermid&search=term_by_link\"><NOBR>".$cardrowterm."</a>&nbsp;&nbsp;<a href=\"http://eurogene.open.ac.uk/search03/$cardrowterm\" target=\"blank\"><img src=\"images/eurogene.jpg\"  width=\"40\" height=\"30\"></a></NOBR></TD>";
+									<B>".$strterm.":&nbsp;&nbsp;</B><a href=\"search.php?id=$id&idterm=$cardrowtermid&search=term_by_link\"><p style='margin-top:0;margin-bottom:0;'>".$cardrowterm."</a>&nbsp;&nbsp;<a href=\"http://eurogene.open.ac.uk/search03/$cardrowterm\" target=\"blank\"><img src=\"images/eurogene.jpg\"  width=\"40\" height=\"30\"></a></p></TD>";
 									
 									
 				
@@ -435,7 +435,7 @@
 				//print_box_start($classes='generalbox boxaligncenter boxwidthwide', '', $return=false);
 				echo "<TABLE ALIGN=\"center\" width='80%'>";				
 				// Department - BE
-				echo "<TR><TD><B>".$strbe."</B>&nbsp;&nbsp;</TD><TD>".$headerbe."</TD></TR>";
+				echo "<TR ><TD width='35%'><B>".$strbe."</B>&nbsp;&nbsp;</TD><TD>".$headerbe."</TD></TR>";
 				// Card type - TY
 				echo "<TR><TD><B>".$strty."</B>&nbsp;&nbsp;</TD><TD>".$headerrowty."</TD></TR>";				
 				// Id number - NI
