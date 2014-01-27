@@ -48,12 +48,19 @@ function xmldb_genetic_upgrade($oldversion=0) {
 /// PHP generation posibilities.
 
 /// First example, some fields were added to the module on 20070400
-    if ($result && $oldversion < 20014012106) {
+    if ($result && $oldversion < 20014012704) {
 	execute_sql("ALTER TABLE `mdl_genetic_cards` MODIFY definition text");
         execute_sql("ALTER TABLE `mdl_genetic_cards` MODIFY context text");
         execute_sql("ALTER TABLE `mdl_genetic_remission` MODIFY remission text");
+	execute_sql("ALTER TABLE `mdl_genetic_sources` MODIFY srcterm text");
+        execute_sql("ALTER TABLE `mdl_genetic_sources` MODIFY srcdefinition text");
+        execute_sql("ALTER TABLE `mdl_genetic_sources` MODIFY srccontext text");
+        execute_sql("ALTER TABLE `mdl_genetic_sources` MODIFY srcexpression text");
+        execute_sql("ALTER TABLE `mdl_genetic_sources` MODIFY srcrv text");
+        execute_sql("ALTER TABLE `mdl_genetic_sources` MODIFY srcnotes text");
 
-}/*
+}
+/*
     /// Define field course to be added to newmodule
         $table = new XMLDBTable('newmodule');
         $field = new XMLDBField('course');

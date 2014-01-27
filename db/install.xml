@@ -50,11 +50,11 @@
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" ENUM="false" NEXT="idcard"/>
         <FIELD NAME="idcard" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" ENUM="false" COMMENT="referencia a la ficha que contiene estas fuentes" PREVIOUS="id" NEXT="srcterm"/>
-        <FIELD NAME="srcterm" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" ENUM="false" COMMENT="Fuente de informacion del termino" PREVIOUS="idcard" NEXT="srcdefinition"/>
-        <FIELD NAME="srcdefinition" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" ENUM="false" COMMENT="Fuente de informacion de la definicion" PREVIOUS="srcterm" NEXT="srccontext"/>
-        <FIELD NAME="srccontext" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" ENUM="false" COMMENT="Fuente de informacion del contexto" PREVIOUS="srcdefinition" NEXT="srcexpression"/>
-        <FIELD NAME="srcexpression" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" ENUM="false" COMMENT="Fuente de informacion de la fraseologia" PREVIOUS="srccontext" NEXT="srcnotes"/>
-        <FIELD NAME="srcnotes" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" ENUM="false" COMMENT="Fuente de informacion de las observaciones" PREVIOUS="srcexpression"/>
+        <FIELD NAME="srcterm" TYPE="text" NOTNULL="false" SEQUENCE="false" ENUM="false" COMMENT="Fuente de informacion del termino" PREVIOUS="idcard" NEXT="srcdefinition"/>
+        <FIELD NAME="srcdefinition" TYPE="text" NOTNULL="false" SEQUENCE="false" ENUM="false" COMMENT="Fuente de informacion de la definicion" PREVIOUS="srcterm" NEXT="srccontext"/>
+        <FIELD NAME="srccontext" TYPE="text" NOTNULL="false" SEQUENCE="false" ENUM="false" COMMENT="Fuente de informacion del contexto" PREVIOUS="srcdefinition" NEXT="srcexpression"/>
+        <FIELD NAME="srcexpression" TYPE="text" NOTNULL="false" SEQUENCE="false" ENUM="false" COMMENT="Fuente de informacion de la fraseologia" PREVIOUS="srccontext" NEXT="srcnotes"/>
+        <FIELD NAME="srcnotes" TYPE="text" NOTNULL="false" SEQUENCE="false" ENUM="false" COMMENT="Fuente de informacion de las observaciones" PREVIOUS="srcexpression"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
