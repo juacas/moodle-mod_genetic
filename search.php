@@ -1537,7 +1537,7 @@
 							<TR style='border-bottom:#bbb 1px solid;'><TD><B>".$strnotes.":</B>&nbsp;&nbsp;</TD><TD colspan='3'>".$cardrownotes."</TD></TR>";
 							
 							if($cardrowweight!=""){
-							echo"<TR ><TD><NOBR><B>".$strwm.":</B>&nbsp;&nbsp;</TD><TD  colspan='3'>".get_string($cardrowweight,"genetic")."</NOBR></TD></TR>";
+							echo"<TR ><TD><B>".$strwm.":</B>&nbsp;&nbsp;</TD><TD  colspan='3'>".get_string($cardrowweight,"genetic")."</TD></TR>";
 							}
 							echo "<BR>";
 						
@@ -1594,7 +1594,7 @@
 						$rutaDestino=$Servidor.'/file.php/'.$COURSE->id.'/imagen/'.$cardrowfile_image;
 						
 							if($cardrowtitle_image!=''){
-							echo "<TR ><TD><TR><TD><img src=".$rutaDestino." width=\"100\" height=\"90\" ></TD><TD>".$cardrowtitle_image."</TD>";		
+							echo "<TR ><TD><TR><TD><img src='".$rutaDestino."' width=\"100\" height=\"90\" ></TD><TD>".$cardrowtitle_image."</TD>";		
 							
 							echo"<BR>";
 							}

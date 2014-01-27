@@ -171,7 +171,7 @@
 		$rutaEnServidor=$CFG->wwwroot . '/file.php/' . $COURSE->id;
 		$rutaDestino=$rutaEnServidor.'/imagen/'.$name;
 			
-		$enlaceim="<A HREF=".$rutaDestino." target=\"blank\" >".$name."</A>";
+		$enlaceim="<A HREF='".$rutaDestino."' target=\"blank\" >".$name."</A>";
 		
 		
 		$action = "<A HREF=\"editim_form.php?id={$cm->id}&idim=$idim&action=edit\"><IMG SRC=\"images/edit.gif\" tittle=\"".$striconedit."\" ALT=\"".$striconedit."\"></A>&nbsp;
