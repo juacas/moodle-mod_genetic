@@ -1594,7 +1594,7 @@
 						$rutaDestino=$Servidor.'/file.php/'.$COURSE->id.'/imagen/'.$cardrowfile_image;
 						
 							if($cardrowtitle_image!=''){
-							echo "<TR ><TD><TR><TD><img src='".$rutaDestino."' width=\"100\" height=\"90\" ></TD><TD>".$cardrowtitle_image."</TD>";		
+							echo "<TR ><TD><TR><TD><a href='".$rutaDestino."' target='blank'><img src='".$rutaDestino."' width=\"100\" height=\"90\" ></a></TD><TD>".$cardrowtitle_image."</TD>";		
 							
 							echo"<BR>";
 							}
@@ -1763,7 +1763,7 @@
 										if($counterrem2==0){
 											echo"<TD  colspan='3'>".$cardrowrem2."</TD></tr>";
 										}else{
-											echo"<tr ><td  colspan='3'>&nbsp;&nbsp;</td><TD>".$cardrowrem2."</TD></tr>";
+											echo"<tr style='border-bottom:#bbb 1px solid;' > <td >&nbsp;&nbsp;</td><TD colspan='3'>".$cardrowrem2."</TD></tr>";
 										}
 										$counterrem2++;
 										}
